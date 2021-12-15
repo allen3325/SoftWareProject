@@ -9,6 +9,13 @@ const Cards = (props) => {
             <Card items={props.items[1]} />
             <Card items={props.items[2]} />
             <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
+            <Card items={props.items[3]} />
         </div>
     )
 }
