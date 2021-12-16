@@ -51,7 +51,7 @@ const Header = (props) => {
               justifyContent="space-around"
               alignItems="flex-start"
             >
-              <Grid item>
+              <Grid item >
                 <MDlogo></MDlogo>
               </Grid>
 
@@ -81,9 +81,9 @@ const Header = (props) => {
                       onClick={() => {
                         console.log(props.isLogin);
                       }}
-                      href="/login"
+                      href="/logout"
                     >
-                      登入
+                      登出
                     </Button>
                     :
                     <Button
@@ -91,9 +91,9 @@ const Header = (props) => {
                       onClick={() => {
                         console.log(props.isLogin);
                       }}
-                      href="/logout"
+                      href="/login"
                     >
-                      登出
+                      登入
                     </Button>}
                 </Grid>
               </Grid>

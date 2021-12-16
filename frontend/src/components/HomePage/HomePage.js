@@ -48,7 +48,7 @@ function HomePage() {
           <Grid item xs={2} sm={4} md={8}>
             <Cards items={cards} />
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Grid item>
               <Button href="/newDiary">New Diary</Button>
             </Grid>
@@ -62,7 +62,7 @@ function HomePage() {
                 />
               </div>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
 
       </main>
