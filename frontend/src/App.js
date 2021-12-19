@@ -9,6 +9,9 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
+import UserListDataGrid from "./components/AdminPage/UserIdListDataGrid";
+import UserIdListTable from "./components/AdminPage/UserIdListTable";
+import FolderList from "./components/FolderPage/FolderList";
 
 function App() {
 
@@ -39,6 +42,7 @@ function App() {
   });
 
   return (
+    
     <ThemeProvider theme={theme} >
       <Paper elevation={0}>
         <Header isLogin={false} onChangeDarkMode={changeDarkMode} />
@@ -49,6 +53,7 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
+          <Route exact path="test" element={<UserIdListTable/>} />
         </Routes>
       </Paper>
     </ThemeProvider >
