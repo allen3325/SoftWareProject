@@ -54,8 +54,9 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 
 function ModeSwitch(props) {
-  let localDarkMode = localStorage.getItem("darkMode");
-  const [darkMode, setDarkMode] = useState(false);
+  // props.propsDarkMode = localStorage.getItem("darkMode");
+
+  const [darkMode, setDarkMode] = useState(true);
   // const [darkMode, setDarkMode] = useState(false);
   return (
     <FormControlLabel

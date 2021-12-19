@@ -12,8 +12,8 @@ import FolderPage from "./components/FolderPage/FolderPage";
 
 function App() {
 
-  let localDarkMode = localStorage.getItem("darkMode");
-  const [darkMode, setDarkMode] = useState(localDarkMode);
+  // let localDarkMode = localStorage.getItem("darkMode");
+  const [darkMode, setDarkMode] = useState(false);
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -41,7 +41,7 @@ function App() {
   return (
     <ThemeProvider theme={theme} >
       <Paper elevation={0}>
-        <Header isLogin={false} onChangeDarkMode={changeDarkMode} />
+        <Header isLogin={false} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
