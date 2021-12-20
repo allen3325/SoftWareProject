@@ -49,21 +49,6 @@ function HomePage() {
           <Grid item xs={8} sm={8} md={8}>
             <Cards items={cards} />
           </Grid>
-          {/* <Grid item>
-            <Grid item>
-              <Button href="/newDiary">New Diary</Button>
-            </Grid>
-            <Grid item>
-              <div className='new-expense__control'>
-                <label>Date</label>
-                <input
-                  type='date'
-                  // value={enteredDate}
-                  // onChange={dateChangeHandler}
-                />
-              </div>
-            </Grid>
-          </Grid> */}
         </Grid>
 
       </main>
