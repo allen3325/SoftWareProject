@@ -9,13 +9,10 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
-import UserListDataGrid from "./components/AdminPage/UserIdListDataGrid";
-import UserIdListTable from "./components/AdminPage/UserIdListTable";
-import FolderList from "./components/FolderPage/FolderList";
 
 function App() {
-  let localDarkMode = localStorage.getItem("darkMode");
-  const [darkMode, setDarkMode] = useState(localDarkMode);
+  // let localDarkMode = localStorage.getItem("darkMode");
+  const [darkMode, setDarkMode] = useState(false);
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -23,16 +20,17 @@ function App() {
     setDarkMode(darkMode);
     localStorage.setItem("darkMode", darkMode);
     console.log("App is " + darkMode);
-  };
+  }
 
-  const theme = createTheme({
+  //TODO: try theme.js
+  let theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
       primary: {
         main: "#37AEF2",
         light: "#37AEF2",
         dark: "#1B92D1",
-        contrastText: "#fff",
+        contrastText: "#fff"
       },
     },
     mixins: {
@@ -41,9 +39,9 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <Paper elevation={0}>
-        <Header isLogin={false} onChangeDarkMode={changeDarkMode} />
+        <Header isLogin={true} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
@@ -51,10 +49,9 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
-          <Route exact path="test" element={<UserIdListTable />} />
         </Routes>
       </Paper>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 export default App;
