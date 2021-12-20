@@ -44,7 +44,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0}>
-        <Header isLogin={true} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
+        <Header isLogin={false} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />{" "}
           <Route exact path="about" element={<AboutPage />} />{" "}
