@@ -10,6 +10,7 @@ import { ButtonGroup } from "@mui/material";
 
 
 const NewDiaryPage = () => {
+    //TODO: 日記的tag以及試試看接api
     let title = "";
     let date = new Date();
     let folder = "";
