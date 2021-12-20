@@ -11,7 +11,6 @@ import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPa
 import FolderPage from "./components/FolderPage/FolderPage";
 
 function App() {
-
   // let localDarkMode = localStorage.getItem("darkMode");
   const [darkMode, setDarkMode] = useState(false);
 
@@ -23,7 +22,8 @@ function App() {
     console.log("App is " + darkMode);
   }
 
-  const theme = createTheme({
+  //TODO: try theme.js
+  let theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
       primary: {
@@ -41,7 +41,7 @@ function App() {
   return (
     <ThemeProvider theme={theme} >
       <Paper elevation={0}>
-        <Header isLogin={false} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
+        <Header isLogin={true} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
