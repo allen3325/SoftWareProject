@@ -9,11 +9,13 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
-import UserIdListTable from "./components/UserIdListTable/UserIdListTable";
+import UserListDataGrid from "./components/AdminPage/UserIdListDataGrid";
+import UserIdListTable from "./components/AdminPage/UserIdListTable";
+import FolderList from "./components/FolderPage/FolderList";
 
 function App() {
-  // let localDarkMode = localStorage.getItem("darkMode");
-  const [darkMode, setDarkMode] = useState(false);
+  let localDarkMode = localStorage.getItem("darkMode");
+  const [darkMode, setDarkMode] = useState(localDarkMode);
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -23,8 +25,7 @@ function App() {
     console.log("App is " + darkMode);
   };
 
-  //TODO: try theme.js
-  let theme = createTheme({
+  const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
       primary: {
@@ -42,7 +43,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0}>
-        <Header isLogin={true} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
+        <Header isLogin={false} onChangeDarkMode={changeDarkMode} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
