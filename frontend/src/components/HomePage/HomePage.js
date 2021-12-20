@@ -1,5 +1,6 @@
 import { Button, Grid, Link } from "@material-ui/core";
 import Cards from "../Cards/Cards"
+import FolderPage from "../FolderPage/FolderPage";
 import { TextField } from "@mui/material";
 import "./HomePage.css"
 function HomePage() {
@@ -42,10 +43,10 @@ function HomePage() {
           justifyContent="space-around"
           alignItems="flex-start"
         >
-          <Grid item xs={1} sm={1} md={1}>
-            <h1>Folder</h1>
+          <Grid item xs={4} sm={4} md={4}>
+            <FolderPage/>
           </Grid>
-          <Grid item xs={2} sm={4} md={8}>
+          <Grid item xs={8} sm={8} md={8}>
             <Cards items={cards} />
           </Grid>
           {/* <Grid item>
