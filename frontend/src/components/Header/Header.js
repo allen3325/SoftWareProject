@@ -13,7 +13,6 @@ import {
   IconButton,
 } from "@material-ui/core";
 import SmallHeader from "./SmallHeader";
-import LogInOrOutButton from "./LogInOrOutButton";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -30,6 +29,8 @@ function ElevationScroll(props) {
 }
 
 const Header = (props) => {
+  let loginOrLogout = props.isLogin ? "登出" : "登入";
+
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
@@ -53,9 +54,11 @@ const Header = (props) => {
               <Grid item >
                 <MDlogo></MDlogo>
               </Grid>
+
               <Grid item xs={2} sm={3} md={6}>
                 <SearchForm></SearchForm>
               </Grid>
+
               <Grid item>
                 <Grid item>
                   <IconButton
@@ -71,12 +74,32 @@ const Header = (props) => {
                   ></ModeSwitch>
                 </Grid>
                 <Grid item>
-                  <LogInOrOutButton isLogin={props.isLogin} />
+                  {props.isLogin
+                    ?
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        console.log(props.isLogin);
+                      }}
+                      href="/logout"
+                    >
+                      登出
+                    </Button>
+                    :
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        console.log(props.isLogin);
+                      }}
+                      href="/login"
+                    >
+                      登入
+                    </Button>}
                 </Grid>
               </Grid>
             </Grid>
           </Toolbar>
-          <SmallHeader />
+          <SmallHeader></SmallHeader>
         </AppBar>
       </ElevationScroll>
     </React.Fragment>

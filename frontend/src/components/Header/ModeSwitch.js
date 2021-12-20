@@ -4,26 +4,6 @@ import { styled } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import { useState } from "react";
 
-function ModeSwitch(props) {
-  const [darkMode, setDarkMode] = useState(true);
-  return (
-    <FormControlLabel
-      control={
-        <MaterialUISwitch
-          checked={!darkMode}
-          onChange={() => {
-            setDarkMode(!darkMode);
-            console.log("In ModeSwitch is " + darkMode);
-            props.onChangeDarkMode(darkMode);
-          }}
-          sx={{ m: 1 }}
-        />
-      }
-      label="黑暗模式"
-    />
-  );
-}
-
 // materail UI's toggle button
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -71,5 +51,28 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
+
+
+function ModeSwitch(props) {
+  let localDarkMode = localStorage.getItem("darkMode");
+  const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false);
+  return (
+    <FormControlLabel
+      control={
+        <MaterialUISwitch
+          checked={!darkMode}
+          onChange={() => {
+            setDarkMode(!darkMode);
+            console.log("In ModeSwitch is " + darkMode);
+            props.onChangeDarkMode(darkMode);
+          }}
+          sx={{ m: 1 }}
+        />
+      }
+      label="黑暗模式"
+    />
+  );
+}
 
 export default ModeSwitch;
