@@ -29,10 +29,12 @@ function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log("data is "+data.toString())
     // eslint-disable-next-line no-console
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      remeber: data.get('password'),
     });
   };
   
@@ -84,7 +86,7 @@ function LoginPage() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              href="/"
+              // href="/"
             >
               Sign In
             </Button>
