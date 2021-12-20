@@ -4,7 +4,7 @@ const Cards = (props) => {
     let len = props.items.length;
     // console.log(props.items);
     return (
-        <div>
+        <ul>
             <Card items={props.items[0]} />
             <Card items={props.items[1]} />
             <Card items={props.items[2]} />
@@ -16,7 +16,7 @@ const Cards = (props) => {
             <Card items={props.items[3]} />
             <Card items={props.items[3]} />
             <Card items={props.items[3]} />
-        </div>
+        </ul>
     )
 }
 
