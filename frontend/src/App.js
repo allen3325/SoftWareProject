@@ -14,7 +14,6 @@ import UserIdListTable from "./components/AdminPage/UserIdListTable";
 import FolderList from "./components/FolderPage/FolderList";
 
 function App() {
-
   let localDarkMode = localStorage.getItem("darkMode");
   const [darkMode, setDarkMode] = useState(localDarkMode);
 
@@ -24,7 +23,7 @@ function App() {
     setDarkMode(darkMode);
     localStorage.setItem("darkMode", darkMode);
     console.log("App is " + darkMode);
-  }
+  };
 
   const theme = createTheme({
     palette: {
@@ -33,7 +32,7 @@ function App() {
         main: "#37AEF2",
         light: "#37AEF2",
         dark: "#1B92D1",
-        contrastText: "#fff"
+        contrastText: "#fff",
       },
     },
     mixins: {
@@ -42,8 +41,7 @@ function App() {
   });
 
   return (
-    
-    <ThemeProvider theme={theme} >
+    <ThemeProvider theme={theme}>
       <Paper elevation={0}>
         <Header isLogin={false} onChangeDarkMode={changeDarkMode} />
         <Routes>
@@ -53,10 +51,10 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
-          <Route exact path="test" element={<UserIdListTable/>} />
+          <Route exact path="test" element={<UserIdListTable />} />
         </Routes>
       </Paper>
-    </ThemeProvider >
+    </ThemeProvider>
   );
 }
 export default App;
