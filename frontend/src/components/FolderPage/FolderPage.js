@@ -5,7 +5,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import FolderList from "./FolderList";
 import AddIcon from '@mui/icons-material/Add';
-
+ 
 const FolderPage = (props) => {
   const folder = [
     { folderName: "folder1" },
