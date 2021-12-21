@@ -1,4 +1,5 @@
 
+import { IconButton } from "@mui/material";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import UserIdList from "./UserIdList";
@@ -7,6 +8,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { ListItemSecondaryAction } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function UserIdListTable(props) {
   const userIds = [
@@ -39,12 +42,18 @@ export default function UserIdListTable(props) {
       }}
     >
       <List sx={{ width: "100%", maxWidth: 900, bgcolor: "background.paper" }}>
-        <ListItem
-          secondaryAction={<ListItemText edge="end" primary="Total." />}
-        >
-          <ListItemText primary="No." edge="start" />
-          <ListItemText primary="Name" />
-        </ListItem>
+      <ListItem alignItems="center">
+        <ListItemText edge="start" primary="No." />
+        <ListItemText primary="Name" />
+        <ListItemIcon>
+          <ListItemText primary="Total." />
+        </ListItemIcon>
+        <ListItemIcon>
+          <IconButton>
+            <VisibilityIcon />
+          </IconButton>
+      </ListItemIcon>
+    </ListItem>
         <Divider />
 
         {userIds.map((userId, index) => (
