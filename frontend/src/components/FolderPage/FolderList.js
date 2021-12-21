@@ -6,8 +6,12 @@ import ListItemText from "@mui/material/ListItemText";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
  
 export default function FolderList(props) {
+  const handleFolderChange = () => {
+    props.onChangeFolder(props.folderName);
+  }
   return (
     <ListItem 
+      onClick={handleFolderChange}
       secondaryAction={
         <IconButton edge="end">
           <MoreHorizIcon />

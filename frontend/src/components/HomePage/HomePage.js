@@ -1,4 +1,5 @@
 import { Button, Grid, Link } from "@material-ui/core";
+import { useState } from "react";
 import Cards from "../Cards/Cards"
 import { TextField } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
@@ -34,6 +35,12 @@ function HomePage() {
       Date: new Date(2020, 10, 3),
     },
   ];
+
+  const [folder, setFolder] = useState();
+  const handleFolderChange = (e) => { 
+    setFolder(e);
+  }
+
   return (
     <div>
       <main>
@@ -44,13 +51,12 @@ function HomePage() {
           alignItems="flex-start"
         >
           <Grid item xs={4} sm={4} md={4}>
-            <FolderPage/>
+            <FolderPage onChangeFolder={handleFolderChange}/>
           </Grid>
           <Grid item xs={8} sm={8} md={8}>
             <Cards items={cards} />
           </Grid>
         </Grid>
-
       </main>
     </div>
   );

@@ -13,13 +13,17 @@ const FolderPage = (props) => {
     { folderName: "folder3" },
     { folderName: "folder4" },
   ];
+  const handleFolderChange = (e) => {
+    props.onChangeFolder(e);
+  };
+
   return (
     <>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {folder.map((folder, index) => {
           return (
             <>
-              <FolderList key={index} folderName={folder.folderName} />
+              <FolderList key={index} folderName={folder.folderName} onChangeFolder={handleFolderChange}/>
               <Divider />
             </>
           );
