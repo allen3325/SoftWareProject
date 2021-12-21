@@ -11,7 +11,7 @@ const TextArea = (props) => {
             minRows={23}
             maxRows={23}
             placeholder="請輸入日記"
-            style={{ width: "100%" }}
+            style={{ width: "100%",backgroundColor:"#FFF0D4"}}
             onChange={handleContentChange}
         />
     )
