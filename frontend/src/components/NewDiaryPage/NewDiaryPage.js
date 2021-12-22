@@ -6,7 +6,7 @@ import TextArea from "./TextArea";
 import UploadButton from "./UploadButton";
 import { Button } from "@material-ui/core";
 import { ButtonGroup } from "@mui/material";
-import axios from "../axios/axios";
+import axios from "../axios/axios"
 
 const NewDiaryPage = () => {
     //TODO: fileUpload's loading and more UX
@@ -64,6 +64,7 @@ const NewDiaryPage = () => {
             isFavored: false
         })
             .then((response) => {
+                console.log("sucess")
                 console.log(response)
             })
             .catch((error) => console.log(error))
