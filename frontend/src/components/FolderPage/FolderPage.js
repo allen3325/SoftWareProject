@@ -14,7 +14,7 @@ const FolderPage = (props) => {
     { folderName: "folder4" },
   ];
   const handleFolderChange = (e) => {
-    props.onChangeFolder(e);
+    props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
 
   return (
