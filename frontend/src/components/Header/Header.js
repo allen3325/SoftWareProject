@@ -9,7 +9,6 @@ import {
   Toolbar,
   useScrollTrigger,
   Grid,
-  Button,
   IconButton,
 } from "@material-ui/core";
 import SmallHeader from "./SmallHeader";
