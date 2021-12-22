@@ -4,11 +4,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import ListItemText from "@mui/material/ListItemText";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { useEffect } from "react";
  
 export default function FolderList(props) {
-  const handleFolderChange = () => {
+  const handleFolderChange = (e) => {
+    e.preventDefault();
     props.onChangeFolder(props.folderName);
   }
+
   return (
     <ListItem 
       onClick={handleFolderChange}

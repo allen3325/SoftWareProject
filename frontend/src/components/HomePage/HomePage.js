@@ -36,23 +36,32 @@ function HomePage(props) {
       Date: new Date(2020, 10, 3),
     },
   ];
-  const email = "genewang7@gmail.com";
+  const email = "allen3325940072@gmail.com";
 
   const [folder, setFolder] = useState([]);
+  const [selectedFolder, setSelectedFolder] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1/" + email + "/folder")
+      .get("/user/" + email + "/folder")
       .then((res) => {
+        // console.log(res.data);
         setFolder(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, []);  ///get folder list in the beginning
+
+  useEffect(() => {
+    if (folder.length > 0 && selectedFolder === "")  { 
+      setSelectedFolder(folder[0].folderName);
+    }
+    console.log("folder is " + selectedFolder);
+  }, [folder, selectedFolder]); //if folder is loaded select the first as default
 
   const handleFolderChange = (e) => {
-    setFolder(e);
+    setSelectedFolder(e);
   };
 
   return (

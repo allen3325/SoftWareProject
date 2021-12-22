@@ -10,8 +10,10 @@ import AddIcon from '@mui/icons-material/Add';
 const FolderPage = (props) => {
   const [folder, setFolder] = useState([]);
   useEffect(() => {
+    console.log(props.folder);
     setFolder(props.folder);
-   }, []);
+  }, [props.folder]);
+  
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
@@ -19,10 +21,10 @@ const FolderPage = (props) => {
   return (
     <>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-        {folder.map((folder, index) => {
+        {folder.map((fold, index) => {
           return (
             <>
-              <FolderList key={index} folderName={folder.folderName} onChangeFolder={handleFolderChange}/>
+              <FolderList key={index} folderName={fold.folderName} onChangeFolder={handleFolderChange}/>
               <Divider />
             </>
           );
