@@ -53,7 +53,7 @@ const NewDiaryPage = () => {
         tags = tagsString.split(",");
         console.log("tags is " + tags[0]);
         console.log(picUrl);
-        axios.post('/user/allen3325940072@gmail.com/' + folder, {
+        axios.post('/user/genewang7@gmail.com/' + folder, {
             title: title,
             content: content,
             date: date.toISOString(),

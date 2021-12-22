@@ -12,7 +12,7 @@ const FolderChoose = (props) => {
     }, []);
 
     const fetchFolder = () => {
-        axios.get('/user/allen3325940072@gmail.com/folder')
+        axios.get('/user/genewang7@gmail.com/folder')
             .then((response) => {
                 setFolders(response.data);
             })
