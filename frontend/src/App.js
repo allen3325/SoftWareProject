@@ -12,6 +12,7 @@ import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswordPa
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
+import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
 
 function App() {
   // let localDarkMode = localStorage.getItem("darkMode");
@@ -56,6 +57,7 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
+          <Route exact path="DiaryPage" element={<DiaryPage />} />
         </Routes>
       </Paper>
     </ThemeProvider>

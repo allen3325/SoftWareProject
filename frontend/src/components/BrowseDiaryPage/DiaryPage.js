@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { Grid, TextField } from "@mui/material";
-import DatePicker from "./DatePicker";
-import FolderChoose from "./FolderChoose";
-import TextArea from "./TextArea";
-import UploadButton from "./UploadButton";
-import { Button } from "@material-ui/core";
-import { ButtonGroup } from "@mui/material";
-import axios from "axios";
+import { Grid } from "@mui/material";
+import axios from "../axios/axios";
 
-const NewDiaryPage = () => {
+const DiaryPage = (props) => {
     //TODO: fileUpload's loading and more UX
     let title = "";
     let date = new Date();
@@ -35,7 +29,7 @@ const NewDiaryPage = () => {
     }
     const uploadFile = (enteredFile) => {
         data.append("myfile", enteredFile);
-        axios.post("http://127.0.0.1/fileupload", data, {
+        axios.post("/fileupload", data, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(response => {
@@ -53,7 +47,7 @@ const NewDiaryPage = () => {
         tags = tagsString.split(",");
         console.log("tags is " + tags[0]);
         console.log(picUrl);
-        axios.post('http://127.0.0.1/user/allen3325940072@gmail.com/' + folder, {
+        axios.post('/user/allen3325940072@gmail.com/' + folder, {
             title: title,
             content: content,
             date: date.toISOString(),
@@ -70,9 +64,6 @@ const NewDiaryPage = () => {
     }
     return (
         <div>
-            <Grid>
-                <TextField style={{ padding: "0px 0px 30px 0px", position: "relative", top: "10px" }} fullWidth label="title" id="title" onChange={handleTitleChange} />
-            </Grid>
             <Grid
                 container
                 direction="row"
@@ -81,16 +72,37 @@ const NewDiaryPage = () => {
                 style={{ padding: "0px 0px 20px 0px" }}
             >
                 <Grid item xs={2}>
-                    <DatePicker onChangeDate={handleDateChange} />
+                    <p>Title:</p>
                 </Grid>
                 <Grid item xs={10}>
-                    <FolderChoose onChangeFolder={handleFolderChange} />
+                    <p>{props.title}</p>
                 </Grid>
-
             </Grid>
-            <Grid><p>Content</p></Grid>
+
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start"
+                style={{ padding: "0px 0px 20px 0px" }}
+            >
+                <Grid item xs={2}>
+                    <p>Date:</p>
+                </Grid>
+                <Grid item xs={4}>
+                    {/* {props.date.toISOString()} */}
+                    <p>2011/12/12</p>
+                </Grid>
+                <Grid item xs={2}>
+                    <p>folder:</p>
+                </Grid>
+                <Grid item xs={4}>
+                    <p>{props.folder}</p>
+                </Grid>
+            </Grid>
+            <Grid><p>Content:</p></Grid>
             <Grid>
-                <TextArea onChangeContent={handleContentChange} />
+                {props.content}
             </Grid>
             <Grid
                 container
@@ -99,19 +111,25 @@ const NewDiaryPage = () => {
                 alignItems="flex-start"
                 style={{ padding: "0px 0px 20px 0px" }}
             >
-                <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>HashTags</p></Grid>
+                <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>HashTags:</p></Grid>
                 <Grid item xs={7}>
-                    <TextField fullWidth label="請以,隔開每個hashtag" id="tags" onChange={handleTagsChange} />
+                    <p>{props.hashtag}</p>
                 </Grid>
-                <Grid item>
-                    <ButtonGroup style={{ width: "100%" }} className="ButtonGroup" variant="text">
-                        <UploadButton onUploadFile={uploadFile} />
-                        <Button variant="contained" component="span" onClick={storeDiary}>儲存日記</Button>
-                    </ButtonGroup>
+            </Grid>
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start"
+                style={{ padding: "0px 0px 20px 0px" }}
+            >
+                <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>files:</p></Grid>
+                <Grid item xs={7}>
+                    <p>{props.files}</p>
                 </Grid>
             </Grid>
         </div>
     )
 }
 
-export default NewDiaryPage;
+export default DiaryPage;
