@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-const axios = require('axios');
+import axios from "../axios/axios";
 
 const FolderChoose = (props) => {
     const [folder, setFolder] = React.useState('');
@@ -12,7 +12,7 @@ const FolderChoose = (props) => {
     }, []);
 
     const fetchFolder = () => {
-        axios.get('http://127.0.0.1/user/allen3325940072@gmail.com/folder')
+        axios.get('/user/allen3325940072@gmail.com/folder')
             .then((response) => {
                 setFolders(response.data);
             })
