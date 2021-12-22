@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 const axios = require('axios');
 
 const FolderChoose = (props) => {
     const [folder, setFolder] = React.useState('');
+    const [folders, setFolders] = React.useState([]);
+
+    useEffect(() => {
+        console.log('execute function in useEffect');
+        fetchFolder();
+    }, []);
+
+    const fetchFolder = () => {
+        axios.get('http://127.0.0.1/user/allen3325940072@gmail.com/folder')
+            .then((response) => {
+                setFolders(response.data);
+            })
+            .catch((error) => console.log(error))
+    }
+
     const handleFolderChange = (event) => {
         props.onChangeFolder(event.target.value)
         setFolder(event.target.value);
@@ -18,9 +33,10 @@ const FolderChoose = (props) => {
                 label="Folder"
                 onChange={handleFolderChange}
             >
-                <MenuItem value={"Folder1"}>Folder1</MenuItem>
+                {/* <MenuItem value={"Folder1"}>Folder1</MenuItem>
                 <MenuItem value={"Folder2"}>Folder2</MenuItem>
-                <MenuItem value={"Folder3"}>Folder3</MenuItem>
+                <MenuItem value={"Folder3"}>Folder3</MenuItem> */}
+                {folders.map((folder) => <MenuItem key={folder._id} value={folder.folderName} >{folder.folderName}</MenuItem>)}
             </Select>
         </FormControl>
     )
