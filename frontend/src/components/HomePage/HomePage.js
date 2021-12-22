@@ -3,7 +3,7 @@ import Cards from "../Cards/Cards"
 import { TextField } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css"
-function HomePage() {
+function HomePage(props) {
   const cards = [
     {
       id: 1,
@@ -44,7 +44,7 @@ function HomePage() {
           alignItems="flex-start"
         >
           <Grid item xs={4} sm={4} md={4}>
-            <FolderPage/>
+            <FolderPage />
           </Grid>
           <Grid item xs={8} sm={8} md={8}>
             <Cards items={cards} />
@@ -54,6 +54,7 @@ function HomePage() {
       </main>
     </div>
   );
+
 }
 
 export default HomePage;

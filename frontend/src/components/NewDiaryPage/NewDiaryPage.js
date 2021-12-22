@@ -6,7 +6,7 @@ import TextArea from "./TextArea";
 import UploadButton from "./UploadButton";
 import { Button } from "@material-ui/core";
 import { ButtonGroup } from "@mui/material";
-import axios from "axios";
+import axios from "../axios/axios";
 
 const NewDiaryPage = () => {
     //TODO: fileUpload's loading and more UX
@@ -35,7 +35,7 @@ const NewDiaryPage = () => {
     }
     const uploadFile = (enteredFile) => {
         data.append("myfile", enteredFile);
-        axios.post("http://127.0.0.1/fileupload", data, {
+        axios.post("/fileupload", data, {
             headers: { 'Content-Type': 'multipart/form-data' }
         })
             .then(response => {
@@ -53,7 +53,7 @@ const NewDiaryPage = () => {
         tags = tagsString.split(",");
         console.log("tags is " + tags[0]);
         console.log(picUrl);
-        axios.post('http://127.0.0.1/user/allen3325940072@gmail.com/' + folder, {
+        axios.post('/user/allen3325940072@gmail.com/' + folder, {
             title: title,
             content: content,
             date: date.toISOString(),
