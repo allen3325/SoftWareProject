@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Grid, TextField } from "@mui/material";
 import DatePicker from "./DatePicker";
 import FolderChoose from "./FolderChoose";
@@ -6,17 +6,18 @@ import TextArea from "./TextArea";
 import UploadButton from "./UploadButton";
 import { Button } from "@material-ui/core";
 import { ButtonGroup } from "@mui/material";
-
-
+import axios from "axios";
 
 const NewDiaryPage = () => {
-    //TODO: 日記的tag以及試試看接api
+    //TODO: fileUpload's loading
     let title = "";
     let date = new Date();
     let folder = "";
     let content = "";
     let tagsString = "";
     let tags = [];
+    let data = new FormData();
+    let picUrl = [];
     const handleTitleChange = (event) => {
         title = (event.target.value);
     }
@@ -33,17 +34,39 @@ const NewDiaryPage = () => {
         tagsString = event.target.value;
     }
     const uploadFile = (enteredFile) => {
-        console.log("uploadFile is ");
-        console.log(enteredFile);
+        data.append("myfile", enteredFile);
+        axios.post("http://127.0.0.1/fileupload", data, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+            .then(response => {
+                console.log(response.data.url)
+                picUrl.push(response.data.url);
+            })
+            .catch(error => console.log(error))
     }
     const storeDiary = () => {
         console.log("title is " + title);
-        console.log("date is " + date.toTimeString());
+        console.log("date is " + date.toISOString());
         console.log("folder is " + folder);
         console.log("content is " + content);
         console.log("tagsString is " + tagsString);
         tags = tagsString.split(",");
         console.log("tags is " + tags[0]);
+        console.log(picUrl);
+        axios.post('http://127.0.0.1/user/allen3325940072@gmail.com/' + folder, {
+            title: title,
+            content: content,
+            date: date.toISOString(),
+            tag: tags,
+            filesURL: [],
+            picURL: picUrl,
+            videoURL: [],
+            isFavored: false
+        })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => console.log(error))
     }
     return (
         <div>
@@ -78,16 +101,16 @@ const NewDiaryPage = () => {
             >
                 <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>HashTags</p></Grid>
                 <Grid item xs={7}>
-                    <TextField  fullWidth label="請以,隔開每個hashtag" id="tags" onChange={handleTagsChange} />
+                    <TextField fullWidth label="請以,隔開每個hashtag" id="tags" onChange={handleTagsChange} />
                 </Grid>
                 <Grid item>
                     <ButtonGroup style={{ width: "100%" }} className="ButtonGroup" variant="text">
                         <UploadButton onUploadFile={uploadFile} />
-                        <Button Button variant="contained" component="span" onClick={storeDiary}>儲存日記</Button>
+                        <Button variant="contained" component="span" onClick={storeDiary}>儲存日記</Button>
                     </ButtonGroup>
                 </Grid>
             </Grid>
-        </div >
+        </div>
     )
 }
 
