@@ -9,7 +9,7 @@ import { useEffect } from "react";
 export default function FolderList(props) {
   const handleFolderChange = (e) => {
     e.preventDefault();
-    props.onChangeFolder(props.folderName);
+    props.onChangeFolder(props.folderIdx);
   }
 
   return (

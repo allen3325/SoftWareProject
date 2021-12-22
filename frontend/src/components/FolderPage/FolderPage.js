@@ -24,7 +24,7 @@ const FolderPage = (props) => {
         {folder.map((fold, index) => {
           return (
             <>
-              <FolderList key={index} folderName={fold.folderName} onChangeFolder={handleFolderChange}/>
+              <FolderList key={index} folderName={fold.folderName} folderIdx={index} onChangeFolder={handleFolderChange}/>
               <Divider />
             </>
           );
