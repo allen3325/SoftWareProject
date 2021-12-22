@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -7,12 +8,10 @@ import FolderList from "./FolderList";
 import AddIcon from '@mui/icons-material/Add';
  
 const FolderPage = (props) => {
-  const folder = [
-    { folderName: "folder1" },
-    { folderName: "folder2" },
-    { folderName: "folder3" },
-    { folderName: "folder4" },
-  ];
+  const [folder, setFolder] = useState([]);
+  useEffect(() => {
+    setFolder(props.folder);
+   }, []);
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
