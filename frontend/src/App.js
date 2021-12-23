@@ -14,6 +14,7 @@ import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPa
 import FolderPage from "./components/FolderPage/FolderPage";
 import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
 import UserIdListTable from "./components/AdminPage/UserIdListTable";
+import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
 
 function App() {
   // let localDarkMode = localStorage.getItem("darkMode");
@@ -59,7 +60,7 @@ function App() {
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
           <Route exact path="DiaryPage" element={<DiaryPage />} />
-          <Route exact path="test" element={<UserIdListTable />} />
+          <Route exact path="test" element={<EditDiaryPage />} />
         </Routes>
       </Paper>
     </ThemeProvider>

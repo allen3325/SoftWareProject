@@ -11,8 +11,17 @@ const FolderChoose = (props) => {
         fetchFolder();
     }, []);
 
+    useEffect(() => { 
+        console.log("props.folder:"+props.folder);
+        if (props.folder) {
+            setFolder(props.folder);
+            console.log("in Folderchoose " + props.folder);
+        }
+        else setFolder("");
+    },[props.folder]);
+
     const fetchFolder = () => {
-        axios.get('/user/genewang7@gmail.com/folder')
+        axios.get(`/user/${props.email}/folder`)
             .then((response) => {
                 setFolders(response.data);
             })
@@ -21,22 +30,24 @@ const FolderChoose = (props) => {
 
     const handleFolderChange = (event) => {
         props.onChangeFolder(event.target.value)
-        setFolder(event.target.value);
+        // setFolder(event.target.value);
     };
     return (
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
             <Select
+                // displayEmpty
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={folder}
                 label="Folder"
+                // defaultValue={folder??""}
                 onChange={handleFolderChange}
             >
-                {/* <MenuItem value={"Folder1"}>Folder1</MenuItem>
+                {/* <MenuItem value={"Folder1"} selected={true}>Folder1</MenuItem>
                 <MenuItem value={"Folder2"}>Folder2</MenuItem>
                 <MenuItem value={"Folder3"}>Folder3</MenuItem> */}
-                {folders.map((folder) => <MenuItem key={folder._id} value={folder.folderName} >{folder.folderName}</MenuItem>)}
+                <MenuItem key={0} value={""} ></MenuItem>
+                {folders.map((fold) => <MenuItem key={fold._id} value={String(fold.folderName)} selected={folder!==undefined && folder===fold.folderName} >{fold.folderName}</MenuItem>)}
             </Select>
         </FormControl>
     )
