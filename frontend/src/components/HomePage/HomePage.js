@@ -5,6 +5,7 @@ import { TextField } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css"
 import axios from "../axios/axios"
+
 function HomePage(props) {
   const email = "allen3325940072@gmail.com";
 
@@ -43,7 +44,7 @@ function HomePage(props) {
           alignItems="flex-start"
         >
           <Grid item xs={2} sm={3} md={2}>
-            <FolderPage folder={folder} onChangeFolder={handleFolderChange} />
+            <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
             {folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[ selectedFolder ].diary}/> : <p>No folder</p>}
