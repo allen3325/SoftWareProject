@@ -23,6 +23,8 @@ const CalenderSearchPage = () => {
         let day = "";
         if (value.getDate() < 10) {
             day = "0" + value.getDate().toString();
+        } else {
+            day = value.getDate().toString();
         }
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
         axios.get('/date/allen3325940072@gmail.com?date=' + date)
