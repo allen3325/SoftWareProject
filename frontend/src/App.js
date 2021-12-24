@@ -1,6 +1,6 @@
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import AboutPage from "./components/AboutPage/AboutPage";
 import HomePage from "./components/HomePage/HomePage";
@@ -18,8 +18,21 @@ import UserIdListTable from "./components/AdminPage/UserIdListTable";
 import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
 
 function App() {
-  // let localDarkMode = localStorage.getItem("darkMode");
+  let localDarkMode = localStorage.getItem("darkMode");
+  if(localDarkMode === "true"){
+    console.log('is true!!');
+  } else {
+    console.log('is false!!');
+  }
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if(localDarkMode === "true"){
+      setDarkMode(true);
+    } else {
+      setDarkMode(false);
+    }
+  },[localDarkMode])
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {

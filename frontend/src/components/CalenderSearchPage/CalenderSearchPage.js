@@ -6,6 +6,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Grid } from '@material-ui/core';
 import axios from '../axios/axios';
+import './CalenderSearchPage.css'
+import { Paper } from '@mui/material';
 
 const CalenderSearchPage = () => {
     //TODO: show dairyList after choose date
@@ -18,7 +20,13 @@ const CalenderSearchPage = () => {
     }, [value]);
 
     const fetchDiary = () => {
-        let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + value.getDate().toString();
+        let day = "";
+        if (value.getDate() < 10) {
+            day = "0" + value.getDate().toString();
+        } else {
+            day = value.getDate().toString();
+        }
+        let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
         axios.get('/date/allen3325940072@gmail.com?date=' + date)
             .then(response => {
                 setFetchDiaryAlready(true);
@@ -41,42 +49,48 @@ const CalenderSearchPage = () => {
     }
 
     return (
-        <div style={{
-            display: 'block',
-            height: "100vh",
-            textAlign: 'center',
-        }}>
-            {/* <h1></h1> */}
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start">
-                <Grid item>
+        <Paper
+        sx={{
+            height:"300rem"
+        }}
+        >
+            <div style={{
+                display: 'block',
+                height: "100vh",
+                textAlign: 'center',
+            }}>
+                {/* <h1></h1> */}
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start">
+                    <Grid item>
 
+                    </Grid>
+                    <Grid item xs={12}>
+                        <p>choose one day</p>
+                        <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
+                            <StaticDatePicker
+                                orientation="landscape"
+                                openTo="day"
+                                value={value}
+                                onChange={(newValue) => {
+                                    setValue(newValue);
+                                }}
+                                // onChange={selectedDate}
+                                toolbarTitle=''
+                                loading={!fetchDiaryAlready}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <div id='content'></div>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <p>choose one day</p>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <StaticDatePicker
-                            orientation="landscape"
-                            openTo="day"
-                            value={value}
-                            onChange={(newValue) => {
-                                setValue(newValue);
-                            }}
-                            // onChange={selectedDate}
-                            toolbarTitle=''
-                            loading={!fetchDiaryAlready}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                <Grid item>
-                    <div id='content'></div>
-                </Grid>
-            </Grid>
-        </div>
+            </div>
+        </Paper>
     )
 }
 

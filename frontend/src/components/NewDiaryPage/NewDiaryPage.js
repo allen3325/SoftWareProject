@@ -11,6 +11,7 @@ import axios from "../axios/axios";
 import { Navigate } from "react-router-dom";
 
 const NewDiaryPage = () => {
+  //TODO: 修好若沒有換行日記，可能要幫他們自動補換行。
   //TODO: fileUpload's loading and more UX
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
@@ -68,6 +69,7 @@ const NewDiaryPage = () => {
     // console.log("tagsString is " + tagsString);
     setTag(tagsString.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
+
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
     if (retag[0] === "") retag.shift();
