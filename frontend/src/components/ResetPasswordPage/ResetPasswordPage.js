@@ -1,10 +1,7 @@
 import * as React from 'react';
-import "./RegisterPage.css";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,10 +9,10 @@ import { Paper } from '@mui/material';
 import axios from "../axios/axios";
 
 
-const RegisterPage = () => {
+const ResetPasswordPage = () => {
   let email="";
   let password="";
-  let checkpassword="";
+  let newPassword="";
   const handleEmailChange = (event) => {
         email = (event.target.value);
         console.log(email);
@@ -24,28 +21,22 @@ const RegisterPage = () => {
         password = (event.target.value);
         console.log(password);
   }
-  const handleCheckpasswordChange = (event) => {
-        checkpassword = (event.target.value);
-        console.log(checkpassword);
+  const handleNewPasswordChange = (event) => {
+        newPassword = (event.target.value);
+        console.log(newPassword);
   }
-  const signup = (event) => {
+  const resetPassword = (event) => {
     console.log("email "+email);
     console.log("password "+ password);
-        axios.post("/signUp",{
+        axios.post("/resetPassword",{
             email:email,
-            password:password
+            password:password,
+			newPassword:newPassword
         })
             .then((response) => {
                 console.log(response)
             })
             .catch(error => console.log(error))
-
-        axios.post("/resendCode",{email})
-            .then((response) => 
-                console.log(response.email))
-            
-            .catch(error => console.log(error))
-        
     }
   return (
 	  
@@ -60,7 +51,7 @@ const RegisterPage = () => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign up
+           Reset Password
           </Typography>
           {/* <Box component="form" noValidate  sx={{ mt: 3 }}> */}
             <Grid container spacing={2}>
@@ -80,10 +71,10 @@ const RegisterPage = () => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Old Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  autoComplete="old_password"
                   onChange={handlePasswordChange}
                 />
               </Grid>
@@ -91,41 +82,28 @@ const RegisterPage = () => {
                 <TextField
                   required
                   fullWidth
-                  name="checkpassword"
-                  label="endter Password again"
+                  name="newPassword"
+                  label="New password"
                   type="password"
-                  id="checkpassword"
-                  autoComplete="checkpassword"
-                  onChange={handleCheckpasswordChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  id="newPassword"
+                  autoComplete="new_password"
+                  onChange={handleNewPasswordChange}
                 />
               </Grid>
             </Grid>
             <Button
-			  // href="/activate"
+			   href="/"
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={signup}
+              onClick={resetPassword}
             >
-              Sign Up
+              Reset Password
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         {/* </Box> */}
     </Paper>
   );
 }
-export default RegisterPage;
+export default ResetPasswordPage;
