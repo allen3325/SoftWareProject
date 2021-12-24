@@ -9,7 +9,7 @@ const MyThemeComponent = styled(Button)(({ theme }) => ({
     // borderRadius: theme.shape.borderRadius,
     borderBlockColor:theme.palette.primary.main,
     borderColor:theme.palette.primary.main,
-    fontSize:'1.5rem',
+    fontSize:'1rem',
 }));
 
 const SmallHeader = () => {

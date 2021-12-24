@@ -4,19 +4,9 @@ const Cards = (props) => {
     let len = props.items.length;
     // console.log(props.items);
     return (
-        <ul>
-            <Card items={props.items[0]} />
-            <Card items={props.items[1]} />
-            <Card items={props.items[2]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-            <Card items={props.items[3]} />
-        </ul>
+        props.items.length>0?
+            props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder}/> })
+            : <p>No diary</p>
     )
 }
 
