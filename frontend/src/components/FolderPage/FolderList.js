@@ -14,6 +14,7 @@ export default function FolderList(props) {
 
   return (
     <ListItem 
+      key={props.folderIdx}
       onClick={handleFolderChange}
       secondaryAction={
         <IconButton edge="end">

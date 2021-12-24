@@ -10,10 +10,12 @@ import RegisterPage from "./components/RegisterPage/RegisterPage";
 import ActivatePage from "./components/ActivatePage/ActivatePage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswordPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
+import DNewDiaryPage from "./components/NewDiaryPage/dev_NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
 import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
 import UserIdListTable from "./components/AdminPage/UserIdListTable";
+import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
 
 function App() {
   let localDarkMode = localStorage.getItem("darkMode");
@@ -60,7 +62,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0}>
-        <Header isLogin={isLogin} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
+        <Header
+          isLogin={isLogin}
+          onChangeDarkMode={changeDarkMode}
+          propsDarkMode={darkMode}
+        />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
@@ -72,7 +78,8 @@ function App() {
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
           <Route exact path="DiaryPage" element={<DiaryPage />} />
-          <Route exact path="test" element={<UserIdListTable />} />
+          <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
+          <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>
       </Paper>
     </ThemeProvider>

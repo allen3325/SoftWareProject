@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -12,6 +12,12 @@ const DatePicker = (props) => {
         props.onChangeDate(newValue);
         setValue(newValue);
     };
+    useEffect(() => { 
+        if(props.date) {
+            setValue(props.date);
+            console.log("in DatePicker"+props.date);
+        }
+    }, [props.date]);
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
