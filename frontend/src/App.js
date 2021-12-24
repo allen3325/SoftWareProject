@@ -48,7 +48,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={0}>
-        <Header isLogin={isLogin} onChangeDarkMode={changeDarkMode} propsDarkMode={darkMode} />
+        <Header
+          isLogin={isLogin}
+          onChangeDarkMode={changeDarkMode}
+          propsDarkMode={darkMode}
+        />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="about" element={<AboutPage />} />
@@ -60,6 +64,7 @@ function App() {
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
           <Route exact path="DiaryPage" element={<DiaryPage />} />
+          <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route exact path="test" element={<EditDiaryPage />} />
         </Routes>
       </Paper>

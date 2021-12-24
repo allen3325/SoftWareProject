@@ -8,17 +8,18 @@ import { Button } from "@material-ui/core";
 import { ButtonGroup } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
+import { useParams } from "react-router";
+import { Navigate} from "react-router-dom";
 
 const EditDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
 
-  const email = "genewang7@gmail.com";
-  const folderName = "Uncategorized";
-  const diaryName = "MYDIARY";
 
+  let { email, inFolder, diaryName } = useParams();
+  const [previousDiaryName, setPreviousDiaryName] = useState("");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
-  const [folder, setFolder] = useState(folderName);
+  const [folder, setFolder] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState([]);
   const [tagsString, setTagsString] = useState("");
@@ -28,19 +29,22 @@ const EditDiaryPage = () => {
   const [isFavored, setIsFavored] = useState(false);
   const [markdown, setMarkdown] = useState("");
   const [data, setData] = useState(new FormData());
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
-    setFolder(folderName);
-
+    console.log(email + ", " + diaryName+", "+inFolder);
+    setFolder(inFolder);
+    setPreviousDiaryName(diaryName);
+    setShouldRedirect(false);
     axios
-      .get(`/user/${email}/${folder}/${diaryName}`)
+      .get(`/user/${email}/${inFolder}/${diaryName}`)
       .then((res) => {
         res = res.data.diary;
         setTitle(res.title);
         setDate(new Date(res.date));
         setContent(res.content);
         setTag(res.tag);
-        setTagsString("#"+res.tag.join(" #"));
+        setTagsString("#" + res.tag.join(" #"));
         setFilesURL(res.filesURL);
         setPicURL(res.picURL);
         setVideoURL(res.videoURL);
@@ -55,9 +59,17 @@ const EditDiaryPage = () => {
     // console.log("str"+tagsString);
   }, []);
 
-  const handleTitleChange   = (event)          => setTitle  (event.target.value);
-  const handleDateChange    = (enteredDate)    => setDate   (enteredDate);
-  const handleFolderChange = (enteredFolder) => { setFolder(enteredFolder); console.log("up:" + enteredFolder); };
+  useEffect(() => setShouldRedirect(false),[shouldRedirect]);
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    console.log(event.target.value);
+  };
+  const handleDateChange = (enteredDate) => setDate(enteredDate);
+  const handleFolderChange = (enteredFolder) => {
+    setFolder(enteredFolder);
+    console.log("up:" + enteredFolder);
+  };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
     console.log(tagsString);
@@ -83,13 +95,13 @@ const EditDiaryPage = () => {
     console.log("folderName is " + folder);
     console.log("content is " + content);
     console.log("tagsString is " + tagsString);
-    setTag((tagsString.split("#")).map((tag) => tag.trim()));
-    const retag = ((tagsString.split("#")).map((tag) => tag.trim()));
-    if(retag[0] === "")retag.shift();
+    setTag(tagsString.split("#").map((tag) => tag.trim()));
+    const retag = tagsString.split("#").map((tag) => tag.trim());
+    if (retag[0] === "") retag.shift();
     console.log("tags is " + tag[0]);
     console.log(picURL);
     axios
-      .put(`/user/${email}/${folder}/${diaryName}`, {
+      .put(`/user/${email}/${folder}/${previousDiaryName}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -102,10 +114,14 @@ const EditDiaryPage = () => {
       .then((response) => {
         console.log("sucess");
         console.log(response);
+        setPreviousDiaryName(title);
+        setShouldRedirect(true);
       })
       .catch((error) => console.log(error));
   };
-  return (
+  return (shouldRedirect ? (
+    <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
+  ) : (
     <Container maxWidth={"lg"}>
       <Grid container>
         <Grid item xs={12}>
@@ -135,7 +151,7 @@ const EditDiaryPage = () => {
           </Grid>
           <Grid item xs={10}>
             <FolderChoose
-              folder={folderName}
+              folder={folder}
               onChangeFolder={handleFolderChange}
               email={email}
             />
@@ -183,7 +199,7 @@ const EditDiaryPage = () => {
         </Grid>
       </Grid>
     </Container>
-  );
+  ));
 };
 
 export default EditDiaryPage;

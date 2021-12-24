@@ -4,9 +4,12 @@ import { CardContent } from "@mui/material";
 import { Typography } from "@mui/material";
 import { CardActions } from "@mui/material";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 
 export default function BasicCard(props) {
+    const email = "allen3325940072@gmail.com";
+
     return (
         <Card variant="outlined" sx={{ minWidth: 275,padding: "0.5rem" }}>
             <CardContent>
@@ -24,7 +27,7 @@ export default function BasicCard(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="small"><Link to={`/editDiary/${email}/${props.selectedFolder}/${props.items.title}`}>Learn More</Link></Button>
             </CardActions>
         </Card>
     );
