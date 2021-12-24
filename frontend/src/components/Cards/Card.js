@@ -35,7 +35,7 @@ export default function BasicCard(props) {
                 </Typography>
                 {props.items.picURL.length === 0 ? "" : <CardMedia
                     component="img"
-                    height="195"
+                    height="300"
                     image={url}
                     alt={props.items.title + "'s picture is dead."}
                 />

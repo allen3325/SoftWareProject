@@ -2,10 +2,11 @@ import * as React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { styled } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ModeSwitch(props) {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true" ? false : true);
+
   return (
     <FormControlLabel
       control={

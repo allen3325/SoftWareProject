@@ -11,7 +11,7 @@ import { Paper } from '@mui/material';
 import Cards from '../Cards/Cards';
 
 const CalenderSearchPage = () => {
-    //TODO: show dairyList after choose date
+    //TODO: props and links not work.
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
@@ -69,7 +69,7 @@ const CalenderSearchPage = () => {
                     <Grid item>
 
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item sx={{padding:"3rem"}} xs={12}>
                         <p>choose one day</p>
                         <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                             <StaticDatePicker
