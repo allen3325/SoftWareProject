@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function BasicCard(props) {
     const email = "allen3325940072@gmail.com";
-    useEffect(() => {console.log(props.items.tag) }, [props.items.tag]);
+    // useEffect(() => {console.log(props.items.tag) }, [props.items.tag]);
     return (
         <Card variant="outlined" sx={{ minWidth: 275,padding: "0.5rem" }}>
             <CardContent>
