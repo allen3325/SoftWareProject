@@ -15,10 +15,11 @@ const FolderChoose = (props) => {
     }
 
     useEffect(() => {
-        console.log('execute function in useEffect');
-        fetchFolder();
-    }, []);
-
+        console.log('porps.email', props.email);
+        if(props.email)
+            fetchFolder();
+    }, [props.email]);
+    useEffect(() => {console.log('porps.upper', props.upper);}, [props.upper]);
     useEffect(() => { 
         console.log("props.folder:"+props.folder);
         if (props.folder) {
@@ -34,7 +35,7 @@ const FolderChoose = (props) => {
         // setFolder(event.target.value);
     };
     return (
-        folder ?
+        folder || props.upper==="NewDiaryPage" ?
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
             

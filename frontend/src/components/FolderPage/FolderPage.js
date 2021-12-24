@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -42,18 +42,18 @@ const FolderPage = (props) => {
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {folder.map((fold, index) => {
           return (
-            <>
+            <Fragment key={fold._id} >
               {hasUpper ?
-                <FolderList key={index} folderName={fold.folderName} folderIdx={index} onChangeFolder={handleFolderChange} />
+                <FolderList  folderName={fold.folderName} folderIdx={index} onChangeFolder={handleFolderChange} />
                 :
-              <FolderList key={index} folderName={fold.folderName} folderIdx={index} onChangeFolder={ignoreHandleFolderChange}/>
+              <FolderList  folderName={fold.folderName} folderIdx={index} onChangeFolder={ignoreHandleFolderChange}/>
               }
               <Divider />
-            </>
+            </Fragment>
           );
         })}
         <ListItem>
-          <ListItemButton inset>
+          <ListItemButton inset={"true"}>
             <ListItemIcon><AddIcon/></ListItemIcon>
           </ListItemButton>
         </ListItem>

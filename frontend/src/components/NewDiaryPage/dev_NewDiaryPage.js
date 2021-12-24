@@ -8,9 +8,10 @@ import { Button } from "@material-ui/core";
 import { ButtonGroup } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
+import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 
-const NewDiaryPage = () => {
+const DNewDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
@@ -26,7 +27,6 @@ const NewDiaryPage = () => {
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
   let email = "allen3325940072@gmail.com";
-
   useEffect(() => {
     email = "allen3325940072@gmail.com";
     setShouldRedirect(false);
@@ -36,20 +36,21 @@ const NewDiaryPage = () => {
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    // console.log(event.target.value);
+    console.log(event.target.value);
   };
   const handleDateChange = (enteredDate) => setDate(enteredDate);
   const handleFolderChange = (enteredFolder) => {
     setFolder(enteredFolder);
-    // console.log("up:" + enteredFolder);
+    console.log("up:" + enteredFolder);
   };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
-    // console.log(tagsString);
+    console.log(tagsString);
     setTagsString(event.target.value);
   };
   const uploadFile = (enteredFile) => {
-    data.append("myfile", enteredFile);
+    setData(data.append("myfile", enteredFile));
+    // data.append("myfile", enteredFile);
     axios
       .post("/fileupload", data, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -60,21 +61,25 @@ const NewDiaryPage = () => {
       })
       .catch((error) => console.log(error));
   };
-  const storeDiary = () => {
-    // console.log("title is " + title);
-    // console.log("date is " + date.toISOString());
-    // console.log("folder is " + folder);
-    // console.log("content is " + content);
-    // console.log("tagsString is " + tagsString);
+  const storeDiary = (e) => {
+    e.preventDefault();
+    console.log("title is " + title);
+    console.log("date is " + date.toISOString());
+    console.log("folderName is " + folder);
+    console.log("content is " + content);
+    console.log("tagsString is " + tagsString);
+
     setTag(tagsString.split("#").map((tag) => tag.trim()));
-    // console.log("tagsss is " + tag);
+    console.log("tagsss is " + tag);
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
     if (retag[0] === "") retag.shift();
-    // console.log("tags is " + tags[0]);
-    // console.log(picUrl);
+
+    console.log("retags is " + retag + " " + retag.length);
+    console.log(picURL);
+
     axios
-    .post(`/user/${email}/${folder}`, {
+      .post(`/user/${email}/${folder}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -90,6 +95,7 @@ const NewDiaryPage = () => {
         setShouldRedirect(true);
       })
       .catch((error) => console.log(error));
+    
   };
   return shouldRedirect ? (
     <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
@@ -175,4 +181,4 @@ const NewDiaryPage = () => {
   );
 };
 
-export default NewDiaryPage;
+export default DNewDiaryPage;

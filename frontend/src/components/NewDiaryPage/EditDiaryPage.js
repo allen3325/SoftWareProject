@@ -9,11 +9,10 @@ import { ButtonGroup } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { useParams } from "react-router";
-import { Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const EditDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
-
 
   let { email, inFolder, diaryName } = useParams();
   const [previousDiaryName, setPreviousDiaryName] = useState("");
@@ -32,7 +31,7 @@ const EditDiaryPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
-    console.log(email + ", " + diaryName+", "+inFolder);
+    // console.log(email + ", " + diaryName + ", " + inFolder);
     setFolder(inFolder);
     setPreviousDiaryName(diaryName);
     setShouldRedirect(false);
@@ -40,17 +39,17 @@ const EditDiaryPage = () => {
       .get(`/user/${email}/${inFolder}/${diaryName}`)
       .then((res) => {
         res = res.data.diary;
-        setTitle(res.title);
-        setDate(new Date(res.date));
-        setContent(res.content);
-        setTag(res.tag);
-        setTagsString("#" + res.tag.join(" #"));
-        setFilesURL(res.filesURL);
-        setPicURL(res.picURL);
-        setVideoURL(res.videoURL);
-        setIsFavored(res.isFavored);
-        setMarkdown(res.markdown);
-        console.log(res);
+        res.title ? setTitle(res.title) : setTitle("");
+        res.date ? setDate(new Date(res.date)) : setDate(new Date());
+       setContent(res.content);
+        res.tag ? setTag(res.tag) : setTag([]);
+        res.tag ? setTagsString(res.tag.join(" #")) : setTagsString("");
+        res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
+        res.picURL ? setPicURL(res.picURL) : setPicURL([]);
+        res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
+        res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
+        res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -59,20 +58,20 @@ const EditDiaryPage = () => {
     // console.log("str"+tagsString);
   }, []);
 
-  useEffect(() => setShouldRedirect(false),[shouldRedirect]);
+  useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
   const handleDateChange = (enteredDate) => setDate(enteredDate);
   const handleFolderChange = (enteredFolder) => {
     setFolder(enteredFolder);
-    console.log("up:" + enteredFolder);
+    // console.log("up:" + enteredFolder);
   };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
-    console.log(tagsString);
+    // console.log(tagsString);
     setTagsString(event.target.value);
   };
   const uploadFile = (enteredFile) => {
@@ -83,23 +82,28 @@ const EditDiaryPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
-        console.log(response.data.url);
+        // console.log(response.data.url);
         picURL.push(response.data.url);
       })
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
     e.preventDefault();
-    console.log("title is " + title);
-    console.log("date is " + date.toISOString());
-    console.log("folderName is " + folder);
-    console.log("content is " + content);
-    console.log("tagsString is " + tagsString);
+    // console.log("title is " + title);
+    // console.log("date is " + date.toISOString());
+    // console.log("folderName is " + folder);
+    // console.log("content is " + content);
+    // console.log("tagsString is " + tagsString);
+
     setTag(tagsString.split("#").map((tag) => tag.trim()));
-    const retag = tagsString.split("#").map((tag) => tag.trim());
+    // console.log("tagsss is " + tag);
+
+    let retag = tagsString.split("#").map((tag) => tag.trim());
     if (retag[0] === "") retag.shift();
-    console.log("tags is " + tag[0]);
-    console.log(picURL);
+
+    // console.log("retags is " + retag + " " + retag.length);
+    // console.log(picURL);
+
     axios
       .put(`/user/${email}/${folder}/${previousDiaryName}`, {
         title: title,
@@ -112,14 +116,15 @@ const EditDiaryPage = () => {
         isFavored: isFavored,
       })
       .then((response) => {
-        console.log("sucess");
-        console.log(response);
+        // console.log("sucess");
+        // console.log(response);
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
       .catch((error) => console.log(error));
+    
   };
-  return (shouldRedirect ? (
+  return shouldRedirect ? (
     <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
@@ -150,7 +155,8 @@ const EditDiaryPage = () => {
             <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
           <Grid item xs={10}>
-            <FolderChoose
+              <FolderChoose
+              upper={"EditDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
               email={email}
@@ -199,7 +205,7 @@ const EditDiaryPage = () => {
         </Grid>
       </Grid>
     </Container>
-  ));
+  );
 };
 
 export default EditDiaryPage;

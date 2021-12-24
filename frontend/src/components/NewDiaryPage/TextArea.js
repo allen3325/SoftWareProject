@@ -3,16 +3,18 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 const TextArea = (props) => {
     const [content, setContent] = React.useState('');
-
+    const [fisrtTime, setFirstTime] = React.useState(true);
     const handleContentChange = (event) => {
         // console.log("value is " + event.target.value);
         props.onChangeContent(event.target.value);
+        setContent(event.target.value);
     }
 
     React.useEffect(() => { 
-        if(props.content) {
+        if(props.content && fisrtTime) {
             setContent(props.content);
-            console.log("in Cont"+props.content);
+            setFirstTime(false);
+            // console.log("in Cont"+props.content);
         }
     }, [props.content]);
 
