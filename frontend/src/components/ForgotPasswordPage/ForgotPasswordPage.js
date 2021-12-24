@@ -6,28 +6,26 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import axios from '../axios/axios';
+
 
 export default function ForgotPasswordPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email')
-    });
-  };
+  let email="";
+   const handleEmailChange = (event) => {
+        email = (event.target.value);
+        console.log(email);
+  }
+  const newPassword =(event) => {
+    console.log("email");
+      axios.post("/randomPassword",{
+        email:email
+      })
+        .then((response)=>{
+            console.log("success")
+            console.log(response)
+        })
+        .catch(error =>console.log(error))
+  }
 
   return (
     <Paper elevation={0} style={{height:"100vh"}} >
@@ -44,7 +42,7 @@ export default function ForgotPasswordPage() {
           <Typography component="h1" variant="h5">
             Send new password
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate  sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -56,6 +54,7 @@ export default function ForgotPasswordPage() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleEmailChange}
             />
               </Grid>
             </Grid>
@@ -64,6 +63,8 @@ export default function ForgotPasswordPage() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={newPassword}
+              href='/resetpassword'
             >
               Send
             </Button>

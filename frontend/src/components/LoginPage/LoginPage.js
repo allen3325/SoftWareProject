@@ -9,34 +9,51 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import axios from "../axios/axios";
 // import RegisterPage from "./RegisterPage/RegisterPage";
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+const TOKEN_KEY ='AS_MALL_ACCESS_TOKEN';
+axios.defaults.headers.common['Authorization']=localStorage.getItem(TOKEN_KEY);
 function LoginPage() {
-  const { activeItem, setActiveItem } = React.useState("login");
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log("data is "+data.toString())
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      remeber: data.get('password'),
-    });
-  };
+  let email="";
+  let password="";
+  const handleEmailChange=(event)=>{
+    email = (event.target.value);
+    console.log(email);
+  }
+  const handlePasswordChange =(event) => {
+    password = (event.target.value);
+    console.log(password);
+  }
+  
+  const login = (event) =>{
+    console.log("email="+email);
+    console.log("password="+password);
+    const data=event.currentTarget;
+        axios.post("/login",{
+          email:email,
+          password:password
+        })
+          .then(res=>
+        {
+          
+            console.log("success");
+            console.log(res);
+            // window.localStorage.setItem("token",res.data.token);
+          }
+        ).catch((error)=> console.log(error))
+ }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log("data is "+data.toString())
+  //   // eslint-disable-next-line no-console
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //     remeber: data.get('password'),
+  //   });
+  // };
   
   return (
     <Paper elevation={0} style={{height:"100vh"}} className="login_page">
@@ -56,7 +73,7 @@ function LoginPage() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {/* <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}> */}
             <TextField
               margin="normal"
               required
@@ -66,6 +83,7 @@ function LoginPage() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleEmailChange}
             />
             <TextField
               margin="normal"
@@ -76,6 +94,7 @@ function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handlePasswordChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -87,6 +106,7 @@ function LoginPage() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               // href="/"
+              onClick={login}
             >
               Sign In
             </Button>
@@ -102,9 +122,9 @@ function LoginPage() {
                 </Link>
               </Grid>
             </Grid>
-          </Box>
+          {/* </Box> */}
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
     </Paper>
   );
 }
