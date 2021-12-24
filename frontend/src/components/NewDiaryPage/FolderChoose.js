@@ -38,8 +38,6 @@ const FolderChoose = (props) => {
         folder || props.upper==="NewDiaryPage" ?
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
-            
-                
             <Select
             // displayEmpty
             labelId="demo-simple-select-label"
@@ -52,7 +50,6 @@ const FolderChoose = (props) => {
             {folders.map((fold) => <MenuItem key={fold._id} value={String(fold.folderName)} >{fold.folderName}</MenuItem>)}
                 </Select>
                 </FormControl>
-            
             : 
                 <FormControl fullWidth>
                     <Select

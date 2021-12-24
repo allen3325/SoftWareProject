@@ -74,7 +74,7 @@ const NewDiaryPage = () => {
     // console.log("tags is " + tags[0]);
     // console.log(picUrl);
     axios
-    .post(`/user/${email}/${folder}`, {
+      .post(`/user/${email}/${folder}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -118,12 +118,14 @@ const NewDiaryPage = () => {
           alignItems="flex-start"
           style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={12}>
             <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
-          <Grid item xs={10}>
-              <FolderChoose
-                upper={"NewDiaryPage"}
+        </Grid>
+        <Grid item xs={12}>
+          <Grid>
+            <FolderChoose
+              upper={"NewDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
               email={email}
