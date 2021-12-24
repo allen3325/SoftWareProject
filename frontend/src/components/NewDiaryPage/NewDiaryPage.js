@@ -9,6 +9,7 @@ import { ButtonGroup } from "@mui/material";
 import axios from "../axios/axios"
 
 const NewDiaryPage = () => {
+    //TODO: 修好若沒有換行日記，可能要幫他們自動補換行。
     //TODO: fileUpload's loading and more UX
     let title = "";
     let date = new Date();
