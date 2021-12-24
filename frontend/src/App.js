@@ -19,7 +19,7 @@ import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
 
 function App() {
   let localDarkMode = localStorage.getItem("darkMode");
-  if(localDarkMode === "true"){
+  if (localDarkMode === "true") {
     console.log('is true!!');
   } else {
     console.log('is false!!');
@@ -27,12 +27,12 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    if(localDarkMode === "true"){
+    if (localDarkMode === "true") {
       setDarkMode(true);
     } else {
       setDarkMode(false);
     }
-  },[localDarkMode])
+  }, [localDarkMode])
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -42,7 +42,6 @@ function App() {
     console.log("App is " + darkMode);
   };
 
-  //TODO: try theme.js
   let theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
@@ -77,7 +76,7 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
-          <Route exact path="DiaryPage" element={<DiaryPage />} />
+          <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>

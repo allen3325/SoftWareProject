@@ -1,135 +1,130 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
+import Container from "@mui/material/Container";
 import axios from "../axios/axios";
+import { useParams } from "react-router";
+import { Navigate } from "react-router-dom";
+import "./DiaryPage.css";
 
-const DiaryPage = (props) => {
-    //TODO: fileUpload's loading and more UX
-    let title = "";
-    let date = new Date();
-    let folder = "";
-    let content = "";
-    let tagsString = "";
-    let tags = [];
-    let data = new FormData();
-    let picUrl = [];
-    const handleTitleChange = (event) => {
-        title = (event.target.value);
-    }
-    const handleDateChange = (enteredDate) => {
-        date = enteredDate;
-    }
-    const handleFolderChange = (enteredFolder) => {
-        folder = enteredFolder;
-    }
-    const handleContentChange = (enteredContent) => {
-        content = enteredContent;
-    }
-    const handleTagsChange = (event) => {
-        tagsString = event.target.value;
-    }
-    const uploadFile = (enteredFile) => {
-        data.append("myfile", enteredFile);
-        axios.post("/fileupload", data, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-            .then(response => {
-                console.log(response.data.url)
-                picUrl.push(response.data.url);
+const EditDiaryPage = () => {
+    let { email, inFolder, diaryName } = useParams();
+    const [previousDiaryName, setPreviousDiaryName] = useState("");
+    const [title, setTitle] = useState("");
+    const [date, setDate] = useState(new Date());
+    const [folder, setFolder] = useState("");
+    const [content, setContent] = useState("");
+    const [tag, setTag] = useState([]);
+    const [tagsString, setTagsString] = useState("");
+    const [filesURL, setFilesURL] = useState([]);
+    const [picURL, setPicURL] = useState([]);
+    const [videoURL, setVideoURL] = useState([]);
+    const [isFavored, setIsFavored] = useState(false);
+    const [markdown, setMarkdown] = useState("");
+    const [data, setData] = useState(new FormData());
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    useEffect(() => {
+        // console.log(email + ", " + diaryName + ", " + inFolder);
+        setFolder(inFolder);
+        setPreviousDiaryName(diaryName);
+        setShouldRedirect(false);
+        axios
+            .get(`/user/${email}/${inFolder}/${diaryName}`)
+            .then((res) => {
+                res = res.data.diary;
+                res.title ? setTitle(res.title) : setTitle("");
+                res.date ? setDate(new Date(res.date)) : setDate(new Date());
+                setContent(res.content);
+                res.tag ? setTag(res.tag) : setTag([]);
+                res.tag ? setTagsString("#"+res.tag.join(" #")) : setTagsString("");
+                res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
+                res.picURL ? setPicURL(res.picURL) : setPicURL([]);
+                res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
+                res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
+                res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
+                // console.log(res.tag)
             })
-            .catch(error => console.log(error))
-    }
-    const storeDiary = () => {
-        console.log("title is " + title);
-        console.log("date is " + date.toISOString());
-        console.log("folder is " + folder);
-        console.log("content is " + content);
-        console.log("tagsString is " + tagsString);
-        tags = tagsString.split(",");
-        console.log("tags is " + tags[0]);
-        console.log(picUrl);
-        axios.post('/user/allen3325940072@gmail.com/' + folder, {
-            title: title,
-            content: content,
-            date: date.toISOString(),
-            tag: tags,
-            filesURL: [],
-            picURL: picUrl,
-            videoURL: [],
-            isFavored: false
-        })
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => console.log(error))
-    }
-    return (
-        <div>
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start"
-                style={{ padding: "0px 0px 20px 0px" }}
-            >
-                <Grid item xs={2}>
-                    <p>Title:</p>
-                </Grid>
-                <Grid item xs={10}>
-                    <p>{props.title}</p>
-                </Grid>
-            </Grid>
+            .catch((err) => {
+                console.log(err);
+            });
+        // setTagsString("#" + tag.join(" #"));
+        // console.log("str"+tagsString);
+    }, []);
 
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start"
-                style={{ padding: "0px 0px 20px 0px" }}
-            >
-                <Grid item xs={2}>
-                    <p>Date:</p>
-                </Grid>
-                <Grid item xs={4}>
-                    {/* {props.date.toISOString()} */}
-                    <p>2011/12/12</p>
-                </Grid>
-                <Grid item xs={2}>
-                    <p>folder:</p>
-                </Grid>
-                <Grid item xs={4}>
-                    <p>{props.folder}</p>
-                </Grid>
-            </Grid>
-            <Grid><p>Content:</p></Grid>
-            <Grid>
-                {props.content}
-            </Grid>
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start"
-                style={{ padding: "0px 0px 20px 0px" }}
-            >
-                <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>HashTags:</p></Grid>
-                <Grid item xs={7}>
-                    <p>{props.hashtag}</p>
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start"
-                style={{ padding: "0px 0px 20px 0px" }}
-            >
-                <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>files:</p></Grid>
-                <Grid item xs={7}>
-                    <p>{props.files}</p>
-                </Grid>
-            </Grid>
-        </div>
-    )
-}
+    useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
-export default DiaryPage;
+    return shouldRedirect ? (
+        <Navigate to={`/DiaryPage/${email}/${folder}/${title}`} />
+    ) : (
+        <Container maxWidth={"lg"}>
+            <div>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start"
+                    style={{ padding: "0px 0px 20px 0px" }}
+                >
+                    <Grid item xs={2}>
+                        <p>Title: </p>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <p>{title}</p>
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start"
+                    style={{ padding: "0px 0px 20px 0px" }}
+                >
+                    <Grid item xs={2}>
+                        <p>Date: </p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>{date.toDateString()}</p>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <p>folder: </p>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <p>{folder}</p>
+                    </Grid>
+                </Grid>
+                <Grid><p>Content:</p><br /></Grid>
+                <Grid>
+                    {/* {markdown} */}
+                    <div dangerouslySetInnerHTML={{__html:markdown}} />
+                </Grid>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start"
+                    style={{ padding: "0px 0px 20px 0px" }}
+                >
+                    <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>HashTags:</p></Grid>
+                    <Grid item xs={7}>
+                        <p>{tagsString}</p>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start"
+                    style={{ padding: "0px 0px 20px 0px" }}
+                >
+                    {/* <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>files:</p></Grid>
+                    <Grid item xs={7}>
+                        <p>{props.files}</p>
+                    </Grid> */}
+                </Grid>
+            </div>
+        </Container>
+    );
+};
+
+export default EditDiaryPage;
