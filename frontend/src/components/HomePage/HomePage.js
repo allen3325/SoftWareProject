@@ -35,7 +35,7 @@ function HomePage(props) {
   };
 
   return (
-    <div>
+    <div style={{ height: "100vh" }}>
       <main>
         <Grid
           container
