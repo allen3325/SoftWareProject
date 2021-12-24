@@ -21,7 +21,7 @@ const FolderPage = (props) => {
   const [reRender, setReRender] = useState(false);
   useEffect(() => { setFolderAdding(false); setReRender(false); }, []);
   function postAddFolder() {
-    if(newFolderName === "" || newFolderName === undefined || newFolderName === null || newFolderName.trim() === " ") {
+    if (newFolderName === "" || newFolderName === undefined || newFolderName === null || newFolderName.trim() === " ") return;
     axios
       .post(`/user/${email}/folder`, {
         folderName: newFolderName,
@@ -38,7 +38,7 @@ const FolderPage = (props) => {
       });
   }
   function onDelFolder(folderName) {
-    if(folderName === "" || folderName === undefined || folderName === null || folderName.trim()==="") return;
+    if(folderName === "" || folderName === undefined || folderName===null || folderName.trim()==="") return;
     axios
       .delete(`/user/${email}/${folderName}`)
       .then((res) => {
