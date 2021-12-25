@@ -1,7 +1,7 @@
 import { Button, Grid, Link } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Cards from "../Cards/Cards";
-import { TextField } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css"
 import axios from "../axios/axios"
@@ -25,7 +25,7 @@ function HomePage(props) {
   }, []);  ///get folder list in the beginning
 
   useEffect(() => {
-    if (folder.length > 0 && selectedFolder === "")  { 
+    if (folder.length > 0 && selectedFolder === "") {
       setSelectedFolder(-1);
     }
   }, [folder, selectedFolder]); //if folder is loaded select the first as default
@@ -35,8 +35,8 @@ function HomePage(props) {
   };
 
   return (
-    <div style={{ height: "100vh" }}>
-      <main>
+    <div>
+      <Container>
         <Grid
           container
           direction="row"
@@ -47,11 +47,11 @@ function HomePage(props) {
             <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            {folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName}/> : <p>No folder</p>}
+            {folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p>No folder</p>}
           </Grid>
           <Grid item xs={0} sm={0} md={2}></Grid>
         </Grid>
-      </main>
+      </Container>
     </div>
   );
 

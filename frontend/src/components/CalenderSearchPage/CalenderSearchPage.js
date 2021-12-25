@@ -8,12 +8,14 @@ import { Grid } from '@material-ui/core';
 import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
+import Cards from '../Cards/Cards';
 
 const CalenderSearchPage = () => {
-    //TODO: show dairyList after choose date
+    //TODO: props and links not work.
     const [value, setValue] = React.useState(new Date());
+    const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
-
+    let tmp = [];
     useEffect(() => {
         setFetchDiaryAlready(false);
         fetchDiary()
@@ -32,15 +34,14 @@ const CalenderSearchPage = () => {
                 setFetchDiaryAlready(true);
                 console.log(response.data.diaryArray.length);
                 if (response.data.diaryArray.length === 0) {
-                    document.getElementById("content").innerHTML = "<p>no diary</p>";
+                    setDiarys("No Diary")
                 } else {
-                    if (!(response.data.diaryArray[0][0].markdown === "")) {
-                        document.getElementById("content").innerHTML = response.data.diaryArray[0][0].markdown;
-                    } else {
-                        document.getElementById("content").innerHTML = "<p>this diary's content is empty</p>";
-                    }
-
-                    console.log(response.data.diaryArray[0][0].markdown)
+                    console.log(response.data.diaryArray)
+                    response.data.diaryArray.map((folder) => {
+                        folder.map((diary) => tmp.push(diary))
+                    })
+                    console.log(tmp)
+                    setDiarys(<Cards items={tmp} />)
                 }
 
             })
@@ -50,9 +51,9 @@ const CalenderSearchPage = () => {
 
     return (
         <Paper
-        sx={{
-            height:"300rem"
-        }}
+            sx={{
+                height: "300rem"
+            }}
         >
             <div style={{
                 display: 'block',
@@ -68,7 +69,7 @@ const CalenderSearchPage = () => {
                     <Grid item>
 
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item sx={{padding:"3rem"}} xs={12}>
                         <p>choose one day</p>
                         <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                             <StaticDatePicker
@@ -85,8 +86,9 @@ const CalenderSearchPage = () => {
                             />
                         </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={12}>
-                        <div id='content'></div>
+                    <Grid sx={{padding:"3rem"}} item xs={12}>
+                        {/* <div id='content'></div> */}
+                        {diarys}
                     </Grid>
                 </Grid>
             </div>
