@@ -15,25 +15,28 @@ import DNewDiaryPage from "./components/NewDiaryPage/dev_NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
 import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
-import UserIdListTable from "./components/AdminPage/UserIdListTable";
 import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
+import "./App.css"
 
 function App() {
   let localDarkMode = localStorage.getItem("darkMode");
-  if(localDarkMode === "true"){
-    console.log('is true!!');
-  } else {
-    console.log('is false!!');
-  }
+
+  // test localStorage's theme
+  // if (localDarkMode === "true") {
+  //   console.log('is true!!');
+  // } else {
+  //   console.log('is false!!');
+  // }
+
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    if(localDarkMode === "true"){
+    if (localDarkMode === "true") {
       setDarkMode(true);
     } else {
       setDarkMode(false);
     }
-  },[localDarkMode])
+  }, [localDarkMode])
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -43,7 +46,7 @@ function App() {
     console.log("App is " + darkMode);
   };
 
-  //TODO: try theme.js
+  /* old theme's method
   let theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
@@ -53,16 +56,72 @@ function App() {
         dark: "#1B92D1",
         contrastText: "#fff",
       },
+      background:{
+        paper:"#0c1929",
+        default:"#0c1929",
+      },
     },
     mixins: {
       toolbar: 0,
     },
   });
+  */
+
+  // darkMode theme's parameter
+  let theme = createTheme({
+    palette: {
+      mode: "dark",
+      primary: {
+        main: "#1B92D1",
+        light: "#37AEF2",
+        dark: "#1B92D1",
+        contrastText: "#fff",
+      },
+      background: {
+        paper: "#0c1929",
+        default: "#0c1929",
+      },
+    },
+    mixins: {
+      toolbar: 0,
+    },
+    typography: {
+      // htmlFontSize: 16,
+      // fontSize: 14,
+      // button:{
+      //   fontSize:"0.01rem",
+      //   fontWeight
+      // }
+    },
+  })
+
+  // lightMode theme's parameter
+  if (darkMode === false) {
+    theme = (createTheme({
+      palette: {
+        mode: "light",
+        primary: {
+          main: "#37AEF2",
+          light: "#37AEF2",
+          dark: "#1B92D1",
+          contrastText: "#fff",
+        },
+        background: {
+          paper: "#fff",
+          default: "#fff",
+        },
+      },
+      mixins: {
+        toolbar: 0,
+      },
+    }))
+  }
+
 
   let isLogin = false;
   return (
     <ThemeProvider theme={theme}>
-      <Paper elevation={0}>
+      <Paper id='page' elevation={0}>
         <Header
           isLogin={isLogin}
           onChangeDarkMode={changeDarkMode}
@@ -79,7 +138,7 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
-          <Route exact path="DiaryPage" element={<DiaryPage />} />
+          <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>
