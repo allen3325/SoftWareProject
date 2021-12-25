@@ -12,8 +12,8 @@ import Typography from '@mui/material/Typography';
 import axios from "../axios/axios";
 // import RegisterPage from "./RegisterPage/RegisterPage";
 
-const TOKEN_KEY ='AS_MALL_ACCESS_TOKEN';
-axios.defaults.headers.common['Authorization']=localStorage.getItem(TOKEN_KEY);
+// const TOKEN_KEY ='AS_MALL_ACCESS_TOKEN';
+// axios.defaults.headers.common['Authorization']=localStorage.getItem(TOKEN_KEY);
 function LoginPage() {
   let email="";
   let password="";
@@ -29,14 +29,13 @@ function LoginPage() {
   const login = (event) =>{
     console.log("email="+email);
     console.log("password="+password);
-    const data=event.currentTarget;
         axios.post("/login",{
           email:email,
           password:password
         })
           .then(res=>
         {
-          
+            
             console.log("success");
             console.log(res);
             // window.localStorage.setItem("token",res.data.token);
