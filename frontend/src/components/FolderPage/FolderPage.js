@@ -29,7 +29,7 @@ const FolderPage = (props) => {
       .then((res) => {
         // console.log(res.data);
         setFolder(res.data.log.folder);
-        console.log(res.data.log.folder);
+        // console.log(res.data.log.folder);
         setFolderAdding(false);
         setReRender(true);
       })
@@ -42,7 +42,7 @@ const FolderPage = (props) => {
     axios
       .delete(`/user/${email}/${folderName}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setReRender(true);
       })
       .catch((err) => {
@@ -61,7 +61,7 @@ const FolderPage = (props) => {
     axios
         .get(`/user/${email}/folder`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setFolder(res.data);
         })
         .catch((err) => {

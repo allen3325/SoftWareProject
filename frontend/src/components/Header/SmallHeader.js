@@ -15,7 +15,7 @@ const MyThemeComponent = styled(Button)(({ theme }) => ({
 const SmallHeader = () => {
     return (
         <div>
-            <ButtonGroup className="ButtonGroup" variant="text">
+            <ButtonGroup sx={{paddingLeft: "20px;"}} className="ButtonGroup" variant="text">
                 <MyThemeComponent href="/newDiary">new diary</MyThemeComponent>
                 <MyThemeComponent href="/calenderSearch">calender</MyThemeComponent>
                 <MyThemeComponent href="/folderPage">folder</MyThemeComponent>
