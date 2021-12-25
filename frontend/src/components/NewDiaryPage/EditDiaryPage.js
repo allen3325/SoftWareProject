@@ -43,7 +43,7 @@ const EditDiaryPage = () => {
         res.date ? setDate(new Date(res.date)) : setDate(new Date());
        setContent(res.content);
         res.tag ? setTag(res.tag) : setTag([]);
-        res.tag ? setTagsString(res.tag.join(" #")) : setTagsString("");
+        res.tag ? setTagsString("#"+res.tag.join(" #")) : setTagsString("");
         res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
         res.picURL ? setPicURL(res.picURL) : setPicURL([]);
         res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
