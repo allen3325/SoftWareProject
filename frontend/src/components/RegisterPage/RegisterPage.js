@@ -50,8 +50,6 @@ const RegisterPage = () => {
               console.log(error)
               setOpenFail(true)
             })
-    }
-    const sendVerifyCode = (event) => {
         axios.post("/resendCode",{email:email})
             .then((response) => {
                 console.log(response)
@@ -61,7 +59,10 @@ const RegisterPage = () => {
               console.log(error)
               setOpenFail(true)
             })
-    }  
+    }
+    // const sendVerifyCode = (event) => {
+        
+    // }  
     const handleCloseFail = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -140,7 +141,7 @@ const RegisterPage = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={signup,sendVerifyCode}
+              onClick={signup}
             >
               Sign Up
             </Button>
