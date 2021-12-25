@@ -3,13 +3,17 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import axios from "../axios/axios";
-
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 const ResetPasswordPage = () => {
+  const [openFail, setOpenFail] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";
   let password="";
   let newPassword="";
@@ -35,9 +39,26 @@ const ResetPasswordPage = () => {
         })
             .then((response) => {
                 console.log(response)
+                setOpenSuccess(true);
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+              console.log(error)
+              setOpenFail(true)
+            })
     }
+  const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
   return (
 	  
 	<Paper elevation={0} style={{height:"100vh"}} >
@@ -92,7 +113,7 @@ const ResetPasswordPage = () => {
               </Grid>
             </Grid>
             <Button
-			   href="/"
+			   //href="/"
               type="submit"
               fullWidth
               variant="contained"
@@ -101,8 +122,25 @@ const ResetPasswordPage = () => {
             >
               Reset Password
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/forgotpassword" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         {/* </Box> */}
+         <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+        <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+          verify failed!!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+          verify successfully.
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 }

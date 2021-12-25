@@ -7,9 +7,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import axios from "../axios/axios";
-
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 export default function ActivatePage() {
+  const [openFail, setOpenFail] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";
   let code="";
   // const handleSubmit = (event) => {
@@ -32,22 +35,38 @@ export default function ActivatePage() {
         console.log(email);
         console.log(code);
         axios.post("/verify",{
-            email:email,
-            code:code
+            "email":email,
+            "code":code
         })
-            .then((response) => {
-                console.log(response.email)
-                console.log(response.code)
+            .then((res) => {
+                console.log(res)
+                setOpenSuccess(true);
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+              console.log(error)
+              setOpenFail(true)
+              })
     }
   const resend = () =>{
-        axios.post("/resendCode",{email})
+        axios.post("/resendCode",{email:email})
             .then((response) => 
-                console.log(response.email))
+                console.log(response))
             
-            .catch(error => console.log(error))
+            .catch(error => console.log(error.response.status))
   }
+  const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
   return (
     <Paper elevation={0} style={{height:"100vh"}} >
 		<p> MyDiary </p> {""}{" "}
@@ -115,6 +134,16 @@ export default function ActivatePage() {
             </Grid>
           </Box>
         {/* </Box> */}
+         <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+        <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+          verify failed!!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+          verify successfully.
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 }

@@ -10,11 +10,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import axios from "../axios/axios";
-// import RegisterPage from "./RegisterPage/RegisterPage";
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
-const TOKEN_KEY ='AS_MALL_ACCESS_TOKEN';
-axios.defaults.headers.common['Authorization']=localStorage.getItem(TOKEN_KEY);
 function LoginPage() {
+  const [openFail, setOpenFail] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";
   let password="";
   const handleEmailChange=(event)=>{
@@ -29,20 +30,36 @@ function LoginPage() {
   const login = (event) =>{
     console.log("email="+email);
     console.log("password="+password);
-    const data=event.currentTarget;
         axios.post("/login",{
           email:email,
           password:password
         })
           .then(res=>
         {
-          
+            document.cookie = "token="+res.data.token;
+            console.log(document.cookie);
             console.log("success");
             console.log(res);
-            // window.localStorage.setItem("token",res.data.token);
+            setOpenSuccess(true);
           }
-        ).catch((error)=> console.log(error))
- }
+        ).catch((error)=> {
+          console.log(error)
+          setOpenFail(true)
+        })
+    }
+    const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -125,6 +142,16 @@ function LoginPage() {
           {/* </Box> */}
         </Box>
         {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+        <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+          error login informantion!!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+          login successfully.
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 }

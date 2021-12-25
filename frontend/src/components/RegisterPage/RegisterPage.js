@@ -10,9 +10,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 import axios from "../axios/axios";
-
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 const RegisterPage = () => {
+  const [openFail, setOpenFail] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";
   let password="";
   let checkpassword="";
@@ -31,22 +34,47 @@ const RegisterPage = () => {
   const signup = (event) => {
     console.log("email "+email);
     console.log("password "+ password);
+    if(password!=checkpassword){
+      setOpenFail(true);
+      return;
+    }
         axios.post("/signUp",{
             email:email,
             password:password
         })
             .then((response) => {
                 console.log(response)
+                setOpenSuccess(true);
             })
-            .catch(error => console.log(error))
-
-        axios.post("/resendCode",{email})
-            .then((response) => 
-                console.log(response.email))
-            
-            .catch(error => console.log(error))
-        
+            .catch(error => {
+              console.log(error)
+              setOpenFail(true)
+            })
     }
+    const sendVerifyCode = (event) => {
+        axios.post("/resendCode",{email:email})
+            .then((response) => {
+                console.log(response)
+                setOpenSuccess(true);
+                })
+            .catch(error => {
+              console.log(error)
+              setOpenFail(true)
+            })
+    }  
+    const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
   return (
 	  
 	<Paper elevation={0} style={{height:"100vh"}} >
@@ -112,7 +140,7 @@ const RegisterPage = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={signup}
+              onClick={signup,sendVerifyCode}
             >
               Sign Up
             </Button>
@@ -125,6 +153,16 @@ const RegisterPage = () => {
             </Grid>
           </Box>
         {/* </Box> */}
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+        <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+          Invaild register!!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+          register successfully.
+        </Alert>
+      </Snackbar>
     </Paper>
   );
 }
