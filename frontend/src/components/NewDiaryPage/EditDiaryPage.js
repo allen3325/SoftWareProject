@@ -41,9 +41,9 @@ const EditDiaryPage = () => {
         res = res.data.diary;
         res.title ? setTitle(res.title) : setTitle("");
         res.date ? setDate(new Date(res.date)) : setDate(new Date());
-       setContent(res.content);
+        setContent(res.content);
         res.tag ? setTag(res.tag) : setTag([]);
-        res.tag ? setTagsString(res.tag.join(" #")) : setTagsString("");
+        res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
         res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
         res.picURL ? setPicURL(res.picURL) : setPicURL([]);
         res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
@@ -122,7 +122,7 @@ const EditDiaryPage = () => {
         setShouldRedirect(true);
       })
       .catch((error) => console.log(error));
-    
+
   };
   return shouldRedirect ? (
     <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
@@ -155,7 +155,7 @@ const EditDiaryPage = () => {
             <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
           <Grid item xs={10}>
-              <FolderChoose
+            <FolderChoose
               upper={"EditDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
