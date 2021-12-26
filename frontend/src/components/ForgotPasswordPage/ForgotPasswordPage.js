@@ -37,8 +37,7 @@ export default function ForgotPasswordPage() {
       })
       .catch(e => {
         console.log("failed")
-        console.log(e.response.data.msg)
-        // console.log(e.response.status)
+        console.log(e.response.status)
         setOpenFail(true)
       })
   }

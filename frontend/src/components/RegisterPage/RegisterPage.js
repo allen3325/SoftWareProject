@@ -2,76 +2,91 @@ import * as React from 'react';
 import "./RegisterPage.css";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import axios from "../axios/axios";
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
+import { Navigate } from "react-router-dom";
+import { Container } from '@mui/material';
 
-export default function RegisterPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      checkpassword: data.get('checkpassword')
-    });
+const RegisterPage = () => {
+  const [openFail, setOpenFail] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+  let email = "";
+  let password = "";
+  let checkpassword = "";
+  const handleEmailChange = (event) => {
+    email = (event.target.value);
+    console.log(email);
+  }
+  const handlePasswordChange = (event) => {
+    password = (event.target.value);
+    console.log(password);
+  }
+  const handleCheckpasswordChange = (event) => {
+    checkpassword = (event.target.value);
+    console.log(checkpassword);
+  }
+  const signup = (event) => {
+    // console.log("email " + email);
+    // console.log("password " + password);
+    if (password != checkpassword) {
+      setOpenFail(true);
+      return;
+    }
+    axios.post("/signUp", {
+      email: email,
+      password: password
+    })
+      .then((response) => {
+        // console.log(response)
+        setOpenSuccess(true);
+      })
+      .then(() => {
+        setRedirect(true);
+      })
+      .catch(error => {
+        console.log(error)
+        setOpenFail(true)
+      })
+  }
+
+  const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
   };
 
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
   return (
-
-    <Paper elevation={0} style={{ height: "100vh" }} >
-      <p> MyDiary </p> {""}
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+    <Container maxWidth={"sm"}>
+      <Paper elevation={0} style={{ height: "100vh" }} >
+        {redirect ? <Navigate to={"/activate"} /> : ""}
+        {/* <p> MyDiary </p> */}
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          {/* <Box component="form" noValidate  sx={{ mt: 3 }}> */}
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required
@@ -80,6 +95,7 @@ export default function RegisterPage() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleEmailChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -91,6 +107,7 @@ export default function RegisterPage() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                onChange={handlePasswordChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -102,21 +119,23 @@ export default function RegisterPage() {
                 type="password"
                 id="checkpassword"
                 autoComplete="checkpassword"
+                onChange={handleCheckpasswordChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
-            href="/activate"
+            // href="/activate"
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={signup}
           >
             Sign Up
           </Button>
@@ -128,8 +147,19 @@ export default function RegisterPage() {
             </Grid>
           </Grid>
         </Box>
-      </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Paper>
+        {/* </Box> */}
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+          <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+            Invaild register!!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+          <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+            register successfully.
+          </Alert>
+        </Snackbar>
+      </Paper>
+    </Container>
   );
 }
+export default RegisterPage;

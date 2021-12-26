@@ -9,6 +9,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import ActivatePage from "./components/ActivatePage/ActivatePage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import DNewDiaryPage from "./components/NewDiaryPage/dev_NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
@@ -133,6 +134,7 @@ function App() {
           <Route exact path="register" element={<RegisterPage />} />
           <Route exact path="activate" element={<ActivatePage />} />
           <Route exact path="forgotpassword" element={<ForgotPasswordPage />} />
+          <Route exact path="resetpassword" element={<ResetPasswordPage/>} />
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
