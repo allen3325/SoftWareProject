@@ -53,7 +53,7 @@ const FolderPage = (props) => {
       .then((res) => {
         // console.log(res.data);
         setFolder(res.data.log.folder);
-        console.log(res.data.log.folder);
+        // console.log(res.data.log.folder);
         setFolderAdding(false);
         setReRender(true);
         setNewFolderSuccess(true);
@@ -70,7 +70,7 @@ const FolderPage = (props) => {
         folderName: newFolderName
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);
       })
@@ -128,7 +128,6 @@ const FolderPage = (props) => {
     }
     setDelFolderSuccess(false);
   };
-
 
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)

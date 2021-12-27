@@ -3,6 +3,7 @@ const LogInOrOutButton = (props) => {
     if (props.isLogin) {
         return (
             <Button
+                className="ch"
                 variant="contained"
                 onClick={() => {
                     console.log(props.isLogin);
@@ -16,6 +17,7 @@ const LogInOrOutButton = (props) => {
     else {
         return (
             <Button
+                className="ch"
                 variant="contained"
                 onClick={() => {
                     console.log(props.isLogin);

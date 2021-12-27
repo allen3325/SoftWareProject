@@ -15,11 +15,11 @@ const MyThemeComponent = styled(Button)(({ theme }) => ({
 const SmallHeader = () => {
     return (
         <div>
-            <ButtonGroup className="ButtonGroup" variant="text">
-                <MyThemeComponent href="/newDiary">new diary</MyThemeComponent>
-                <MyThemeComponent href="/calenderSearch">calender</MyThemeComponent>
-                <MyThemeComponent href="/folderPage">folder</MyThemeComponent>
-                <MyThemeComponent href="/test">test</MyThemeComponent>
+            <ButtonGroup sx={{paddingLeft: "20px;"}} className="ButtonGroup" variant="text">
+                <MyThemeComponent href="/newDiary"><p>new diary</p></MyThemeComponent>
+                <MyThemeComponent href="/calenderSearch"><p>calender</p></MyThemeComponent>
+                <MyThemeComponent href="/folderPage"><p>folder</p></MyThemeComponent>
+                <MyThemeComponent href="/test"><p>test</p></MyThemeComponent>
                 {/* <MyThemeComponent href="/">outline page</MyThemeComponent> */}
             </ButtonGroup>
         </div>

@@ -4,11 +4,11 @@ import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
-import "./DiaryPage.css";
+import "../BrowseDiaryPage/DiaryPage.css";
 
-const EditDiaryPage = () => {
-    let { email, inFolder, diaryName } = useParams();
-    const [previousDiaryName, setPreviousDiaryName] = useState("");
+const ShareDiaryPage = () => {
+    let path = useParams();
+    // const [previousDiaryName, setPreviousDiaryName] = useState("");
     const [title, setTitle] = useState("");
     const [date, setDate] = useState(new Date());
     const [folder, setFolder] = useState("");
@@ -24,40 +24,35 @@ const EditDiaryPage = () => {
     const [shouldRedirect, setShouldRedirect] = useState(false);
 
     useEffect(() => {
-        // console.log(email + ", " + diaryName + ", " + inFolder);
-        setFolder(inFolder);
-        setPreviousDiaryName(diaryName);
-        setShouldRedirect(false);
-        axios
-            .get(`/user/${email}/${inFolder}/${diaryName}`)
-            .then((res) => {
+        console.log(path.path);
+        // setFolder(inFolder);
+        // setPreviousDiaryName(diaryName);
+        // setShouldRedirect(false);
+        axios.get(`shareLink/${path.path}`)
+            .then(res => {
+                console.log(res);
                 res = res.data.diary;
                 res.title ? setTitle(res.title) : setTitle("");
                 res.date ? setDate(new Date(res.date)) : setDate(new Date());
                 setContent(res.content);
                 res.tag ? setTag(res.tag) : setTag([]);
-                res.tag ? setTagsString("#"+res.tag.join(" #")) : setTagsString("");
+                res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
                 res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
                 res.picURL ? setPicURL(res.picURL) : setPicURL([]);
                 res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
                 res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
                 res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
-                // console.log(res.tag)
             })
-            .catch((err) => {
-                console.log(err);
-            });
-        // setTagsString("#" + tag.join(" #"));
-        // console.log("str"+tagsString);
+            .catch(e => {
+                console.log(e);
+            })
     }, []);
 
     useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
-    return shouldRedirect ? (
-        <Navigate to={`/DiaryPage/${email}/${folder}/${title}`} />
-    ) : (
-        <Container maxWidth={"lg"}>
-            <div>
+    return (
+        <Container>
+            <div className="content">
                 <Grid
                     container
                     direction="row"
@@ -86,17 +81,14 @@ const EditDiaryPage = () => {
                     <Grid item xs={4}>
                         <p>{date.toDateString()}</p>
                     </Grid>
-                    <Grid item xs={2}>
-                        <p>folder: </p>
-                    </Grid>
                     <Grid item xs={4}>
                         <p>{folder}</p>
                     </Grid>
                 </Grid>
                 <Grid><p>Content:</p><br /></Grid>
-                <Grid>
+                <Grid xs={12}>
                     {/* {markdown} */}
-                    <div dangerouslySetInnerHTML={{__html:markdown}} />
+                    <div dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
                 <Grid
                     container
@@ -127,4 +119,4 @@ const EditDiaryPage = () => {
     );
 };
 
-export default EditDiaryPage;
+export default ShareDiaryPage;

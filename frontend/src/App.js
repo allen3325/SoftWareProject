@@ -9,12 +9,14 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import ActivatePage from "./components/ActivatePage/ActivatePage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
 import DNewDiaryPage from "./components/NewDiaryPage/dev_NewDiaryPage";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
 import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
 import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
+import ShareDiaryPage from "./components/ShareDiaryPage/ShareDiaryPage";
 import "./App.css"
 
 function App() {
@@ -96,6 +98,8 @@ function App() {
 
   // lightMode theme's parameter
   if (darkMode === false) {
+    let root = document.documentElement;
+    root.style.setProperty('--background-color', '#fff')
     theme = (createTheme({
       palette: {
         mode: "light",
@@ -114,13 +118,16 @@ function App() {
         toolbar: 0,
       },
     }))
+  } else {
+    let root = document.documentElement;
+    root.style.setProperty('--background-color', '#0c1929')
   }
 
 
   let isLogin = false;
   return (
     <ThemeProvider theme={theme}>
-      <Paper id='page' elevation={0}>
+      <Paper sx={{width:"100%"}} id='page' elevation={0}>
         <Header
           isLogin={isLogin}
           onChangeDarkMode={changeDarkMode}
@@ -133,11 +140,13 @@ function App() {
           <Route exact path="register" element={<RegisterPage />} />
           <Route exact path="activate" element={<ActivatePage />} />
           <Route exact path="forgotpassword" element={<ForgotPasswordPage />} />
+          <Route exact path="resetpassword" element={<ResetPasswordPage />} />
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
           <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
+          <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} />
           <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>
       </Paper>

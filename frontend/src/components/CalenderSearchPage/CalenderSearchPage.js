@@ -8,10 +8,9 @@ import { Grid } from '@material-ui/core';
 import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
-import Cards from '../Cards/Cards';
+import Card from '../Cards/Card';
 
 const CalenderSearchPage = () => {
-    //TODO: props and links not work.
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
@@ -32,21 +31,27 @@ const CalenderSearchPage = () => {
         axios.get('/date/allen3325940072@gmail.com?date=' + date)
             .then(response => {
                 setFetchDiaryAlready(true);
-                console.log(response.data.diaryArray.length);
-                if (response.data.diaryArray.length === 0) {
+                // console.log(response.data.folderArray.length);
+                if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
                 } else {
-                    console.log(response.data.diaryArray)
-                    response.data.diaryArray.map((folder) => {
-                        folder.map((diary) => tmp.push(diary))
+                    // console.log(response.data.folderArray)
+                    response.data.folderArray.map((folder) => {
+                        folder.diary.map(diarys => {
+                            // this is use Cards to render Card
+                            // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
+
+                            // this is directly render Card
+                            diarys.map(diary=>{
+                                tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
+                            })
+                        })
                     })
-                    console.log(tmp)
-                    setDiarys(<Cards items={tmp} />)
+                    setDiarys(tmp)
                 }
 
             })
             .catch(error => console.log(error));
-        // console.log(date);
     }
 
     return (
@@ -55,25 +60,22 @@ const CalenderSearchPage = () => {
                 height: "300rem"
             }}
         >
-            <div style={{
+            {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
-            }}>
+            }}> */}
                 {/* <h1></h1> */}
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start">
-                    <Grid item>
-
-                    </Grid>
-                    <Grid item sx={{padding:"3rem"}} xs={12}>
+                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
                         <p>choose one day</p>
                         <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                             <StaticDatePicker
-                                orientation="landscape"
+                                // orientation="landscape"
                                 openTo="day"
                                 value={value}
                                 onChange={(newValue) => {
@@ -86,12 +88,12 @@ const CalenderSearchPage = () => {
                             />
                         </LocalizationProvider>
                     </Grid>
-                    <Grid sx={{padding:"3rem"}} item xs={12}>
+                    <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
                         {/* <div id='content'></div> */}
                         {diarys}
                     </Grid>
                 </Grid>
-            </div>
+            {/* </div> */}
         </Paper>
     )
 }
