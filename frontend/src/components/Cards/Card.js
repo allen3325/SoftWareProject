@@ -25,8 +25,9 @@ export default function BasicCard(props) {
         tmp = tmp.replace('/file/d/', '/uc?id=');
         tmp = tmp.substring(0, tmp.search('/view'));
         tmp = tmp.replace('a/', '');
+        console.log(tmp);
         setURL(tmp);
-    }, [])
+    })
 
     const generateLink = () => {
         let folder = props.selectedFolder;
