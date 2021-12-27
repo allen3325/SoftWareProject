@@ -66,9 +66,9 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     axios
-      .delete(`/user/${email}/${folderName}`,{
-      folderName: newFolderName
-    })
+      .delete(`/user/${email}/${folderName}`, {
+        folderName: newFolderName
+      })
       .then((res) => {
         console.log(res.data);
         setReRender(true);
@@ -133,7 +133,7 @@ const FolderPage = (props) => {
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
-  const ignoreHandleFolderChange = (e) => {};
+  const ignoreHandleFolderChange = (e) => { };
 
   const handleAddFolder = () => {
     setFolderAdding(true);
@@ -164,8 +164,8 @@ const FolderPage = (props) => {
                   folderName={fold.folderName}
                   folderIdx={index}
                   onChangeFolder={ignoreHandleFolderChange}
-                    onDeleteFolder={onDelFolder}
-                    onRender={handleRender}
+                  onDeleteFolder={onDelFolder}
+                  onRender={handleRender}
                 />
               )}
               <Divider />

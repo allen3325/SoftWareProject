@@ -28,7 +28,7 @@ const ListItemWithWiderSecondaryAction = withStyles({
     paddingRight: 96
   }
 })(ListItem);
- 
+
 
 export default function FolderList(props) {
   const email = "allen3325940072@gmail.com";
@@ -40,7 +40,7 @@ export default function FolderList(props) {
     e.preventDefault();
     props.onChangeFolder(props.folderIdx);
   }
-  const deleteFolder = (e) => { 
+  const deleteFolder = (e) => {
     e.preventDefault();
     props.onDeleteFolder(props.folderName);
   }
@@ -72,48 +72,48 @@ export default function FolderList(props) {
   return (
     editingFolder ? (
       <ListItem
-            secondaryAction={
-              <IconButton edge="end" onClick={postEditFolder}> 
-                <AddCircleOutlineIcon />
-              </IconButton>
-            }
-          >
-            <ListItemText
-              primary={
-                <TextField
-                  onChange={handleEditFolderName}
-                  value={editingFolderName}
-                  size="small"
-                />
-              }
+        secondaryAction={
+          <IconButton edge="end" onClick={postEditFolder}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+        }
+      >
+        <ListItemText
+          primary={
+            <TextField
+              onChange={handleEditFolderName}
+              value={editingFolderName}
+              size="small"
             />
-          </ListItem >
-    ):(
-    <ListItem 
-      className={classes.root}
-      key={props.folderIdx}
-      onClick={handleFolderChange}
-      secondaryAction={
-        <IconButton edge="end" onClick={deleteFolder}>
-          <CloseIcon/>
-        </IconButton>
-      }
-      disablePadding
-    >
-      <ListItemButton>
-      <ListItemText primary={props.folderName} />
-      </ListItemButton>
+          }
+        />
+      </ListItem >
+    ) : (
+      <ListItem
+        className={classes.root}
+        key={props.folderIdx}
+        onClick={handleFolderChange}
+        secondaryAction={
+          <IconButton edge="end" onClick={deleteFolder}>
+            <CloseIcon />
+          </IconButton>
+        }
+        disablePadding
+      >
+        <ListItemButton>
+          <ListItemText primary={props.folderName} />
+        </ListItemButton>
 
-      <ListItemSecondaryAction>
-                <IconButton aria-label="edit" onClick={editFolder}>
-                  <CreateIcon />
-                </IconButton>
-                <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
+        <ListItemSecondaryAction>
+          <IconButton aria-label="edit" onClick={editFolder}>
+            <CreateIcon />
+          </IconButton>
+          <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
 
-    </ListItem >
+      </ListItem >
     )
   );
 }
