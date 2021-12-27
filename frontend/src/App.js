@@ -127,7 +127,7 @@ function App() {
   let isLogin = false;
   return (
     <ThemeProvider theme={theme}>
-      <Paper sx={{width:"100%"}} id='page' elevation={0}>
+      <Paper sx={{width:"100%",height:"100%"}} id='page' elevation={0}>
         <Header
           isLogin={isLogin}
           onChangeDarkMode={changeDarkMode}

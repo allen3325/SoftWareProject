@@ -71,7 +71,7 @@ const CalenderSearchPage = () => {
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start">
-                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
+                    <Grid item  xs={12} md={5}>
                         <p>choose one day</p>
                         <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                             <StaticDatePicker
