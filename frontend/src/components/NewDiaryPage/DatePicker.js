@@ -15,7 +15,7 @@ const DatePicker = (props) => {
     useEffect(() => { 
         if(props.date) {
             setValue(props.date);
-            console.log("in DatePicker"+props.date);
+            // console.log("in DatePicker"+props.date);
         }
     }, [props.date]);
     return (

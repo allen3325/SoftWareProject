@@ -68,6 +68,7 @@ const Header = (props) => {
                   <ModeSwitch
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
+
                 </Grid>
                 <Grid item>
                   <LogInOrOutButton isLogin={props.isLogin} />

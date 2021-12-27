@@ -15,16 +15,16 @@ const FolderChoose = (props) => {
     }
 
     useEffect(() => {
-        console.log('porps.email', props.email);
+        // console.log('porps.email', props.email);
         if(props.email)
             fetchFolder();
     }, [props.email]);
     useEffect(() => {console.log('porps.upper', props.upper);}, [props.upper]);
     useEffect(() => { 
-        console.log("props.folder:"+props.folder);
+        // console.log("props.folder:"+props.folder);
         if (props.folder) {
             setFolder(props.folder);
-            console.log("in Folderchoose " + props.folder);
+            // console.log("in Folderchoose " + props.folder);
         }
         else setFolder("");
     },[props.folder]);

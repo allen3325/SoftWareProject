@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 
 
 export default function BasicCard(props) {
+    // console.log(props)
     const email = "allen3325940072@gmail.com";
     const [url, setURL] = useState("");
     let tmp = "a/";
