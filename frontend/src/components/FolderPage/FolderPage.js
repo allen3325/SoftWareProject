@@ -14,12 +14,17 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
+
+
+
+
 const FolderPage = (props) => {
   const email = "allen3325940072@gmail.com";
   const [folder, setFolder] = useState([]);
   const [hasUpper, setHasUpper] = useState(0);
   const [folderAdding, setFolderAdding] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
+  const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
   const [newFolderFail, setNewFolderFail] = useState(false);
   const [newFolderSuccess, setNewFolderSuccess] = useState(false);
@@ -29,6 +34,8 @@ const FolderPage = (props) => {
     setFolderAdding(false);
     setReRender(false);
   }, []);
+
+
   function postAddFolder() {
     if (
       newFolderName === "" ||
@@ -59,7 +66,9 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     axios
-      .delete(`/user/${email}/${folderName}`)
+      .delete(`/user/${email}/${folderName}`,{
+      folderName: newFolderName
+    })
       .then((res) => {
         console.log(res.data);
         setReRender(true);
@@ -70,6 +79,8 @@ const FolderPage = (props) => {
         setDelFolderFail(true);
       });
   }
+
+
 
   useEffect(() => {
     // console.log(folderAdding);
@@ -130,6 +141,10 @@ const FolderPage = (props) => {
   const handleNewFolderName = (e) => {
     setNewFolderName(e.target.value);
   };
+
+  const handleRender = () => {
+    setReRender(true);
+  };
   return (
     <>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -142,13 +157,15 @@ const FolderPage = (props) => {
                   folderIdx={index}
                   onChangeFolder={handleFolderChange}
                   onDeleteFolder={onDelFolder}
+                  onRender={handleRender}
                 />
               ) : (
                 <FolderList
                   folderName={fold.folderName}
                   folderIdx={index}
                   onChangeFolder={ignoreHandleFolderChange}
-                  onDeleteFolder={onDelFolder}
+                    onDeleteFolder={onDelFolder}
+                    onRender={handleRender}
                 />
               )}
               <Divider />
