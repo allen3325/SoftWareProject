@@ -41,6 +41,7 @@ const Header = (props) => {
       <ElevationScroll {...props}>
         <AppBar sx={{
           bgcolor: (theme) => theme.palette.primary.main,
+          width: "100%"
         }} color="primary" position="sticky">
           <Toolbar>
             <Grid
@@ -49,13 +50,13 @@ const Header = (props) => {
               justifyContent="space-around"
               alignItems="flex-start"
             >
-              <Grid item >
-                <MDlogo></MDlogo>
+              <Grid item xs={5} sm={3} md={2}>
+                <MDlogo ></MDlogo>
               </Grid>
-              <Grid item xs={2} sm={3} md={6}>
+              <Grid item xs={7} sm={4} md={8}>
                 <SearchForm></SearchForm>
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4} md={2}>
                 <Grid item>
                   <IconButton
                     onClick={() => {
@@ -68,11 +69,12 @@ const Header = (props) => {
                   <ModeSwitch
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
+                  <Grid item>
+                    <LogInOrOutButton isLogin={props.isLogin} />
+                  </Grid>
 
                 </Grid>
-                <Grid item>
-                  <LogInOrOutButton isLogin={props.isLogin} />
-                </Grid>
+
               </Grid>
             </Grid>
           </Toolbar>

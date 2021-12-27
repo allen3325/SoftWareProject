@@ -60,25 +60,22 @@ const CalenderSearchPage = () => {
                 height: "300rem"
             }}
         >
-            <div style={{
+            {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
-            }}>
+            }}> */}
                 {/* <h1></h1> */}
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start">
-                    <Grid item>
-
-                    </Grid>
-                    <Grid item sx={{ padding: "3rem" }} xs={12}>
+                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
                         <p>choose one day</p>
                         <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                             <StaticDatePicker
-                                orientation="landscape"
+                                // orientation="landscape"
                                 openTo="day"
                                 value={value}
                                 onChange={(newValue) => {
@@ -91,12 +88,12 @@ const CalenderSearchPage = () => {
                             />
                         </LocalizationProvider>
                     </Grid>
-                    <Grid sx={{ padding: "3rem" }} item xs={12}>
+                    <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
                         {/* <div id='content'></div> */}
                         {diarys}
                     </Grid>
                 </Grid>
-            </div>
+            {/* </div> */}
         </Paper>
     )
 }
