@@ -21,15 +21,21 @@ const SearchDiaryPage = () => {
         axios.get(`/search/${email}?condition=title&search_query=${searchKeyWord.keyWord}`)
             .then(res => {
                 console.log(res.data);
-                if (res.data.folderArray[0].length !== 0) {
-                    res.data.folderArray[0].diary[0].map((diary) => {
-                        // console.log(diary);
-                        tmp.push(<SearchCard key={diary._id} inFolder={res.data.folderArray[0].folderName} items={diary} />);
+                if (res.data.folderArray.length > 0) {
+                    res.data.folderArray.forEach(element => {
+                        console.log(element);
+                        if (element.length !== 0) {
+                            element.diary[0].forEach((diary) => {
+                                // console.log(diary);
+                                tmp.push(<SearchCard key={diary._id} inFolder={element.folderName} items={diary} />);
+                            });
+                            setRender(true);
+                        } else {
+                            setRender(false);
+                        }
                     });
+                    
                     setDiarys(tmp);
-                    setRender(true);
-                } else {
-                    setRender(false);
                 }
             })
             .catch(e => console.log(e))
