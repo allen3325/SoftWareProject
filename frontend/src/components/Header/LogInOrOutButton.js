@@ -33,6 +33,7 @@ const LogInOrOutButton = () => {
         console.log(cookieParser.getCookieByName('token'));
       return (
             <Button
+                className="ch"
                 variant="contained"
                 // onClick={() => {
                 //     console.log(props.isLogin);
