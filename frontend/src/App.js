@@ -114,17 +114,17 @@ function App() {
           <Route exact path="/" element={<HomePage />} />
           {/* <Route exact path="about" element={<AboutPage />} /> */}
           <Route exact path="about" element={<FolderPage />} />
-          <Route exact path="login" element={<LoginPage />} />
-          <Route exact path="register" element={<RegisterPage />} />
-          <Route exact path="activate" element={<ActivatePage />} />
-          <Route exact path="forgotpassword" element={<ForgotPasswordPage />} />
+          <Route exact path="login" element={<LoginPage />} /> {/* 注意此頁不用登入 */}
+          <Route exact path="register" element={<RegisterPage />} /> {/* 注意此頁不用登入 */}
+          <Route exact path="activate" element={<ActivatePage />} /> {/* 注意此頁不用登入 */}
+          <Route exact path="forgotpassword" element={<ForgotPasswordPage />} /> {/* 注意此頁不用登入 */}
           <Route exact path="resetpassword" element={<ResetPasswordPage />} />
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
           <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
-          <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} />
+          <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} /> {/* 注意此頁不用登入 */}
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
           <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>
