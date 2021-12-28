@@ -9,6 +9,8 @@ import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
@@ -17,7 +19,7 @@ const CalenderSearchPage = () => {
     let tmp = [];
     useEffect(() => {
         setFetchDiaryAlready(false);
-        fetchDiary()
+        fetchDiary();
     }, [value]);
 
     const fetchDiary = () => {
@@ -30,7 +32,7 @@ const CalenderSearchPage = () => {
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
         axios.get('/date/allen3325940072@gmail.com?date=' + date)
             .then(response => {
-                setFetchDiaryAlready(true);
+                setFetchDiaryAlready(true)
                 // console.log(response.data.folderArray.length);
                 if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
@@ -42,7 +44,7 @@ const CalenderSearchPage = () => {
                             // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
 
                             // this is directly render Card
-                            diarys.map(diary=>{
+                            diarys.map(diary => {
                                 tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
                             })
                         })
@@ -55,44 +57,41 @@ const CalenderSearchPage = () => {
     }
 
     return (
-        <Paper
-            sx={{
-                height: "300rem"
-            }}
-        >
+        <Paper>
             {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
             }}> */}
-                {/* <h1></h1> */}
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="flex-start">
-                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
-                        <p>choose one day</p>
-                        <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
-                            <StaticDatePicker
-                                // orientation="landscape"
-                                openTo="day"
-                                value={value}
-                                onChange={(newValue) => {
-                                    setValue(newValue);
-                                }}
-                                // onChange={selectedDate}
-                                toolbarTitle=''
-                                loading={!fetchDiaryAlready}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-                    <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
-                        {/* <div id='content'></div> */}
-                        {diarys}
-                    </Grid>
+            {/* <h1></h1> */}
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start">
+                <Grid item xs={12} md={5}>
+                    <p>choose one day</p>
+                    <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
+                        <StaticDatePicker
+                            // orientation="landscape"
+                            allowSameDateSelection={true}
+                            openTo="day"
+                            value={value}
+                            onChange={(newValue) => {
+                                setValue(newValue);
+                            }}
+                            // onChange={selectedDate}
+                            toolbarTitle=''
+                            loading={!fetchDiaryAlready}
+                        // renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
                 </Grid>
+                <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
+                    {/* <div id='content'></div> */}
+                    {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
+                </Grid>
+            </Grid>
             {/* </div> */}
         </Paper>
     )

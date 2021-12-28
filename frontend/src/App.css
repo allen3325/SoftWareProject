@@ -29,6 +29,9 @@ h1 {
 .logo {
   font-size: 2.5rem;
 }
+#calender{
+  height: 10px;
+}
 /* .MuiButton-root.ch {
   color: white;
   font-family: "Gochi Hand", Courier, monospace;

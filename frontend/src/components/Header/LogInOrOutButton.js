@@ -9,6 +9,7 @@ const LogInOrOutButton = (props) => {
                     console.log(props.isLogin);
                 }}
                 href="/logout"
+                size="small"
             >
                 登出
             </Button>
@@ -23,6 +24,7 @@ const LogInOrOutButton = (props) => {
                     console.log(props.isLogin);
                 }}
                 href="/login"
+                size="small"
             >
                 登入
             </Button>
