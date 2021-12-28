@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import SmallHeader from "./SmallHeader";
 import LogInOrOutButton from "./LogInOrOutButton";
+import { Button } from "@mui/material";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -36,6 +37,10 @@ const Header = (props) => {
     console.log("In Header is " + darkMode);
   }
 
+  const showSearchResult = (enteredKeyWord) => {
+    props.onShowSearchResult(enteredKeyWord);
+  }
+
   return (
     <React.Fragment>
       <ElevationScroll {...props}>
@@ -48,13 +53,14 @@ const Header = (props) => {
               container
               direction="row"
               justifyContent="space-around"
-              alignItems="flex-start"
+              alignItems="center"
             >
               <Grid item xs={5} sm={3} md={2}>
                 <MDlogo ></MDlogo>
               </Grid>
               <Grid item xs={7} sm={4} md={8}>
-                <SearchForm></SearchForm>
+                <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
+                {/* <SearchForm ></SearchForm> */}
               </Grid>
               <Grid item xs={12} sm={4} md={2}>
                 <Grid item>
@@ -69,8 +75,12 @@ const Header = (props) => {
                   <ModeSwitch
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
-                  <Grid item>
+                  <Grid item xs={12}>
                     <LogInOrOutButton isLogin={props.isLogin} />
+                    {/* <Button
+                      variant="contained"
+                      href="/calenderSearch"
+                      size="small">Calender</Button> */}
                   </Grid>
 
                 </Grid>
