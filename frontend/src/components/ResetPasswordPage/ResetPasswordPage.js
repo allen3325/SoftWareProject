@@ -10,8 +10,22 @@ import { Paper } from '@mui/material';
 import axios from "../axios/axios";
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
-
+import CookieParser from '../CookieParser/CookieParser';
+import { useEffect } from 'react';
 const ResetPasswordPage = () => {
+  const cookieParser = new CookieParser(document.cookie);
+  useEffect(() => {
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";

@@ -12,6 +12,8 @@ import { ListItemText } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import CookieParser from "../CookieParser/CookieParser";
+import { CookiesProvider } from "react-cookie";
 const FolderPage = (props) => {
   const email = "allen3325940072@gmail.com";
   const [folder, setFolder] = useState([]);
@@ -19,11 +21,26 @@ const FolderPage = (props) => {
   const [folderAdding, setFolderAdding] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
+  const cookieParser = new CookieParser(document.cookie);
+  useEffect(() => {
+  
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
   useEffect(() => { setFolderAdding(false); setReRender(false); }, []);
   function postAddFolder() {
     if (newFolderName === "" || newFolderName === undefined || newFolderName === null || newFolderName.trim() === " ") return;
     axios
-      .post(`/user/${email}/folder`, {
+      .post("/user/"+cookieParser.getCookieByName('email')+"/folder", {
         folderName: newFolderName,
       })
       .then((res) => {
@@ -40,7 +57,7 @@ const FolderPage = (props) => {
   function onDelFolder(folderName) {
     if(folderName === "" || folderName === undefined || folderName===null || folderName.trim()==="") return;
     axios
-      .delete(`/user/${email}/${folderName}`)
+      .delete("/user/"+cookieParser.getCookieByName('email')+"/${folderName}")
       .then((res) => {
         // console.log(res.data);
         setReRender(true);
@@ -59,7 +76,7 @@ const FolderPage = (props) => {
       setHasUpper(false);
     }
     axios
-        .get(`/user/${email}/folder`)
+        .get("/user/"+cookieParser.getCookieByName('email')+"/folder")
         .then((res) => {
           // console.log(res.data);
           setFolder(res.data);

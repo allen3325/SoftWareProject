@@ -8,12 +8,14 @@ import Typography from '@mui/material/Typography';
 import axios from "../axios/axios";
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
+import CookieParser from '../CookieParser/CookieParser';
+
 
 export default function ActivatePage() {
-  const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
-  let email = "";
+  const [openFail, setOpenFail] = React.useState(false);
   let code = "";
+  const cookieParser = new CookieParser(document.cookie);
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -22,19 +24,26 @@ export default function ActivatePage() {
   //     activate_code: data.get('activate_code'),
   //   });
   // };
-  const handleEmailChange = (event) => {
-    email = (event.target.value);
-    console.log(email);
-  }
   const handleCodeChange = (event) => {
     code = (event.target.value);
     console.log(code);
   }
   const axverify = () => {
-    console.log(email);
+    
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
     console.log(code);
     axios.post("/verify", {
-      "email": email,
+      "email": cookieParser.getCookieByName('email'),
       "code": code
     })
       .then((res) => {
@@ -47,17 +56,10 @@ export default function ActivatePage() {
       })
   }
   const resend = () => {
-    if (email != "") {
-      axios.post("/resendCode", { email: email })
+      axios.post("/resendCode", { "email": cookieParser.getCookieByName('email') })
         .then((response) => {
           console.log(response);
-          setOpenSuccess(true);
-        })
-
-        .catch(error => console.log(error.response.status))
-    } else {
-      setOpenFail(true);
-    }
+        }).catch(error => console.log(error.response.status))
   }
   const handleCloseFail = (event, reason) => {
     if (reason === 'clickaway') {
@@ -84,24 +86,11 @@ export default function ActivatePage() {
             alignItems: 'center',
           }}
         >
-
           <Typography component="h1" variant="h5">
             Verification
           </Typography>
           {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}> */}
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="email"
-                name="email"
-                autoComplete="email"
-                onChange={handleEmailChange}
-              >
-              </TextField>
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required

@@ -9,12 +9,27 @@ import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
-
+import CookieParser from '../CookieParser/CookieParser';
 const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
     let tmp = [];
+    useEffect(() => {
+   let cookieParser = new CookieParser(document.cookie);
+
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
     useEffect(() => {
         setFetchDiaryAlready(false);
         fetchDiary()
