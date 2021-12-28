@@ -5,6 +5,7 @@ import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 import "../BrowseDiaryPage/DiaryPage.css";
+import { Divider } from "@mui/material";
 
 const ShareDiaryPage = () => {
     let path = useParams();
@@ -67,7 +68,9 @@ const ShareDiaryPage = () => {
                         <p>{title}</p>
                     </Grid>
                 </Grid>
-
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid
                     container
                     direction="row"
@@ -85,11 +88,17 @@ const ShareDiaryPage = () => {
                         <p>{folder}</p>
                     </Grid>
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid><p>Content:</p><br /></Grid>
                 <Grid xs={12}>
                     {/* {markdown} */}
                     <div dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid
                     container
                     direction="row"
