@@ -7,6 +7,7 @@ import "./HomePage.css"
 import axios from "../axios/axios"
 import CookieParser from "../CookieParser/CookieParser";
 
+
 function HomePage(props) {
   const email = "allen3325940072@gmail.com";
 
@@ -54,11 +55,11 @@ function HomePage(props) {
           justifyContent="space-around"
           alignItems="flex-start"
         >
-          <Grid item xs={4} sm={3} md={2}>
+          <Grid item xs={2} sm={3} md={2}>
             <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
-          <Grid item xs={8} sm={9} md={8}>
-            {folder && folder.length > 0 && selectedFolder !== -1 && selectedFolder<folder.length? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p>No folder</p>}
+          <Grid item xs={10} sm={9} md={8}>
+            {folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p>No folder</p>}
           </Grid>
           <Grid item xs={0} sm={0} md={2}></Grid>
         </Grid>

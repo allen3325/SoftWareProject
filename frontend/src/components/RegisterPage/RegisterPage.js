@@ -13,7 +13,6 @@ import { Snackbar } from '@mui/material';
 import { Navigate } from "react-router-dom";
 import { Container } from '@mui/material';
 import CookieParser from '../CookieParser/CookieParser';
-
 const RegisterPage = () => {
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
@@ -21,6 +20,8 @@ const RegisterPage = () => {
   let email = "";
   let password = "";
   let checkpassword = "";
+  let cookieParser = new CookieParser(document.cookie);
+
   const handleEmailChange = (event) => {
     email = (event.target.value);
     console.log(email);
@@ -35,7 +36,7 @@ const RegisterPage = () => {
   }
   const signup = (event) => {
     // console.log("email " + email);
-    // console.log("password " + password);
+    // console.log("password " password);
     if (password != checkpassword) {
       setOpenFail(true);
       return;
@@ -45,9 +46,8 @@ const RegisterPage = () => {
       password: password
     })
       .then((response) => {
-        document.cookie  ="email=" +email;
-        let cookieParser = new CookieParser(document.cookie);  
-        console.log(response)
+        // console.log(response)
+        document.cookie = "email=" +email;
         setOpenSuccess(true);
       })
       .then(() => {

@@ -15,9 +15,8 @@ const CalenderSearchPage = () => {
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
     let tmp = [];
+    const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-   let cookieParser = new CookieParser(document.cookie);
-
     if(cookieParser.getCookieByName('token')=="undefined"){
       console.log("fail");
     }
@@ -43,10 +42,11 @@ const CalenderSearchPage = () => {
             day = value.getDate().toString();
         }
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
-        axios.get('/date/allen3325940072@gmail.com?date=' + date)
+        axios.get("/date/"+ cookieParser.getCookieByName('email')+"?date=" + date)
             .then(response => {
                 setFetchDiaryAlready(true);
                 // console.log(response.data.folderArray.length);
+                
                 if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
                 } else {
