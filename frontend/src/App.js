@@ -126,12 +126,8 @@ function App() {
           <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} />
-<<<<<<< HEAD
-          <Route exact path="test" element={< EnhancedTable/>} />
-=======
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
-          <Route exact path="test" element={<DNewDiaryPage />} />
->>>>>>> 9aad4c73a0487cefe636bceeee21520d32b86378
+          <Route exact path="test" element={< EnhancedTable/>} />
         </Routes>
         {redirect?<Navigate to={`SearchDiaryPage/${keyWord}`} />:""}
         {/* {window.location.pathname === '/newDiary' ? "" : <Fab color="primary" sx={{

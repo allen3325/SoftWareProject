@@ -20,9 +20,11 @@ const SearchDiaryPage = () => {
     const search = () => {
         axios.get(`/search/${email}?condition=title&search_query=${searchKeyWord.keyWord}`)
             .then(res => {
-                if (res.data.diaryArray.length !== 0) {
-                    res.data.diaryArray.map((diary) => {
-                        tmp.push(<SearchCard key={diary[0]._id} items={diary} />);
+                console.log(res.data);
+                if (res.data.folderArray[0].length !== 0) {
+                    res.data.folderArray[0].diary[0].map((diary) => {
+                        // console.log(diary);
+                        tmp.push(<SearchCard key={diary._id} inFolder={res.data.folderArray[0].folderName} items={diary} />);
                     });
                     setDiarys(tmp);
                     setRender(true);
@@ -32,6 +34,7 @@ const SearchDiaryPage = () => {
             })
             .catch(e => console.log(e))
         // console.log(searchKeyWord.keyWord);
+        
     }
     // console.log(render)
     return (

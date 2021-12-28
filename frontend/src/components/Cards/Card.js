@@ -30,25 +30,25 @@ export default function BasicCard(props) {
     })
 
     const generateLink = () => {
-        let folder = props.selectedFolder;
+        let folder = props.folderName;
         let title = props.items.title;
         console.log("folder is " + folder + ". title is " + title);
         // localhost/shareLink/:email/:folderName/:title
-        axios.get(`shareLink/${email}/${folder}/${title}`)
-            .then((res) => {
-                let path = "localhost:3000";
-                path += "/ShareDiaryPage/" + res.data.encryptedPath;
-                console.log(path);
-                navigator.clipboard.writeText(path).then(() => {
-                    console.log("clipboard successfully set")
-                    a = "clipboard successfully set";
-                }, () => {
-                    console.log("clipboard write failed")
-                });
-            })
-            .catch(e => {
-                console.log(e);
-            })
+        // axios.get(`shareLink/${email}/${folder}/${title}`)
+        //     .then((res) => {
+        //         let path = "localhost:3000";
+        //         path += "/ShareDiaryPage/" + res.data.encryptedPath;
+        //         console.log(path);
+        //         navigator.clipboard.writeText(path).then(() => {
+        //             console.log("clipboard successfully set")
+        //             a = "clipboard successfully set";
+        //         }, () => {
+        //             console.log("clipboard write failed")
+        //         });
+        //     })
+        //     .catch(e => {
+        //         console.log(e);
+        //     })
     }
 
     return (
