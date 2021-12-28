@@ -11,12 +11,13 @@ import ActivatePage from "./components/ActivatePage/ActivatePage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./components/ResetPasswordPage/ResetPasswordPage";
 import NewDiaryPage from "./components/NewDiaryPage/NewDiaryPage";
-import DNewDiaryPage from "./components/NewDiaryPage/dev_NewDiaryPage";
+import UserListDataGrid from "./components/AdminPage/UserIdListDataGrid";
 import CalenderSearchPage from "./components/CalenderSearchPage/CalenderSearchPage";
 import FolderPage from "./components/FolderPage/FolderPage";
 import DiaryPage from "./components/BrowseDiaryPage/DiaryPage";
 import EditDiaryPage from "./components/NewDiaryPage/EditDiaryPage";
 import ShareDiaryPage from "./components/ShareDiaryPage/ShareDiaryPage";
+import EnhancedTable from "./components/AdminPage/UserListDev";
 import "./App.css"
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
@@ -125,8 +126,9 @@ function App() {
           <Route exact path="DiaryPage/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} />
+          <Route exact path="test" element={< EnhancedTable/>} />
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
-          <Route exact path="test" element={<DNewDiaryPage />} />
+
         </Routes>
         {redirect?<Navigate to={`SearchDiaryPage/${keyWord}`} />:""}
         {/* {window.location.pathname === '/newDiary' ? "" : <Fab color="primary" sx={{
