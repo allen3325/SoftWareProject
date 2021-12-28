@@ -39,6 +39,8 @@ const LogInOrOutButton = () => {
                 //     console.log(props.isLogin);
                 // }}
                 href="/login"
+                size="small"
+
             >
                 登入
             </Button>
@@ -56,6 +58,7 @@ const LogInOrOutButton = () => {
                 //     console.log(props.isLogin);
                 // }}
                 href="/login"
+                size="small"
             >
                 登入
             </Button>

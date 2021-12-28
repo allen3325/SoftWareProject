@@ -15,6 +15,8 @@ import SmallHeader from "./SmallHeader";
 import LogInOrOutButton from "./LogInOrOutButton";
 import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
+import { Button } from "@mui/material";
+
 // to make some scorll effect
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -51,6 +53,10 @@ const Header = (props) => {
       }
     }
   },[])
+  const showSearchResult = (enteredKeyWord) => {
+    props.onShowSearchResult(enteredKeyWord);
+  }
+
   return (
     <React.Fragment>
       <ElevationScroll {...props}>
@@ -62,13 +68,14 @@ const Header = (props) => {
               container
               direction="row"
               justifyContent="space-around"
-              alignItems="flex-start"
+              alignItems="center"
             >
               <Grid item >
                 <MDlogo></MDlogo>
               </Grid>
-              <Grid item xs={2} sm={3} md={6}>
-                <SearchForm></SearchForm>
+              <Grid item xs={7} sm={4} md={8}>
+                <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
+                {/* <SearchForm ></SearchForm> */}
               </Grid>
               <Grid item>
                 <Grid item>
@@ -83,6 +90,14 @@ const Header = (props) => {
                   <ModeSwitch
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
+
+                  <Grid item xs={12}>
+                    <LogInOrOutButton isLogin={props.isLogin} />
+                    {/* <Button
+                      variant="contained"
+                      href="/calenderSearch"
+                      size="small">Calender</Button> */}
+                  </Grid>
 
                 </Grid>
                 <Grid item>

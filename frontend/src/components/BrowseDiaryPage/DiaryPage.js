@@ -6,6 +6,8 @@ import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 import "./DiaryPage.css";
 import CookieParser from "../CookieParser/CookieParser";
+import Divider from '@mui/material/Divider';
+
 const EditDiaryPage = () => {
     let {  inFolder, diaryName } = useParams();
     const [previousDiaryName, setPreviousDiaryName] = useState("");
@@ -54,7 +56,7 @@ const EditDiaryPage = () => {
                 res.date ? setDate(new Date(res.date)) : setDate(new Date());
                 setContent(res.content);
                 res.tag ? setTag(res.tag) : setTag([]);
-                res.tag ? setTagsString("#"+res.tag.join(" #")) : setTagsString("");
+                res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
                 res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
                 res.picURL ? setPicURL(res.picURL) : setPicURL([]);
                 res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
@@ -91,6 +93,9 @@ const EditDiaryPage = () => {
                         <p>{title}</p>
                     </Grid>
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
 
                 <Grid
                     container
@@ -112,11 +117,17 @@ const EditDiaryPage = () => {
                         <p>{folder}</p>
                     </Grid>
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid><p>Content:</p><br /></Grid>
                 <Grid>
                     {/* {markdown} */}
-                    <div dangerouslySetInnerHTML={{__html:markdown}} />
+                    <div dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid
                     container
                     direction="row"

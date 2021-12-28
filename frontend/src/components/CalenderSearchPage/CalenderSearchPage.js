@@ -11,6 +11,8 @@ import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
 import CookieParser from '../CookieParser/CookieParser';
 import { Navigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
@@ -38,7 +40,7 @@ const CalenderSearchPage = () => {
   },[]) 
     useEffect(() => {
         setFetchDiaryAlready(false);
-        fetchDiary()
+        fetchDiary();
     }, [value]);
 
     const fetchDiary = () => {
@@ -51,7 +53,7 @@ const CalenderSearchPage = () => {
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
         axios.get("/date/"+ cookieParser.getCookieByName('email')+"?date=" + date)
             .then(response => {
-                setFetchDiaryAlready(true);
+                setFetchDiaryAlready(true)
                 // console.log(response.data.folderArray.length);
                 
                 if (response.data.folderArray.length === 0) {
@@ -64,7 +66,7 @@ const CalenderSearchPage = () => {
                             // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
 
                             // this is directly render Card
-                            diarys.map(diary=>{
+                            diarys.map(diary => {
                                 tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
                             })
                         })
@@ -77,13 +79,8 @@ const CalenderSearchPage = () => {
     }
 
     return (
-        
-        <Paper
-            sx={{
-                height: "300rem"
-            }}
-        >
-            
+
+        <Paper>
             {/* <div style={{
                 display: 'block',
                 height: "100vh",
@@ -118,6 +115,7 @@ const CalenderSearchPage = () => {
                         {diarys}
                     </Grid>
                 </Grid>
+            </Grid>
             {/* </div> */}
         </Paper>
     )

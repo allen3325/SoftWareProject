@@ -119,7 +119,6 @@ const FolderPage = (props) => {
           console.log(err);
         });
   }, [props.folder, props.hasUpper ,reRender]);
-      
 
   const handleNewFolderFail = (event, reason) => {
     if (reason === 'clickaway') {
