@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
-
+import CookieParser from "../CookieParser/CookieParser";
 const DNewDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
   const [title, setTitle] = useState("");
@@ -26,11 +26,32 @@ const DNewDiaryPage = () => {
   const [markdown, setMarkdown] = useState("");
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+
   let email = "allen3325940072@gmail.com";
-  useEffect(() => {
-    email = "allen3325940072@gmail.com";
-    setShouldRedirect(false);
-  }, []);
+
+  // useEffect(() => {
+  //   email = "allen3325940072@gmail.com";
+  //   setShouldRedirect(false);
+  // }, []);
+  const cookieParser = new CookieParser(document.cookie);
+  
+    useEffect(() => {
+
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+          setRedirect(true);
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[])
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
@@ -101,6 +122,7 @@ const DNewDiaryPage = () => {
     <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
+      {redirect ?  <Navigate to ={"/login"} /> : ""}
       <Grid container>
         <Grid item xs={12}>
           <TextField
