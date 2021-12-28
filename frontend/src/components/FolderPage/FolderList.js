@@ -106,10 +106,10 @@ export default function FolderList(props) {
 
         <ListItemSecondaryAction>
           <IconButton aria-label="edit" onClick={editFolder}>
-            <CreateIcon />
+            <CreateIcon fontSize="small"/>
           </IconButton>
           <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
-            <DeleteIcon />
+            <DeleteIcon fontSize="small"/>
           </IconButton>
         </ListItemSecondaryAction>
 
