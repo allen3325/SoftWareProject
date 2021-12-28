@@ -46,7 +46,7 @@ function LoginPage() {
         // console.log(document.cookie);
         // console.log("success");
         // console.log(res);
-        <LogInOrOutButton/>
+        
         console.log("parse");
         console.log(cookieParser_token.getCookieByName('token'));
         

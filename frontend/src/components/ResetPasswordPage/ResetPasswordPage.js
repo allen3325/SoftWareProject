@@ -27,7 +27,6 @@ const ResetPasswordPage = () => {
           setRedirect(true);
       }else{
         console.log("success");
-        
       }
     }
   },[])
