@@ -6,23 +6,28 @@ import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css"
 import axios from "../axios/axios"
 import CookieParser from "../CookieParser/CookieParser";
-
+import { Navigate } from "react-router-dom";
+import React from "react";
 
 function HomePage(props) {
   const email = "allen3325940072@gmail.com";
 
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);
+  const [redirect, setRedirect] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
     if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
       console.log("fail");
+      setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
           console.log("fail");
+          setRedirect(true);
       }else{
         console.log("success");
+        
         axios
         .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
         .then((res) => {
@@ -48,6 +53,7 @@ function HomePage(props) {
 
   return (
     <div>
+      {redirect ?  <Navigate to ={"/login"} /> : ""}
       <Container>
         <Grid
           container

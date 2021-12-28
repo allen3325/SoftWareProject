@@ -10,25 +10,32 @@ import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
 import CookieParser from '../CookieParser/CookieParser';
+import { Navigate } from "react-router-dom";
+
 const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
+    const [redirect, setRedirect] = React.useState(false);
+
     let tmp = [];
     const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
     if(cookieParser.getCookieByName('token')=="undefined"){
       console.log("fail");
+      setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')=="undefined"){
           console.log("fail");
+          setRedirect(true);
           
       }else{
         console.log("success");
+        
       }
     }
-  },[])
+  },[]) 
     useEffect(() => {
         setFetchDiaryAlready(false);
         fetchDiary()
@@ -70,17 +77,20 @@ const CalenderSearchPage = () => {
     }
 
     return (
+        
         <Paper
             sx={{
                 height: "300rem"
             }}
         >
+            
             {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
             }}> */}
                 {/* <h1></h1> */}
+                {redirect ?  <Navigate to ={"/login"} /> : ""}
                 <Grid
                     container
                     direction="row"

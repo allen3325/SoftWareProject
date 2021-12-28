@@ -22,19 +22,22 @@ const EditDiaryPage = () => {
     const [markdown, setMarkdown] = useState("");
     const [data, setData] = useState(new FormData());
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [redirect, setRedirect] = React.useState(false);
     let cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
    
 
     if(cookieParser.getCookieByName('token')=="undefined"){
       console.log("fail");
+      setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')=="undefined"){
           console.log("fail");
-          
+          setRedirect(true);
       }else{
         console.log("success");
+        
       }
     }
   },[])
@@ -72,6 +75,7 @@ const EditDiaryPage = () => {
         <Navigate to={`/DiaryPage/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
     ) : (
         <Container maxWidth={"lg"}>
+            {redirect ?  <Navigate to ={"/login"} /> : ""}
             <div>
                 <Grid
                     container

@@ -26,6 +26,8 @@ const DNewDiaryPage = () => {
   const [markdown, setMarkdown] = useState("");
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+
   let email = "allen3325940072@gmail.com";
 
   // useEffect(() => {
@@ -38,13 +40,15 @@ const DNewDiaryPage = () => {
 
     if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
       console.log("fail");
+      setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
           console.log("fail");
-          
+          setRedirect(true);
       }else{
         console.log("success");
+        
       }
     }
   },[])
@@ -118,6 +122,7 @@ const DNewDiaryPage = () => {
     <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
+      {redirect ?  <Navigate to ={"/login"} /> : ""}
       <Grid container>
         <Grid item xs={12}>
           <TextField

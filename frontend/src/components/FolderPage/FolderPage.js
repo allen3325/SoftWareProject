@@ -16,6 +16,9 @@ import { CookiesProvider } from "react-cookie";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import React from "react";
+
 
 
 
@@ -28,18 +31,21 @@ const FolderPage = (props) => {
   const [newFolderName, setNewFolderName] = useState("");
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
+  const [redirect, setRedirect] = React.useState(false);
   const cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
   
     if(cookieParser.getCookieByName('token')=="undefined"){
       console.log("fail");
+      setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')=="undefined"){
           console.log("fail");
-          
+          setRedirect(true);
       }else{
         console.log("success");
+        
       }
     }
   },[])
@@ -159,7 +165,7 @@ const FolderPage = (props) => {
     setReRender(true);
   };
   return (
-    <>
+    <>{redirect ?  <Navigate to ={"/login"} /> : ""}
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {folder.map((fold, index) => {
           return (

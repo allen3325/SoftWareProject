@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Container, Paper } from '@mui/material';
+import { Container, Paper } from '@mui/material'; 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -9,11 +9,12 @@ import axios from "../axios/axios";
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
 import CookieParser from '../CookieParser/CookieParser';
-
+import { Navigate } from "react-router-dom";
 
 export default function ActivatePage() {
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [openFail, setOpenFail] = React.useState(false);
+  const [redirect, setRedirect] = React.useState(false);
   let code = "";
   const cookieParser = new CookieParser(document.cookie);
   // const handleSubmit = (event) => {
@@ -49,6 +50,7 @@ export default function ActivatePage() {
       .then((res) => {
         console.log(res)
         setOpenSuccess(true);
+        setRedirect(true);
       })
       .catch((error) => {
         console.log(error)
@@ -77,6 +79,7 @@ export default function ActivatePage() {
   return (
     <Container maxWidth={"sm"}>
       <Paper elevation={0} style={{ height: "100vh" }} >
+        {redirect ? <Navigate to={"/login"} /> : ""}
         {/* <p> MyDiary </p> */}
         <Box
           sx={{
