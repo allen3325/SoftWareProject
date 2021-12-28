@@ -5,23 +5,34 @@ import { Container, TextField } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css"
 import axios from "../axios/axios"
+import CookieParser from "../CookieParser/CookieParser";
 
 function HomePage(props) {
   const email = "allen3325940072@gmail.com";
 
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);
-
+  let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
-    axios
-      .get("/user/" + email + "/folder")
-      .then((res) => {
-        // console.log(res.data);
-        setFolder(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+      }else{
+        console.log("success");
+        axios
+        .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
+        .then((res) => {
+          // console.log(res.data);
+          setFolder(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
       });
+      }
+    }
   }, []);  ///get folder list in the beginning
 
   useEffect(() => {

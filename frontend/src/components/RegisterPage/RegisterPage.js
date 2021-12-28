@@ -12,6 +12,7 @@ import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
 import { Navigate } from "react-router-dom";
 import { Container } from '@mui/material';
+import CookieParser from '../CookieParser/CookieParser';
 
 const RegisterPage = () => {
   const [openFail, setOpenFail] = React.useState(false);
@@ -44,7 +45,9 @@ const RegisterPage = () => {
       password: password
     })
       .then((response) => {
-        // console.log(response)
+        document.cookie  ="email=" +email;
+        let cookieParser = new CookieParser(document.cookie);  
+        console.log(response)
         setOpenSuccess(true);
       })
       .then(() => {

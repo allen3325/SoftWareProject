@@ -124,12 +124,12 @@ function App() {
   }
 
 
-  let isLogin = false;
+  //let isLogin = false;
   return (
     <ThemeProvider theme={theme}>
       <Paper sx={{width:"100%"}} id='page' elevation={0}>
         <Header
-          isLogin={isLogin}
+          //isLogin={isLogin}
           onChangeDarkMode={changeDarkMode}
           propsDarkMode={darkMode}
         />
@@ -144,9 +144,14 @@ function App() {
           <Route exact path="newDiary" element={<NewDiaryPage />} />
           <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
           <Route exact path="folderPage" element={<FolderPage />} />
+<<<<<<< HEAD
+          <Route exact path="DiaryPage/:inFolder/:diaryName" element={<DiaryPage />} />
+          <Route path="editDiary/:inFolder/:diaryName" element={<EditDiaryPage />} />
+=======
           <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
           <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} />
+>>>>>>> cd6cdfa3ebcb1bd847497c15f5d57fab7155021b
           <Route exact path="test" element={<DNewDiaryPage />} />
         </Routes>
       </Paper>

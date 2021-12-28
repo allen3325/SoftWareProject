@@ -47,7 +47,7 @@ const FolderPage = (props) => {
       return;
     }
     axios
-      .post(`/user/${email}/folder`, {
+      .post("/user/"+cookieParser.getCookieByName('email')+"/folder", {
         folderName: newFolderName,
       })
       .then((res) => {

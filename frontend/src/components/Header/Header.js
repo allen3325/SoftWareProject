@@ -13,7 +13,8 @@ import {
 } from "@material-ui/core";
 import SmallHeader from "./SmallHeader";
 import LogInOrOutButton from "./LogInOrOutButton";
-
+import { useEffect } from "react";
+import CookieParser from "../CookieParser/CookieParser";
 // to make some scorll effect
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -35,7 +36,21 @@ const Header = (props) => {
     props.onChangeDarkMode(enteredDarkMode);
     console.log("In Header is " + darkMode);
   }
+  useEffect(() => {
+   let cookieParser = new CookieParser(document.cookie);
 
+    if((cookieParser.getCookieByName('token')=="undefined")|(cookieParser.getCookieByName('token')==null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
   return (
     <React.Fragment>
       <ElevationScroll {...props}>
@@ -74,7 +89,6 @@ const Header = (props) => {
                   </Grid>
 
                 </Grid>
-
               </Grid>
             </Grid>
           </Toolbar>

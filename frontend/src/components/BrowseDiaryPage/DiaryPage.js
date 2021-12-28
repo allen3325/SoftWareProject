@@ -5,9 +5,9 @@ import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 import "./DiaryPage.css";
-
+import CookieParser from "../CookieParser/CookieParser";
 const EditDiaryPage = () => {
-    let { email, inFolder, diaryName } = useParams();
+    let {  inFolder, diaryName } = useParams();
     const [previousDiaryName, setPreviousDiaryName] = useState("");
     const [title, setTitle] = useState("");
     const [date, setDate] = useState(new Date());
@@ -22,14 +22,29 @@ const EditDiaryPage = () => {
     const [markdown, setMarkdown] = useState("");
     const [data, setData] = useState(new FormData());
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    let cookieParser = new CookieParser(document.cookie);
+    useEffect(() => {
+   
 
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
     useEffect(() => {
         // console.log(email + ", " + diaryName + ", " + inFolder);
         setFolder(inFolder);
         setPreviousDiaryName(diaryName);
         setShouldRedirect(false);
         axios
-            .get(`/user/${email}/${inFolder}/${diaryName}`)
+            .get(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
             .then((res) => {
                 res = res.data.diary;
                 res.title ? setTitle(res.title) : setTitle("");
@@ -54,7 +69,7 @@ const EditDiaryPage = () => {
     useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
     return shouldRedirect ? (
-        <Navigate to={`/DiaryPage/${email}/${folder}/${title}`} />
+        <Navigate to={`/DiaryPage/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
     ) : (
         <Container maxWidth={"lg"}>
             <div>

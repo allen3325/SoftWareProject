@@ -10,11 +10,11 @@ import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
-
+import CookieParser from "../CookieParser/CookieParser";
 const EditDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
 
-  let { email, inFolder, diaryName } = useParams();
+  let { inFolder, diaryName } = useParams();
   const [previousDiaryName, setPreviousDiaryName] = useState("");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
@@ -29,31 +29,44 @@ const EditDiaryPage = () => {
   const [markdown, setMarkdown] = useState("");
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
-    // console.log(email + ", " + diaryName + ", " + inFolder);
-    setFolder(inFolder);
-    setPreviousDiaryName(diaryName);
-    setShouldRedirect(false);
-    axios
-      .get(`/user/${email}/${inFolder}/${diaryName}`)
-      .then((res) => {
-        res = res.data.diary;
-        res.title ? setTitle(res.title) : setTitle("");
-        res.date ? setDate(new Date(res.date)) : setDate(new Date());
-        setContent(res.content);
-        res.tag ? setTag(res.tag) : setTag([]);
-        res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
-        res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
-        res.picURL ? setPicURL(res.picURL) : setPicURL([]);
-        res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
-        res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
-        res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+        setFolder(inFolder);
+        setPreviousDiaryName(diaryName);
+        setShouldRedirect(false);
+        axios
+          .get(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
+          .then((res) => {
+            res = res.data.diary;
+            res.title ? setTitle(res.title) : setTitle("");
+            res.date ? setDate(new Date(res.date)) : setDate(new Date());
+            setContent(res.content);
+            res.tag ? setTag(res.tag) : setTag([]);
+            res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
+            res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
+            res.picURL ? setPicURL(res.picURL) : setPicURL([]);
+            res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
+            res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
+            res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
         // console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
+      }
+    }
+    // console.log(email + ", " + diaryName + ", " + inFolder);
+    
     // setTagsString("#" + tag.join(" #"));
     // console.log("str"+tagsString);
   }, []);
@@ -105,7 +118,7 @@ const EditDiaryPage = () => {
     // console.log(picURL);
 
     axios
-      .put(`/user/${email}/${folder}/${previousDiaryName}`, {
+      .put(`/user/${cookieParser.getCookieByName('email')}/${folder}/${previousDiaryName}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -125,7 +138,7 @@ const EditDiaryPage = () => {
 
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
+    <Navigate to={`/editDiary/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
       <Grid container>
@@ -159,7 +172,7 @@ const EditDiaryPage = () => {
               upper={"EditDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
-              email={email}
+              email={cookieParser.getCookieByName('email')}
             />
           </Grid>
         </Grid>
