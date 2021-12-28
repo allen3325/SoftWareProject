@@ -77,10 +77,10 @@ export default function BasicCard(props) {
                     <ShareIcon />
                 </IconButton>
                 <Button size="small">
-                    <Link to={`/DiaryPage/${email}/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>See More</p></Link>
+                    <Link to={`/DiaryPage/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>See More</p></Link>
                 </Button>
                 <Button size="small">
-                    <Link to={`/editDiary/${email}/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>Edit Diary</p></Link>
+                    <Link to={`/editDiary/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>Edit Diary</p></Link>
                 </Button>
                 {/* <Typography color="text.secondary">
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? props.items.tag.join("#") : ""}
