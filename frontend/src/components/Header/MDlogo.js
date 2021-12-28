@@ -10,11 +10,12 @@ function MDlogo() {
       'Gochi Hand'
     ],
     fontSize: 50
+    
   }));
 
   return (
     <ColorButton
-      size="small"
+      // size="small"
       variant="text"
       onClick={() => {
         console.log("index");
@@ -22,7 +23,7 @@ function MDlogo() {
       // LinkComponent={<Link component={Home} />
       href="/"
     >
-      MyDiary
+      <p className="logo">MyDiary</p>
     </ColorButton>
   );
 }

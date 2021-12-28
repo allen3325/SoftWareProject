@@ -1,13 +1,18 @@
 import { Button } from "@material-ui/core";
-import CookieParser from "../CookieParser/CookieParser";  
-import {useCookies} from 'react-cookie';
-import { useEffect } from "react";
-const LogInOrOutButton = () => {
-    const [cookies, removeEmail]=useCookies(["email"]);
-    const [token, removeToken] =useCookies(["token"]);
-    function handleRemoveCookie(){
-        removeEmail('email');
-        removeToken('token');
+const LogInOrOutButton = (props) => {
+    if (props.isLogin) {
+        return (
+            <Button
+                className="ch"
+                variant="contained"
+                onClick={() => {
+                    console.log(props.isLogin);
+                }}
+                href="/logout"
+            >
+                登出
+            </Button>
+        )
     }
     const cookieParser = new CookieParser(document.cookie);
   
@@ -33,6 +38,7 @@ const LogInOrOutButton = () => {
         console.log(cookieParser.getCookieByName('token'));
       return (
             <Button
+                className="ch"
                 variant="contained"
                 // onClick={() => {
                 //     console.log(props.isLogin);
