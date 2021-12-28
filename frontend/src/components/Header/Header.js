@@ -13,6 +13,9 @@ import {
 } from "@material-ui/core";
 import SmallHeader from "./SmallHeader";
 import LogInOrOutButton from "./LogInOrOutButton";
+import { useEffect } from "react";
+import CookieParser from "../CookieParser/CookieParser";
+import { Button } from "@mui/material";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -35,28 +38,46 @@ const Header = (props) => {
     props.onChangeDarkMode(enteredDarkMode);
     console.log("In Header is " + darkMode);
   }
+  useEffect(() => {
+   let cookieParser = new CookieParser(document.cookie);
+
+    if((cookieParser.getCookieByName('token')=="undefined")|(cookieParser.getCookieByName('token')==null)){
+      console.log("fail");
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          
+      }else{
+        console.log("success");
+      }
+    }
+  },[])
+  const showSearchResult = (enteredKeyWord) => {
+    props.onShowSearchResult(enteredKeyWord);
+  }
 
   return (
     <React.Fragment>
       <ElevationScroll {...props}>
         <AppBar sx={{
           bgcolor: (theme) => theme.palette.primary.main,
-          width: "100%"
         }} color="primary" position="sticky">
           <Toolbar>
             <Grid
               container
               direction="row"
               justifyContent="space-around"
-              alignItems="flex-start"
+              alignItems="center"
             >
-              <Grid item xs={5} sm={3} md={2}>
-                <MDlogo ></MDlogo>
+              <Grid item >
+                <MDlogo></MDlogo>
               </Grid>
               <Grid item xs={7} sm={4} md={8}>
-                <SearchForm></SearchForm>
+                <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
+                {/* <SearchForm ></SearchForm> */}
               </Grid>
-              <Grid item xs={12} sm={4} md={2}>
+              <Grid item>
                 <Grid item>
                   <IconButton
                     onClick={() => {
@@ -69,12 +90,19 @@ const Header = (props) => {
                   <ModeSwitch
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
-                  <Grid item>
+
+                  <Grid item xs={12}>
                     <LogInOrOutButton isLogin={props.isLogin} />
+                    {/* <Button
+                      variant="contained"
+                      href="/calenderSearch"
+                      size="small">Calender</Button> */}
                   </Grid>
 
                 </Grid>
-
+                <Grid item>
+                  <LogInOrOutButton  />
+                </Grid>
               </Grid>
             </Grid>
           </Toolbar>

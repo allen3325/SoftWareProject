@@ -5,9 +5,11 @@ import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 import "./DiaryPage.css";
+import CookieParser from "../CookieParser/CookieParser";
+import Divider from '@mui/material/Divider';
 
 const EditDiaryPage = () => {
-    let { email, inFolder, diaryName } = useParams();
+    let {  inFolder, diaryName } = useParams();
     const [previousDiaryName, setPreviousDiaryName] = useState("");
     const [title, setTitle] = useState("");
     const [date, setDate] = useState(new Date());
@@ -22,21 +24,39 @@ const EditDiaryPage = () => {
     const [markdown, setMarkdown] = useState("");
     const [data, setData] = useState(new FormData());
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [redirect, setRedirect] = React.useState(false);
+    let cookieParser = new CookieParser(document.cookie);
+    useEffect(() => {
+   
 
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          setRedirect(true);
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[])
     useEffect(() => {
         // console.log(email + ", " + diaryName + ", " + inFolder);
         setFolder(inFolder);
         setPreviousDiaryName(diaryName);
         setShouldRedirect(false);
         axios
-            .get(`/user/${email}/${inFolder}/${diaryName}`)
+            .get(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
             .then((res) => {
                 res = res.data.diary;
                 res.title ? setTitle(res.title) : setTitle("");
                 res.date ? setDate(new Date(res.date)) : setDate(new Date());
                 setContent(res.content);
                 res.tag ? setTag(res.tag) : setTag([]);
-                res.tag ? setTagsString("#"+res.tag.join(" #")) : setTagsString("");
+                res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
                 res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
                 res.picURL ? setPicURL(res.picURL) : setPicURL([]);
                 res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
@@ -54,9 +74,10 @@ const EditDiaryPage = () => {
     useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
     return shouldRedirect ? (
-        <Navigate to={`/DiaryPage/${email}/${folder}/${title}`} />
+        <Navigate to={`/DiaryPage/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
     ) : (
         <Container maxWidth={"lg"}>
+            {redirect ?  <Navigate to ={"/login"} /> : ""}
             <div>
                 <Grid
                     container
@@ -72,6 +93,9 @@ const EditDiaryPage = () => {
                         <p>{title}</p>
                     </Grid>
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
 
                 <Grid
                     container
@@ -93,11 +117,17 @@ const EditDiaryPage = () => {
                         <p>{folder}</p>
                     </Grid>
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid><p>Content:</p><br /></Grid>
                 <Grid>
                     {/* {markdown} */}
-                    <div dangerouslySetInnerHTML={{__html:markdown}} />
+                    <div dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
+                <Divider sx={{
+                    bgcolor: 'primary.main',
+                }} />
                 <Grid
                     container
                     direction="row"

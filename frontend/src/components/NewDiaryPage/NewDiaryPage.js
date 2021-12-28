@@ -9,7 +9,7 @@ import { ButtonGroup } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { Navigate } from "react-router-dom";
-
+import CookieParser from "../CookieParser/CookieParser";
 const NewDiaryPage = () => {
   //TODO: 修好若沒有換行日記，可能要幫他們自動補換行。
   //TODO: fileUpload's loading and more UX
@@ -26,12 +26,30 @@ const NewDiaryPage = () => {
   const [markdown, setMarkdown] = useState("");
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  let email = "allen3325940072@gmail.com";
+  const [redirect, setRedirect] = React.useState(false);
+  //let email = "allen3325940072@gmail.com";
+  const cookieParser = new CookieParser(document.cookie);
+  
+    useEffect(() => {
 
-  useEffect(() => {
-    email = "allen3325940072@gmail.com";
-    setShouldRedirect(false);
-  }, []);
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+          setRedirect(true);
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[])
+  // useEffect(() => {
+  //   email = "allen3325940072@gmail.com";
+  //   setShouldRedirect(false);
+  // }, []);
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
@@ -76,7 +94,7 @@ const NewDiaryPage = () => {
     // console.log("tags is " + tags[0]);
     // console.log(picUrl);
     axios
-      .post(`/user/${email}/${folder}`, {
+      .post(`/user/${cookieParser.getCookieByName('email')}/${folder}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -94,9 +112,10 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${email}/${folder}/${title}`} />
+    <Navigate to={`/editDiary/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
+      {redirect ?  <Navigate to ={"/login"} /> : ""}
       <Grid container>
         <Grid item xs={12}>
           <TextField
@@ -130,7 +149,7 @@ const NewDiaryPage = () => {
               upper={"NewDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
-              email={email}
+              email={cookieParser.getCookieByName('email')}
             />
           </Grid>
         </Grid>
@@ -149,10 +168,10 @@ const NewDiaryPage = () => {
           alignItems="flex-start"
           style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={2}>
-            <p style={{ fontSize: "2.5rem" }}>HashTags</p>
+          <Grid item xs={3} md={2}>
+            <p>HashTags</p>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={4} md={8}>
             <TextField
               fullWidth
               label="請以#隔開每個hashtag"
@@ -161,14 +180,14 @@ const NewDiaryPage = () => {
               onChange={handleTagsChange}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={5} md={2}>
             <ButtonGroup
               style={{ width: "100%" }}
               className="ButtonGroup"
               variant="text"
             >
               <UploadButton onUploadFile={uploadFile} />
-              <Button variant="contained" component="span" onClick={storeDiary}>
+              <Button variant="contained" size="medium" onClick={storeDiary}>
                 儲存日記
               </Button>
             </ButtonGroup>

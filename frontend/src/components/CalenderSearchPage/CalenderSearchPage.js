@@ -9,15 +9,38 @@ import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
+import CookieParser from '../CookieParser/CookieParser';
+import { Navigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
+    const [redirect, setRedirect] = React.useState(false);
+
     let tmp = [];
+    const cookieParser = new CookieParser(document.cookie);
+    useEffect(() => {
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          setRedirect(true);
+          
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[]) 
     useEffect(() => {
         setFetchDiaryAlready(false);
-        fetchDiary()
+        fetchDiary();
     }, [value]);
 
     const fetchDiary = () => {
@@ -28,10 +51,11 @@ const CalenderSearchPage = () => {
             day = value.getDate().toString();
         }
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
-        axios.get('/date/allen3325940072@gmail.com?date=' + date)
+        axios.get("/date/"+ cookieParser.getCookieByName('email')+"?date=" + date)
             .then(response => {
-                setFetchDiaryAlready(true);
+                setFetchDiaryAlready(true)
                 // console.log(response.data.folderArray.length);
+                
                 if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
                 } else {
@@ -42,7 +66,7 @@ const CalenderSearchPage = () => {
                             // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
 
                             // this is directly render Card
-                            diarys.map(diary=>{
+                            diarys.map(diary => {
                                 tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
                             })
                         })
@@ -55,17 +79,15 @@ const CalenderSearchPage = () => {
     }
 
     return (
-        <Paper
-            sx={{
-                height: "300rem"
-            }}
-        >
+
+        <Paper>
             {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
             }}> */}
                 {/* <h1></h1> */}
+                {redirect ?  <Navigate to ={"/login"} /> : ""}
                 <Grid
                     container
                     direction="row"
@@ -93,6 +115,7 @@ const CalenderSearchPage = () => {
                         {diarys}
                     </Grid>
                 </Grid>
+            </Grid>
             {/* </div> */}
         </Paper>
     )
