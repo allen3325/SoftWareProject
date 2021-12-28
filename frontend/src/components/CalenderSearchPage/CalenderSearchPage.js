@@ -83,7 +83,7 @@ const CalenderSearchPage = () => {
                             // onChange={selectedDate}
                             toolbarTitle=''
                             loading={!fetchDiaryAlready}
-                        // renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
                 </Grid>

@@ -59,13 +59,16 @@ function App() {
         mode: "light",
         primary: {
           main: "#37AEF2",
+          // main: "#ffb6c1",
           light: "#37AEF2",
           dark: "#1B92D1",
           contrastText: "#fff",
         },
         background: {
           paper: "#fff",
+          // paper: "#FAEBD7",
           default: "#fff",
+          // default: "#FAEBD7",
         },
       },
       mixins: {

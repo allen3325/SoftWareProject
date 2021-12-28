@@ -41,7 +41,7 @@ function LoginPage() {
         // console.log("success");
         // console.log(res);
         console.log("parse");
-        console.log(cookieParser.getCookieByName('token'));
+        // console.log(cookieParser.getCookieByName('token'));
         setOpenSuccess(true);
       })
       .then(()=>{
