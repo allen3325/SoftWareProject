@@ -9,6 +9,8 @@ import axios from '../axios/axios';
 import './CalenderSearchPage.css'
 import { Paper } from '@mui/material';
 import Card from '../Cards/Card';
+import CookieParser from '../CookieParser/CookieParser';
+import { Navigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -16,7 +18,26 @@ const CalenderSearchPage = () => {
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
+    const [redirect, setRedirect] = React.useState(false);
+
     let tmp = [];
+    const cookieParser = new CookieParser(document.cookie);
+    useEffect(() => {
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          setRedirect(true);
+          
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[]) 
     useEffect(() => {
         setFetchDiaryAlready(false);
         fetchDiary();
@@ -30,10 +51,11 @@ const CalenderSearchPage = () => {
             day = value.getDate().toString();
         }
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
-        axios.get('/date/allen3325940072@gmail.com?date=' + date)
+        axios.get("/date/"+ cookieParser.getCookieByName('email')+"?date=" + date)
             .then(response => {
                 setFetchDiaryAlready(true)
                 // console.log(response.data.folderArray.length);
+                
                 if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
                 } else {
@@ -57,39 +79,41 @@ const CalenderSearchPage = () => {
     }
 
     return (
+
         <Paper>
             {/* <div style={{
                 display: 'block',
                 height: "100vh",
                 textAlign: 'center',
             }}> */}
-            {/* <h1></h1> */}
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-around"
-                alignItems="flex-start">
-                <Grid item xs={12} md={5}>
-                    <p>choose one day</p>
-                    <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
-                        <StaticDatePicker
-                            // orientation="landscape"
-                            allowSameDateSelection={true}
-                            openTo="day"
-                            value={value}
-                            onChange={(newValue) => {
-                                setValue(newValue);
-                            }}
-                            // onChange={selectedDate}
-                            toolbarTitle=''
-                            loading={!fetchDiaryAlready}
-                        // renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
-                    {/* <div id='content'></div> */}
-                    {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
+                {/* <h1></h1> */}
+                {redirect ?  <Navigate to ={"/login"} /> : ""}
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start">
+                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
+                        <p>choose one day</p>
+                        <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
+                            <StaticDatePicker
+                                // orientation="landscape"
+                                openTo="day"
+                                value={value}
+                                onChange={(newValue) => {
+                                    setValue(newValue);
+                                }}
+                                // onChange={selectedDate}
+                                toolbarTitle=''
+                                loading={!fetchDiaryAlready}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
+                        {/* <div id='content'></div> */}
+                        {diarys}
+                    </Grid>
                 </Grid>
             </Grid>
             {/* </div> */}

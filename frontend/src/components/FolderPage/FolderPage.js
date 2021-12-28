@@ -10,10 +10,15 @@ import axios from "../axios/axios";
 import TextField from "@mui/material/TextField";
 import { ListItemText } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CookieParser from "../CookieParser/CookieParser";
+import { CookiesProvider } from "react-cookie";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
+import { Navigate } from "react-router-dom";
+import React from "react";
+
 
 
 
@@ -26,15 +31,29 @@ const FolderPage = (props) => {
   const [newFolderName, setNewFolderName] = useState("");
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+  const cookieParser = new CookieParser(document.cookie);
+  useEffect(() => {
+  
+    if(cookieParser.getCookieByName('token')=="undefined"){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')=="undefined"){
+          console.log("fail");
+          setRedirect(true);
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[])
+  useEffect(() => { setFolderAdding(false); setReRender(false); }, []);
   const [newFolderFail, setNewFolderFail] = useState(false);
   const [newFolderSuccess, setNewFolderSuccess] = useState(false);
   const [delFolderFail, setDelFolderFail] = useState(false);
   const [delFolderSuccess, setDelFolderSuccess] = useState(false);
-  useEffect(() => {
-    setFolderAdding(false);
-    setReRender(false);
-  }, []);
-
 
   function postAddFolder() {
     if (
@@ -47,7 +66,7 @@ const FolderPage = (props) => {
       return;
     }
     axios
-      .post(`/user/${email}/folder`, {
+      .post("/user/"+cookieParser.getCookieByName('email')+"/folder", {
         folderName: newFolderName,
       })
       .then((res) => {
@@ -66,7 +85,7 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     axios
-      .delete(`/user/${email}/${folderName}`, {
+      .delete("/user/"+cookieParser.getCookieByName('email')+"/${folderName}", {
         folderName: newFolderName
       })
       .then((res) => {
@@ -91,15 +110,15 @@ const FolderPage = (props) => {
       setHasUpper(false);
     }
     axios
-      .get(`/user/${email}/folder`)
-      .then((res) => {
-        // console.log(res.data);
-        setFolder(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.folder, props.hasUpper, reRender]);
+        .get("/user/"+cookieParser.getCookieByName('email')+"/folder")
+        .then((res) => {
+          // console.log(res.data);
+          setFolder(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [props.folder, props.hasUpper ,reRender]);
 
   const handleNewFolderFail = (event, reason) => {
     if (reason === 'clickaway') {
@@ -145,7 +164,7 @@ const FolderPage = (props) => {
     setReRender(true);
   };
   return (
-    <>
+    <>{redirect ?  <Navigate to ={"/login"} /> : ""}
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {folder.map((fold, index) => {
           return (
