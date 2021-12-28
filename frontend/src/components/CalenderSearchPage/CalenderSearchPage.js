@@ -81,34 +81,32 @@ const CalenderSearchPage = () => {
     return (
 
         <Paper>
-                {/* <h1></h1> */}
-                {redirect ?  <Navigate to ={"/login"} /> : ""}
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="flex-start">
-                    <Grid item sx={{ padding: "3rem" }} xs={12} md={5}>
-                        <p>choose one day</p>
-                        <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
-                            <StaticDatePicker
-                                // orientation="landscape"
-                                openTo="day"
-                                value={value}
-                                onChange={(newValue) => {
-                                    setValue(newValue);
-                                }}
-                                // onChange={selectedDate}
-                                toolbarTitle=''
-                                loading={!fetchDiaryAlready}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-                    <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
-                        {/* <div id='content'></div> */}
-                        {diarys}
-                    </Grid>
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start">
+                <Grid item xs={12} md={5}>
+                    <p>choose one day</p>
+                    <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
+                        <StaticDatePicker
+                            // orientation="landscape"
+                            allowSameDateSelection={true}
+                            openTo="day"
+                            value={value}
+                            onChange={(newValue) => {
+                                setValue(newValue);
+                            }}
+                            // onChange={selectedDate}
+                            toolbarTitle=''
+                            loading={!fetchDiaryAlready}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
+                    {/* <div id='content'></div> */}
+                    {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
                 </Grid>
         </Paper>
     )
