@@ -10,8 +10,27 @@ import { Paper } from '@mui/material';
 import axios from "../axios/axios";
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
-
+import CookieParser from '../CookieParser/CookieParser';
+import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const ResetPasswordPage = () => {
+  const [redirect, setRedirect] = React.useState(false);
+  const cookieParser = new CookieParser(document.cookie);
+  useEffect(() => {
+    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+      console.log("fail");
+      setRedirect(true);
+    }
+    else{
+      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+          console.log("fail");
+          setRedirect(true);
+      }else{
+        console.log("success");
+        
+      }
+    }
+  },[])
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   let email="";
@@ -62,6 +81,7 @@ const ResetPasswordPage = () => {
   return (
 	  
 	<Paper elevation={0} style={{height:"100vh"}} >
+    {redirect ?  <Navigate to ={"/login"} /> : ""}
 		<p> MyDiary </p> {""}
         <Box
           sx={{

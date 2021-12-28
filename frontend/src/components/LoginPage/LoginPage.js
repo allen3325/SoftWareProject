@@ -11,6 +11,8 @@ import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
+import Header from "../Header/Header";
+import LogInOrOutButton from "../Header/LogInOrOutButton";
 
 function LoginPage() {
   const [openFail, setOpenFail] = React.useState(false);
@@ -28,18 +30,23 @@ function LoginPage() {
   }
 
   const login = () => {
-    // console.log("email=" + email);
-    // console.log("password=" + password);
+    
     axios.post("/login", {
       email: email,
       password: password
     })
       .then(res => {
         document.cookie = "token=" + res.data.token;
-        let cookieParser = new CookieParser(document.cookie);
+        //console.log(document.cookie);
+        let cookieParser_token = new CookieParser(document.cookie);
+        document.cookie = "email=" + res.data.email;
+        //console.log(document.cookie);
+        let cookieParser_email = new CookieParser(document.cookie);
+        console.log(cookieParser_email.getCookieByName('email'));
         // console.log(document.cookie);
         // console.log("success");
         // console.log(res);
+        <LogInOrOutButton/>
         console.log("parse");
         // console.log(cookieParser.getCookieByName('token'));
         setOpenSuccess(true);
