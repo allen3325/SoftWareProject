@@ -81,11 +81,6 @@ const CalenderSearchPage = () => {
     return (
 
         <Paper>
-            {/* <div style={{
-                display: 'block',
-                height: "100vh",
-                textAlign: 'center',
-            }}> */}
                 {/* <h1></h1> */}
                 {redirect ?  <Navigate to ={"/login"} /> : ""}
                 <Grid
@@ -115,8 +110,6 @@ const CalenderSearchPage = () => {
                         {diarys}
                     </Grid>
                 </Grid>
-            </Grid>
-            {/* </div> */}
         </Paper>
     )
 }

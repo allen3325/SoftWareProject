@@ -66,7 +66,7 @@ const SearchCard = (props) => {
                     alt={props.items.title + "'s picture is dead."}
                 />
                 }
-                <div dangerouslySetInnerHTML={{ __html: props.items.markdown }}></div>
+                <div dangerouslySetInnerHTML={{ __html: props.items.markdown.substring(0, 20) }}></div>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">

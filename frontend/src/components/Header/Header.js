@@ -39,20 +39,20 @@ const Header = (props) => {
     console.log("In Header is " + darkMode);
   }
   useEffect(() => {
-   let cookieParser = new CookieParser(document.cookie);
+    let cookieParser = new CookieParser(document.cookie);
 
-    if((cookieParser.getCookieByName('token')=="undefined")|(cookieParser.getCookieByName('token')==null)){
+    if ((cookieParser.getCookieByName('token') === "undefined") | (cookieParser.getCookieByName('token') === null)) {
       console.log("fail");
     }
-    else{
-      if(cookieParser.getCookieByName('email')=="undefined"){
-          console.log("fail");
-          
-      }else{
+    else {
+      if (cookieParser.getCookieByName('email') === "undefined") {
+        console.log("fail");
+
+      } else {
         console.log("success");
       }
     }
-  },[])
+  }, [])
   const showSearchResult = (enteredKeyWord) => {
     props.onShowSearchResult(enteredKeyWord);
   }
@@ -91,17 +91,14 @@ const Header = (props) => {
                     onChangeDarkMode={changeDarkMode}
                   ></ModeSwitch>
 
-                  <Grid item xs={12}>
-                    <LogInOrOutButton isLogin={props.isLogin} />
-                    {/* <Button
+                  {/* <Button
                       variant="contained"
                       href="/calenderSearch"
                       size="small">Calender</Button> */}
-                  </Grid>
 
                 </Grid>
                 <Grid item>
-                  <LogInOrOutButton  />
+                  <LogInOrOutButton />
                 </Grid>
               </Grid>
             </Grid>
