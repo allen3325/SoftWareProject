@@ -9,7 +9,6 @@ const FolderChoose = (props) => {
     const [folder, setFolder] = React.useState('');
     const [folders, setFolders] = React.useState([]);
     const cookieParser = new CookieParser(document.cookie);
-
     const fetchFolder = () => {
         axios.get(`/user/${props.email}/folder`)
             .then((response) => {

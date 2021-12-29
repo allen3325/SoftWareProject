@@ -28,6 +28,7 @@ const NewDiaryPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
   //let email = "allen3325940072@gmail.com";
+  const [email, setEmail] = useState("");
   const cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const NewDiaryPage = () => {
         console.log("fail");
         setRedirect(true);
       } else {
+        setEmail(cookieParser.getCookieByName("email"));
         console.log("success");
       }
     }
@@ -153,7 +155,7 @@ const NewDiaryPage = () => {
               upper={"NewDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
-              email={cookieParser.getCookieByName("email")}
+              email={email}
             />
           </Grid>
         </Grid>
