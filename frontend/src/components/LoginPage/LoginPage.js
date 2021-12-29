@@ -18,10 +18,12 @@ function LoginPage() {
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [render, setRender] = React.useState(false);
   // let email = "";
   const [email, setEmail] = React.useState("");
   // let password = "";
   const [password, setPassword] = React.useState("");
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     console.log(email);
@@ -32,7 +34,7 @@ function LoginPage() {
   }
 
   const login = () => {
-    
+
     axios.post("/login", {
       email: email,
       password: password
@@ -48,12 +50,12 @@ function LoginPage() {
         // console.log(document.cookie);
         // console.log("success");
         // console.log(res);
-        <LogInOrOutButton/>
+        <LogInOrOutButton />
         console.log("parse");
         // console.log(cookieParser.getCookieByName('token'));
         setOpenSuccess(true);
       })
-      .then(()=>{
+      .then(() => {
         setRedirect(true);
       })
       .catch((error) => {
@@ -141,12 +143,12 @@ function LoginPage() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/forgotpassword" variant="body2">
+              <Link sx={{ fontSize: "1rem", color: "#818ea3" }} href="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link sx={{ fontSize: "1rem", color: "#818ea3" }} href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

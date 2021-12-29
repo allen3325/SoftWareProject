@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MDlogo from "./MDlogo";
 import ModeSwitch from "./ModeSwitch";
 import SearchForm from "./SearchForm";
@@ -16,6 +16,7 @@ import LogInOrOutButton from "./LogInOrOutButton";
 import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
 import { Button } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -32,6 +33,9 @@ function ElevationScroll(props) {
 }
 
 const Header = (props) => {
+  let cookieParser = new CookieParser(document.cookie);
+  const [email, setEmail] = useState(cookieParser.getCookieByName("email"));
+  const [isLogin, setLogin] = useState(false);
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
@@ -39,20 +43,24 @@ const Header = (props) => {
     console.log("In Header is " + darkMode);
   }
   useEffect(() => {
-    let cookieParser = new CookieParser(document.cookie);
+    console.log("in header");
+    console.log(cookieParser.getCookieByName('token'));
 
     if ((cookieParser.getCookieByName('token') === "undefined") || (cookieParser.getCookieByName('token') === null)) {
-      console.log("fail");
+      console.log("faila");
     }
     else {
-      if (cookieParser.getCookieByName('email') === "undefined") {
-        console.log("fail");
+      if (cookieParser.getCookieByName('email') === "undefined" || (cookieParser.getCookieByName('token') === null)) {
+        console.log("failb");
 
       } else {
         console.log("success");
+        setLogin(true);
+        setEmail(cookieParser.getCookieByName('email'));
       }
     }
-  }, [])
+  })
+  //, [isLogin,email]
   const showSearchResult = (enteredKeyWord) => {
     props.onShowSearchResult(enteredKeyWord);
   }
@@ -70,43 +78,45 @@ const Header = (props) => {
               justifyContent="space-around"
               alignItems="center"
             >
-              <Grid item >
+              <Grid item xs={2} sm={2} md={2}>
                 <MDlogo></MDlogo>
               </Grid>
-              <Grid item xs={7} sm={4} md={8}>
+              <Grid item xs={2} sm={2} md={3}>
                 <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
                 {/* <SearchForm ></SearchForm> */}
               </Grid>
-              <Grid item>
-                <Grid item>
-                  <IconButton
+              <Grid item xs={2} sm={2} md={4}><SmallHeader /></Grid>
+
+              <Grid sx={{ position: "relative", left: "10%" }} item xs={6} sm={6} md={3}>
+                {email === "allen3325940072@gmail.com"
+                  ? <IconButton
                     onClick={() => {
                       console.log("Profile");
                     }}
-                    href="/about"
+                    sx={{ margin: "10px" }}
                   >
                     <AccountCircleSharp fontSize="large"></AccountCircleSharp>
                   </IconButton>
-                  <ModeSwitch
-                    onChangeDarkMode={changeDarkMode}
-                  ></ModeSwitch>
+                  : ""}
+                <LogInOrOutButton />
+                <ModeSwitch
+                  onChangeDarkMode={changeDarkMode}
+                  sx={{ m: 4 }}
+                ></ModeSwitch>
 
-                  {/* <Button
+                {/* <Button
                       variant="contained"
                       href="/calenderSearch"
                       size="small">Calender</Button> */}
 
-                </Grid>
-                <Grid item>
-                  <LogInOrOutButton />
-                </Grid>
               </Grid>
             </Grid>
           </Toolbar>
-          <SmallHeader />
         </AppBar>
       </ElevationScroll>
+      <Outlet />
     </React.Fragment>
+    
   );
 };
 

@@ -15,7 +15,7 @@ function MDlogo() {
 
   return (
     <ColorButton
-      // size="small"
+      size="small"
       variant="text"
       onClick={() => {
         console.log("index");
