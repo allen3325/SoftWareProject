@@ -23,21 +23,21 @@ const CalenderSearchPage = () => {
     let tmp = [];
     const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-    if(cookieParser.getCookieByName('token')=="undefined"){
-      console.log("fail");
-      setRedirect(true);
-    }
-    else{
-      if(cookieParser.getCookieByName('email')=="undefined"){
-          console.log("fail");
-          setRedirect(true);
-          
-      }else{
-        console.log("success");
-        
-      }
-    }
-  },[]) 
+        if (cookieParser.getCookieByName('token') == "undefined") {
+            console.log("fail");
+            setRedirect(true);
+        }
+        else {
+            if (cookieParser.getCookieByName('email') == "undefined") {
+                console.log("fail");
+                setRedirect(true);
+
+            } else {
+                console.log("success");
+
+            }
+        }
+    }, [])
     useEffect(() => {
         setFetchDiaryAlready(false);
         fetchDiary();
@@ -51,11 +51,11 @@ const CalenderSearchPage = () => {
             day = value.getDate().toString();
         }
         let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
-        axios.get("/date/"+ cookieParser.getCookieByName('email')+"?date=" + date)
+        axios.get("/date/" + cookieParser.getCookieByName('email') + "?date=" + date)
             .then(response => {
                 setFetchDiaryAlready(true)
                 // console.log(response.data.folderArray.length);
-                
+
                 if (response.data.folderArray.length === 0) {
                     setDiarys("No Diary")
                 } else {
@@ -81,6 +81,7 @@ const CalenderSearchPage = () => {
     return (
 
         <Paper>
+            {redirect ? <Navigate to={"/login"} /> : ""}
             <Grid
                 container
                 direction="row"
@@ -108,6 +109,7 @@ const CalenderSearchPage = () => {
                     {/* <div id='content'></div> */}
                     {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
                 </Grid>
+            </Grid>
         </Paper>
     )
 }
