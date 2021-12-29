@@ -38,12 +38,12 @@ const DNewDiaryPage = () => {
   
     useEffect(() => {
 
-    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+    if((cookieParser.getCookieByName('token')==="undefined")||(cookieParser.getCookieByName('token')===null)){
       console.log("fail");
       setRedirect(true);
     }
     else{
-      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
+      if(cookieParser.getCookieByName('email')==="undefined"||(cookieParser.getCookieByName('email')===null)){
           console.log("fail");
           setRedirect(true);
       }else{

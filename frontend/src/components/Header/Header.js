@@ -41,7 +41,7 @@ const Header = (props) => {
   useEffect(() => {
     let cookieParser = new CookieParser(document.cookie);
 
-    if ((cookieParser.getCookieByName('token') === "undefined") | (cookieParser.getCookieByName('token') === null)) {
+    if ((cookieParser.getCookieByName('token') === "undefined") || (cookieParser.getCookieByName('token') === null)) {
       console.log("fail");
     }
     else {
