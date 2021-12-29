@@ -54,22 +54,22 @@ function App() {
   // lightMode theme's parameter
   if (darkMode === false) {
     let root = document.documentElement;
-    root.style.setProperty('--background-color', '#fff')
+    root.style.setProperty('--background-color', '#FAEBD7')
     theme = (createTheme({
       palette: {
         mode: "light",
         primary: {
-          main: "#37AEF2",
-          // main: "#ffb6c1",
+          // main: "#37AEF2",
+          main: "#ffb6c1",
           light: "#37AEF2",
           dark: "#1B92D1",
           contrastText: "#fff",
         },
         background: {
-          paper: "#fff",
-          // paper: "#FAEBD7",
-          default: "#fff",
-          // default: "#FAEBD7",
+          // paper: "#fff",
+          paper: "#FAEBD7",
+          // default: "#fff",
+          default: "#FAEBD7",
         },
       },
       mixins: {
