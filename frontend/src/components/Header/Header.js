@@ -94,6 +94,7 @@ const Header = (props) => {
                       console.log("Profile");
                     }}
                     sx={{ margin: "10px" }}
+                    href={"/test"}
                   >
                     <AccountCircleSharp fontSize="large"></AccountCircleSharp>
                   </IconButton>
