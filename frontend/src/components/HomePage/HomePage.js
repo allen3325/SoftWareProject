@@ -10,33 +10,33 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 
 function HomePage(props) {
-  const email = "allen3325940072@gmail.com";
+  // const email = "allen3325940072@gmail.com";
 
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);
   const [redirect, setRedirect] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
-    if((cookieParser.getCookieByName('token')==="undefined")||(cookieParser.getCookieByName('token')===null)){
+    if (cookieParser.getCookieByName('token') == "undefined" || cookieParser.getCookieByName('token') == null) {
       console.log("fail");
       setRedirect(true);
     }
-    else{
-      if(cookieParser.getCookieByName('email')==="undefined"||(cookieParser.getCookieByName('email')===null)){
-          console.log("fail");
-          setRedirect(true);
-      }else{
+    else {
+      if (cookieParser.getCookieByName('email') == "undefined" || cookieParser.getCookieByName('email') == null) {
+        console.log("fail");
+        setRedirect(true);
+      } else {
         console.log("success");
-        
+
         axios
-        .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
-        .then((res) => {
-          // console.log(res.data);
-          setFolder(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-      });
+          .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
+          .then((res) => {
+            // console.log(res.data);
+            setFolder(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
   }, []);  ///get folder list in the beginning
@@ -53,7 +53,7 @@ function HomePage(props) {
 
   return (
     <div>
-      {redirect ?  <Navigate to ={"/login"} /> : ""}
+      {redirect ? <Navigate to={"/login"} /> : ""}
       <Container>
         <Grid
           container
@@ -65,7 +65,7 @@ function HomePage(props) {
             <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            {folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p>No folder</p>}
+            {selectedFolder < folder.length ? folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p style={{ padding: 30 }} >No Selected folder</p> : <p style={{ padding: 30 }} >No Diary</p>}
           </Grid>
           <Grid item xs={0} sm={0} md={2}></Grid>
         </Grid>

@@ -28,24 +28,29 @@ const NewDiaryPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
   //let email = "allen3325940072@gmail.com";
+  const [email, setEmail] = useState("");
   const cookieParser = new CookieParser(document.cookie);
-  
-    useEffect(() => {
 
-    if((cookieParser.getCookieByName('token')==="undefined")||(cookieParser.getCookieByName('token')===null)){
+  useEffect(() => {
+    if (
+      cookieParser.getCookieByName("token") == "undefined" ||
+      cookieParser.getCookieByName("token") == null
+    ) {
       console.log("fail");
       setRedirect(true);
-    }
-    else{
-      if(cookieParser.getCookieByName('email')==="undefined"||(cookieParser.getCookieByName('email')===null)){
-          console.log("fail");
-          setRedirect(true);
-      }else{
+    } else {
+      if (
+        cookieParser.getCookieByName("email") == "undefined" ||
+        cookieParser.getCookieByName("email") == null
+      ) {
+        console.log("fail");
+        setRedirect(true);
+      } else {
+        setEmail(cookieParser.getCookieByName("email"));
         console.log("success");
-        
       }
     }
-  },[])
+  }, []);
   // useEffect(() => {
   //   email = "allen3325940072@gmail.com";
   //   setShouldRedirect(false);
@@ -88,13 +93,12 @@ const NewDiaryPage = () => {
     setTag(tagsString.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
 
-
     let retag = tagsString.split("#").map((tag) => tag.trim());
     if (retag[0] === "") retag.shift();
     // console.log("tags is " + tags[0]);
     // console.log(picUrl);
     axios
-      .post(`/user/${cookieParser.getCookieByName('email')}/${folder}`, {
+      .post(`/user/${cookieParser.getCookieByName("email")}/${folder}`, {
         title: title,
         content: content,
         date: date.toISOString(),
@@ -112,10 +116,12 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
+    <Navigate
+      to={`/editDiary/${folder}/${title}`}
+    />
   ) : (
     <Container maxWidth={"lg"}>
-      {redirect ?  <Navigate to ={"/login"} /> : ""}
+      {redirect ? <Navigate to={"/login"} /> : ""}
       <Grid container>
         <Grid item xs={12}>
           <TextField
@@ -149,7 +155,7 @@ const NewDiaryPage = () => {
               upper={"NewDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
-              email={cookieParser.getCookieByName('email')}
+              email={email}
             />
           </Grid>
         </Grid>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Paper, paperClasses } from '@mui/material';
+import { Container, Paper, paperClasses } from '@mui/material';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -66,57 +66,59 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <Paper elevation={0} style={{ height: "100vh" }} >
-      <p> MyDiary </p> {""}{" "}
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+    <Container maxWidth={"md"}>
+      <Paper elevation={0} style={{ height: "100vh" }} >
+        {/* <p> MyDiary </p> {""}{" "} */}
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
 
-        <Typography component="h1" variant="h5">
-          Send new password
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
+          <Typography component="h1" variant="h5">
+            Send new password
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Send
-          </Button>
-          <Grid container justifyContent="flex-end">
-          </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Send
+            </Button>
+            <Grid container justifyContent="flex-end">
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
-        <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
-          error email!!
-        </Alert>
-      </Snackbar>
-      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
-        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
-          new password sent to your email.
-        </Alert>
-      </Snackbar>
-    </Paper>
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+          <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+            error email!!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+          <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+            new password sent to your email.
+          </Alert>
+        </Snackbar>
+      </Paper>
+    </Container>
   );
 }

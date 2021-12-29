@@ -69,17 +69,17 @@ const SearchCard = (props) => {
                 <div dangerouslySetInnerHTML={{ __html: props.items.markdown.substring(0, 20) }}></div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                {/* <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                 </IconButton> 
                  <IconButton onClick={generateLink} aria-label="share">
                     <ShareIcon />
-                </IconButton> 
+                </IconButton>  */}
                  <Button size="small">
-                    <Link to={`/DiaryPage/${email}/${props.inFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>See More</p></Link>
+                    <Link to={`/DiaryPage/${props.inFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>See More</p></Link>
                 </Button> 
                  <Button size="small">
-                    <Link to={`/editDiary/${email}/${props.inFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>Edit Diary</p></Link>
+                    <Link to={`/editDiary/${props.inFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>Edit Diary</p></Link>
                 </Button> 
                  <Typography color="text.secondary">
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? "#"+props.items.tag.join(" #") : ""}

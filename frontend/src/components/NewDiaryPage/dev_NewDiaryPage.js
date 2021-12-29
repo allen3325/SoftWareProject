@@ -28,7 +28,7 @@ const DNewDiaryPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
 
-  let email = "allen3325940072@gmail.com";
+  // let email = "allen3325940072@gmail.com";
 
   // useEffect(() => {
   //   email = "allen3325940072@gmail.com";

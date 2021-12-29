@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import AboutPage from "./components/AboutPage/AboutPage";
 import HomePage from "./components/HomePage/HomePage";
 import Header from "./components/Header/Header";
@@ -54,22 +54,23 @@ function App() {
   // lightMode theme's parameter
   if (darkMode === false) {
     let root = document.documentElement;
-    root.style.setProperty('--background-color', '#fff')
+    root.style.setProperty('--background-color', '#FAEBD7');
+    root.style.setProperty('--primary-color', '#db9ca7');
     theme = (createTheme({
       palette: {
         mode: "light",
         primary: {
-          main: "#37AEF2",
-          // main: "#ffb6c1",
+          // main: "#37AEF2",
+          main: "#ffb6c1",
           light: "#37AEF2",
           dark: "#1B92D1",
           contrastText: "#fff",
         },
         background: {
-          paper: "#fff",
-          // paper: "#FAEBD7",
-          default: "#fff",
-          // default: "#FAEBD7",
+          // paper: "#fff",
+          paper: "#FAEBD7",
+          // default: "#fff",
+          default: "#FAEBD7",
         },
       },
       mixins: {
@@ -78,7 +79,8 @@ function App() {
     }))
   } else {
     let root = document.documentElement;
-    root.style.setProperty('--background-color', '#0c1929')
+    root.style.setProperty('--background-color', '#0c1929');
+    root.style.setProperty('--primary-color', '#1B92D1');
   }
 
   useEffect(() => {
@@ -88,7 +90,7 @@ function App() {
     } else {
       setDarkMode(false);
     }
-  }, [localDarkMode,redirect,keyWord])
+  }, [localDarkMode, redirect, keyWord])
 
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
@@ -99,8 +101,8 @@ function App() {
   };
 
   const showSearchResult = (enteredKeyWord) => {
-      setKeyWord(enteredKeyWord);
-      setRedirect(true);
+    setKeyWord(enteredKeyWord);
+    setRedirect(true);
   }
 
 
@@ -115,25 +117,30 @@ function App() {
           onShowSearchResult={showSearchResult}
         />
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          {/* <Route exact path="about" element={<AboutPage />} /> */}
-          <Route exact path="about" element={<FolderPage />} />
-          <Route exact path="login" element={<LoginPage />} /> {/* 注意此頁不用登入 */}
-          <Route exact path="register" element={<RegisterPage />} /> {/* 注意此頁不用登入 */}
-          <Route exact path="activate" element={<ActivatePage />} /> {/* 注意此頁不用登入 */}
-          <Route exact path="forgotpassword" element={<ForgotPasswordPage />} /> {/* 注意此頁不用登入 */}
-          <Route exact path="resetpassword" element={<ResetPasswordPage />} />
-          <Route exact path="newDiary" element={<NewDiaryPage />} />
-          <Route exact path="calenderSearch" element={<CalenderSearchPage />} />
-          <Route exact path="folderPage" element={<FolderPage />} />
-          <Route exact path="DiaryPage/:email/:inFolder/:diaryName" element={<DiaryPage />} />
-          <Route path="editDiary/:email/:inFolder/:diaryName" element={<EditDiaryPage />} />
+          {/* <Route path="/" element={<Header
+            //isLogin={isLogin}
+            onChangeDarkMode={changeDarkMode}
+            propsDarkMode={darkMode}
+            onShowSearchResult={showSearchResult}
+          />} > */}
+          <Route path="/" element={<HomePage />} />
+          {/* <Route  path="about" element={<AboutPage />} /> */}
+          <Route path="about" element={<EnhancedTable />} />
+          <Route path="login" element={<LoginPage />} /> {/* 注意此頁不用登入 */}
+          <Route path="register" element={<RegisterPage />} /> {/* 注意此頁不用登入 */}
+          <Route path="activate" element={<ActivatePage />} /> {/* 注意此頁不用登入 */}
+          <Route path="forgotpassword" element={<ForgotPasswordPage />} /> {/* 注意此頁不用登入 */}
+          <Route path="resetpassword" element={<ResetPasswordPage />} />
+          <Route path="newDiary" element={<NewDiaryPage />} />
+          <Route path="calenderSearch" element={<CalenderSearchPage />} />
+          <Route path="folderPage" element={<FolderPage />} />
+          <Route path="DiaryPage/:inFolder/:diaryName" element={<DiaryPage />} />
+          <Route path="editDiary/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} /> {/* 注意此頁不用登入 */}
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
-          <Route exact path="test" element={< EnhancedTable/>} />
-
+          <Route path="test" element={<EnhancedTable />} />
         </Routes>
-        {redirect?<Navigate to={`SearchDiaryPage/${keyWord}`} />:""}
+        {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}
         {/* {window.location.pathname === '/newDiary' ? "" : <Fab color="primary" sx={{
           position:'sticky',
           bottom: 16,
@@ -143,6 +150,7 @@ function App() {
         >
           <EditIcon />
         </Fab>} */}
+
       </Paper>
     </ThemeProvider>
   );

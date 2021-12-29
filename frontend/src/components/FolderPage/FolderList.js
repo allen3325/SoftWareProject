@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { makeStyles, withStyles } from '@mui/styles';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from "../axios/axios";
+import CookieParser from "../CookieParser/CookieParser";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +32,9 @@ const ListItemWithWiderSecondaryAction = withStyles({
 
 
 export default function FolderList(props) {
-  const email = "allen3325940072@gmail.com";
+  // const email = "allen3325940072@gmail.com";
+  const cookieParser = new CookieParser(document.cookie);
+  const email = cookieParser.getCookieByName("email");
   const classes = useStyles();
   const [editFolderIdx, setEditFolderIdx] = useState(-1);
   const [editingFolder, setEditingFolder] = useState(false);
@@ -55,6 +58,10 @@ export default function FolderList(props) {
   };
 
   function postEditFolder() {
+    if (editingFolderName === "" || editingFolderName.trim() === "") {
+      setEditingFolder(false);
+      return;
+    }
     axios//localhost/user/:email/:folderName
       .put(`/user/${email}/${props.folderName}`, {
         folderName: editingFolderName,

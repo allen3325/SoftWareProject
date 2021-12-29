@@ -15,6 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 const CalenderSearchPage = () => {
+    const [isLogin, setIsLogin] = React.useState(false);
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
@@ -23,27 +24,36 @@ const CalenderSearchPage = () => {
     let tmp = [];
     const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-        if (cookieParser.getCookieByName('token') == "undefined") {
+        if (cookieParser.getCookieByName('token') == "undefined" ||
+            cookieParser.getCookieByName('token') == null ||
+            cookieParser.getCookieByName('email') == "undefined" ||
+            cookieParser.getCookieByName('email') == null
+        ) {
             console.log("fail");
+            setIsLogin(false);
             setRedirect(true);
         }
         else {
-            if (cookieParser.getCookieByName('email') == "undefined") {
-                console.log("fail");
-                setRedirect(true);
-
-            } else {
-                console.log("success");
-
-            }
+            setIsLogin(true);
+            console.log("success");
+            // if (isLogin) {
+                setFetchDiaryAlready(false);
+                console.log("ready to featch.");
+                fetchDiary();
+            // }
         }
-    }, [])
-    useEffect(() => {
-        setFetchDiaryAlready(false);
-        fetchDiary();
-    }, [value]);
+    }, [value])
+    
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         setFetchDiaryAlready(false);
+    //         console.log("ready to featch.");
+    //         fetchDiary();
+    //     }
+    // }, [value]);
 
     const fetchDiary = () => {
+        console.log("featch diary.");
         let day = "";
         if (value.getDate() < 10) {
             day = "0" + value.getDate().toString();
@@ -61,12 +71,12 @@ const CalenderSearchPage = () => {
                 } else {
                     // console.log(response.data.folderArray)
                     response.data.folderArray.map((folder) => {
-                        folder.diary.map(diarys => {
+                        folder.diary.forEach(diarys => {
                             // this is use Cards to render Card
                             // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
 
                             // this is directly render Card
-                            diarys.map(diary => {
+                            diarys.forEach(diary => {
                                 tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
                             })
                         })
@@ -88,7 +98,7 @@ const CalenderSearchPage = () => {
                 justifyContent="space-around"
                 alignItems="flex-start">
                 <Grid item xs={12} md={5}>
-                    <p>choose one day</p>
+                    <p style={{padding:30}}>choose one day</p>
                     <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                         <StaticDatePicker
                             // orientation="landscape"
@@ -107,7 +117,7 @@ const CalenderSearchPage = () => {
                 </Grid>
                 <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
                     {/* <div id='content'></div> */}
-                    {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
+                    {fetchDiaryAlready ? (diarys==="No Diary"? <p style={{padding:30}}>No Diary</p>:diarys ): <CircularProgress color="success" />}
                 </Grid>
             </Grid>
         </Paper>

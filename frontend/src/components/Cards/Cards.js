@@ -6,7 +6,7 @@ const Cards = (props) => {
     return (
         props.items.length>0?
             props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder}/> })
-            : <p>No diary</p>
+            : <p style={{padding:30}}>No diary</p>
     )
 }
 
