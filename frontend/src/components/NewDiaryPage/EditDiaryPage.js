@@ -33,23 +33,24 @@ const EditDiaryPage = () => {
   let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
-    if((cookieParser.getCookieByName('token')==="undefined") || (cookieParser.getCookieByName('token')===null)){
+    if ((cookieParser.getCookieByName('token') === "undefined") || (cookieParser.getCookieByName('token') === null)) {
       console.log("fail");
       setRedirect(true);
     }
-    else{
-      if(cookieParser.getCookieByName('email')==="undefined"||(cookieParser.getCookieByName('email')===null)){
-          console.log("fail");
-           setRedirect(true);
-      }else{
+    else {
+      if (cookieParser.getCookieByName('email') === "undefined" || (cookieParser.getCookieByName('email') === null)) {
+        console.log("fail");
+        setRedirect(true);
+      } else {
         console.log("success");
-       
+
         setFolder(inFolder);
         setPreviousDiaryName(diaryName);
         setShouldRedirect(false);
         axios
           .get(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
           .then((res) => {
+            console.log(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
             res = res.data.diary;
             res.title ? setTitle(res.title) : setTitle("");
             res.date ? setDate(new Date(res.date)) : setDate(new Date());
@@ -61,15 +62,15 @@ const EditDiaryPage = () => {
             res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
             res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
             res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+            // console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
     // console.log(email + ", " + diaryName + ", " + inFolder);
-    
+
     // setTagsString("#" + tag.join(" #"));
     // console.log("str"+tagsString);
   }, []);
@@ -104,6 +105,8 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
+    console.log("in edit diary page folder")
+    console.log(folder)
     e.preventDefault();
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
@@ -132,8 +135,9 @@ const EditDiaryPage = () => {
         isFavored: isFavored,
       })
       .then((response) => {
-        // console.log("sucess");
-        // console.log(response);
+        console.log("after stored");
+        console.log(`/user/${cookieParser.getCookieByName('email')}/${folder}/${previousDiaryName}`)
+        console.log(response);
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
@@ -144,7 +148,7 @@ const EditDiaryPage = () => {
     <Navigate to={`/editDiary/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
-     {redirect ?  <Navigate to ={"/login"} /> : ""}
+      {redirect ? <Navigate to={"/login"} /> : ""}
       <Grid container>
         <Grid item xs={12}>
           <TextField

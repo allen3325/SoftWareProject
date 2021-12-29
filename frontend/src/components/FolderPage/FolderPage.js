@@ -45,7 +45,7 @@ const FolderPage = (props) => {
       setIsLogin(false);
       setRedirect(true);
     } else {
-      console.log("success");
+      console.log("aaaaa");
       // isLogin = true;
       setIsLogin(true);
     }
@@ -62,15 +62,15 @@ const FolderPage = (props) => {
     if (isLogin) {
       axios
         .get("/user/" + cookieParser.getCookieByName("email") + "/folder")
-      .then((res) => {
-        // console.log(res.data);
-        setFolder(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res.data);
+          setFolder(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [props.folder, props.hasUpper, reRender]);
+  }, [props.folder, props.hasUpper, reRender,isLogin]);
 
   const [newFolderFail, setNewFolderFail] = useState(false);
   const [newFolderSuccess, setNewFolderSuccess] = useState(false);
@@ -98,8 +98,8 @@ const FolderPage = (props) => {
         })
         .then((res) => {
           console.log(res.data);
-          setFolder([...folder, {folderName:newFolderName, diary:[]}]);
-          console.log([...folder, {folderName:newFolderName, diary:[]}]);
+          setFolder([...folder, { folderName: newFolderName, diary: [] }]);
+          console.log([...folder, { folderName: newFolderName, diary: [] }]);
           setFolderAdding(false);
           // setReRender(true);
           setNewFolderSuccess(true);

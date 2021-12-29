@@ -4,6 +4,8 @@ import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 
 const FolderChoose = (props) => {
+    // console.log("in FolderChoose");
+    // console.log(props)
     // let isLogin = false;
     const [isLogin, setIsLogin] = React.useState(false);
     const [folder, setFolder] = React.useState('');
@@ -13,12 +15,16 @@ const FolderChoose = (props) => {
     const fetchFolder = () => {
         axios.get(`/user/${props.email}/folder`)
             .then((response) => {
+                // console.log(response);
                 setFolders(response.data);
             })
             .catch((error) => console.log(error))
     }
 
     useEffect(() => {
+        // console.log('props.email');
+        // console.log(props.email)
+        // console.log(isLogin)
         // console.log('porps.email', props.email);
         if (
             cookieParser.getCookieByName("token") == "undefined" ||
@@ -35,9 +41,11 @@ const FolderChoose = (props) => {
         if (props.email && isLogin) {
             fetchFolder();
         }
-    }, [props.email]);
+    }, [props.email,isLogin]);
     // useEffect(() => { console.log('porps.upper', props.upper); }, [props.upper]);
     useEffect(() => {
+        // console.log('props.folder');
+
         // console.log("props.folder:"+props.folder);
         if (props.folder) {
             setFolder(props.folder);
@@ -52,7 +60,7 @@ const FolderChoose = (props) => {
         // setFolder(event.target.value);
     };
     return (
-        folder || props.upper === "NewDiaryPage" ?
+        props.upper === "NewDiaryPage" ?
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
                 <Select
@@ -68,17 +76,18 @@ const FolderChoose = (props) => {
                 </Select>
             </FormControl>
             :
-            <FormControl fullWidth>
-                <Select
-                    displayEmpty
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Folder"
-                    defaultValue="Loading..."
-                >
-                    <MenuItem value={"Loading..."} selected={true}>Loading...</MenuItem>
-                </Select>
-            </FormControl>
+            // <FormControl fullWidth>
+            //     <Select
+            //         displayEmpty
+            //         labelId="demo-simple-select-label"
+            //         id="demo-simple-select"
+            //         label="Folder"
+            //         defaultValue="Loading..."
+            //     >
+            //         <MenuItem value={"Loading..."} selected={true}>Loading...</MenuItem>
+            //     </Select>
+            // </FormControl>
+            ""
 
 
     )

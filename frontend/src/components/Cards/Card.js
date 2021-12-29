@@ -73,9 +73,9 @@ export default function BasicCard(props) {
                 <div dangerouslySetInnerHTML={{ __html: props.items.markdown.substring(0, 20) }}></div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                {/* <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton onClick={generateLink} aria-label="share">
                     <ShareIcon />
                 </IconButton>
