@@ -2,6 +2,7 @@ import { Paper } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../axios/axios";
+import CookieParser from "../CookieParser/CookieParser";
 import SearchCard from "./SearchCard";
 
 const SearchDiaryPage = () => {
@@ -9,9 +10,11 @@ const SearchDiaryPage = () => {
     const [diarys, setDiarys] = useState([]);
     const [render, setRender] = useState(false);
     let tmp = [];
+    const cookieParser = new CookieParser(document.cookie);
     // console.log("render");
     // console.log(diarys);
-    const email = "allen3325940072@gmail.com";
+    // const email = "allen3325940072@gmail.com";
+    const email = cookieParser.getCookieByName("email");
     useEffect(() => {
         // console.log(diarys)
         // setRender(false);
