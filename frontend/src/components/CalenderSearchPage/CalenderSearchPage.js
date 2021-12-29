@@ -98,7 +98,7 @@ const CalenderSearchPage = () => {
                 justifyContent="space-around"
                 alignItems="flex-start">
                 <Grid item xs={12} md={5}>
-                    <p>choose one day</p>
+                    <p style={{padding:30}}>choose one day</p>
                     <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                         <StaticDatePicker
                             // orientation="landscape"
@@ -117,7 +117,7 @@ const CalenderSearchPage = () => {
                 </Grid>
                 <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
                     {/* <div id='content'></div> */}
-                    {fetchDiaryAlready ? diarys : <CircularProgress color="success" />}
+                    {fetchDiaryAlready ? (diarys==="No Diary"? <p style={{padding:30}}>No Diary</p>:diarys ): <CircularProgress color="success" />}
                 </Grid>
             </Grid>
         </Paper>

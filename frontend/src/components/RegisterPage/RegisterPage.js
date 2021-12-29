@@ -118,7 +118,7 @@ const RegisterPage = () => {
                 required
                 fullWidth
                 name="checkpassword"
-                label="endter Password again"
+                label="Enter Password Again"
                 type="password"
                 id="checkpassword"
                 autoComplete="checkpassword"
