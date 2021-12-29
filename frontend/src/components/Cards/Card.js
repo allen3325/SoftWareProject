@@ -11,12 +11,15 @@ import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
 import axios from "../axios/axios";
 import { Navigate } from "react-router-dom";
+import CookieParser from "../CookieParser/CookieParser";
 
 
 
 export default function BasicCard(props) {
     // TODO: change this path and email
-    const email = "allen3325940072@gmail.com";
+    // const email = "allen3325940072@gmail.com";
+    const cookieParser = new CookieParser(document.cookie);
+    const email = cookieParser.getCookieByName("email");
     const [url, setURL] = useState("");
     let tmp = "a/";
     let a="";
@@ -30,25 +33,25 @@ export default function BasicCard(props) {
     })
 
     const generateLink = () => {
-        let folder = props.folderName;
+        let folder = props.selectedFolder;
         let title = props.items.title;
         console.log("folder is " + folder + ". title is " + title);
         // localhost/shareLink/:email/:folderName/:title
-        // axios.get(`shareLink/${email}/${folder}/${title}`)
-        //     .then((res) => {
-        //         let path = "localhost:3000";
-        //         path += "/ShareDiaryPage/" + res.data.encryptedPath;
-        //         console.log(path);
-        //         navigator.clipboard.writeText(path).then(() => {
-        //             console.log("clipboard successfully set")
-        //             a = "clipboard successfully set";
-        //         }, () => {
-        //             console.log("clipboard write failed")
-        //         });
-        //     })
-        //     .catch(e => {
-        //         console.log(e);
-        //     })
+        axios.get(`shareLink/${email}/${folder}/${title}`)
+            .then((res) => {
+                let path = "localhost:3000";
+                path += "/ShareDiaryPage/" + res.data.encryptedPath;
+                console.log(path);
+                navigator.clipboard.writeText(path).then(() => {
+                    console.log("clipboard successfully set")
+                    a = "clipboard successfully set";
+                }, () => {
+                    console.log("clipboard write failed")
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            })
     }
 
     return (
