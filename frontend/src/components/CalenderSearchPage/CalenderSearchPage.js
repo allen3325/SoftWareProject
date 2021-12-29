@@ -37,15 +37,23 @@ const CalenderSearchPage = () => {
             isLogin = true;
             console.log("success");
         }
-    }, [])
-    useEffect(() => {
         if (isLogin) {
             setFetchDiaryAlready(false);
+            console.log("ready to featch.");
             fetchDiary();
         }
-    }, [value]);
+    }, [value])
+    
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         setFetchDiaryAlready(false);
+    //         console.log("ready to featch.");
+    //         fetchDiary();
+    //     }
+    // }, [value]);
 
     const fetchDiary = () => {
+        console.log("featch diary.");
         let day = "";
         if (value.getDate() < 10) {
             day = "0" + value.getDate().toString();
