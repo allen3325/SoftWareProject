@@ -59,6 +59,7 @@ export default function FolderList(props) {
 
   function postEditFolder() {
     if (editingFolderName === "" || editingFolderName.trim() === "") {
+      setEditingFolder(false);
       return;
     }
     axios//localhost/user/:email/:folderName
