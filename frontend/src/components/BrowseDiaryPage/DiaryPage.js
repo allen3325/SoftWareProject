@@ -27,8 +27,6 @@ const EditDiaryPage = () => {
     const [redirect, setRedirect] = React.useState(false);
     let cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-   
-
     if(cookieParser.getCookieByName('token')=="undefined"){
       console.log("fail");
       setRedirect(true);

@@ -15,6 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 const CalenderSearchPage = () => {
+    let isLogin = false;
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
@@ -23,24 +24,25 @@ const CalenderSearchPage = () => {
     let tmp = [];
     const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-        if (cookieParser.getCookieByName('token') == "undefined" || cookieParser.getCookieByName('token') == null) {
+        if (cookieParser.getCookieByName('token') == "undefined" ||
+            cookieParser.getCookieByName('token') == null ||
+            cookieParser.getCookieByName('email') == "undefined" ||
+            cookieParser.getCookieByName('email') == null
+        ) {
             console.log("fail");
+            isLogin = false;
             setRedirect(true);
         }
         else {
-            if (cookieParser.getCookieByName('email') == "undefined" || cookieParser.getCookieByName('email') == null) {
-                console.log("fail");
-                setRedirect(true);
-
-            } else {
-                console.log("success");
-
-            }
+            isLogin = true;
+            console.log("success");
         }
     }, [])
     useEffect(() => {
-        setFetchDiaryAlready(false);
-        fetchDiary();
+        if (isLogin) {
+            setFetchDiaryAlready(false);
+            fetchDiary();
+        }
     }, [value]);
 
     const fetchDiary = () => {

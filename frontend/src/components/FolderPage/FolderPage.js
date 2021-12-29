@@ -20,6 +20,7 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 
 const FolderPage = (props) => {
+  let isLogin = false;
   const email = "allen3325940072@gmail.com";
   const [folder, setFolder] = useState([]);
   const [hasUpper, setHasUpper] = useState(0);
@@ -29,29 +30,46 @@ const FolderPage = (props) => {
   const [reRender, setReRender] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
   const cookieParser = new CookieParser(document.cookie);
-  useEffect(() => {
-    if (
-      cookieParser.getCookieByName("token") == "undefined" ||
-      cookieParser.getCookieByName("token") == null
-    ) {
-      console.log("fail");
-      setRedirect(true);
-    } else {
-      if (
-        cookieParser.getCookieByName("email") == "undefined" ||
-        cookieParser.getCookieByName("email") == null
-      ) {
-        console.log("fail");
-        setRedirect(true);
-      } else {
-        console.log("success");
-      }
-    }
-  }, []);
+
   useEffect(() => {
     setFolderAdding(false);
     setReRender(false);
+    if (
+      cookieParser.getCookieByName("token") == "undefined" ||
+      cookieParser.getCookieByName("token") == null ||
+      cookieParser.getCookieByName("email") == "undefined" ||
+      cookieParser.getCookieByName("email") == null
+    ) {
+      console.log("fail");
+      isLogin = false;
+      setRedirect(true);
+    } else {
+      console.log("success");
+      isLogin = true;
+    }
   }, []);
+
+  useEffect(() => {
+    // console.log(folderAdding);
+    setReRender(false);
+    if (props.hasUpper !== undefined && props.hasUpper) {
+      setHasUpper(true);
+    } else {
+      setHasUpper(false);
+    }
+    if (isLogin) {
+      axios
+        .get("/user/" + cookieParser.getCookieByName("email") + "/folder")
+      .then((res) => {
+        // console.log(res.data);
+        setFolder(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }, [props.folder, props.hasUpper, reRender]);
+
   const [newFolderFail, setNewFolderFail] = useState(false);
   const [newFolderSuccess, setNewFolderSuccess] = useState(false);
   const [delFolderFail, setDelFolderFail] = useState(false);
@@ -62,28 +80,30 @@ const FolderPage = (props) => {
       newFolderName === "" ||
       newFolderName === undefined ||
       newFolderName === null ||
-      newFolderName.trim() === " "
+      newFolderName.trim() === " " ||
+      isLogin === false
     ) {
       setFolderAdding(false);
       return;
+    } else {
+      axios
+        .post("/user/" + cookieParser.getCookieByName("email") + "/folder", {
+          folderName: newFolderName,
+        })
+        .then((res) => {
+          // console.log(res.data);
+          setFolder(res.data.log.folder);
+          // console.log(res.data.log.folder);
+          setFolderAdding(false);
+          setReRender(true);
+          setNewFolderSuccess(true);
+          setNewFolderName("");
+        })
+        .catch((err) => {
+          setNewFolderFail(true);
+          console.log(err);
+        });
     }
-    axios
-      .post("/user/" + cookieParser.getCookieByName("email") + "/folder", {
-        folderName: newFolderName,
-      })
-      .then((res) => {
-        // console.log(res.data);
-        setFolder(res.data.log.folder);
-        // console.log(res.data.log.folder);
-        setFolderAdding(false);
-        setReRender(true);
-        setNewFolderSuccess(true);
-        setNewFolderName("");
-      })
-      .catch((err) => {
-        setNewFolderFail(true);
-        console.log(err);
-      });
   }
   function onDelFolder(folderName) {
     axios
@@ -103,25 +123,6 @@ const FolderPage = (props) => {
         setDelFolderFail(true);
       });
   }
-
-  useEffect(() => {
-    // console.log(folderAdding);
-    setReRender(false);
-    if (props.hasUpper !== undefined && props.hasUpper) {
-      setHasUpper(true);
-    } else {
-      setHasUpper(false);
-    }
-    axios
-      .get("/user/" + cookieParser.getCookieByName("email") + "/folder")
-      .then((res) => {
-        // console.log(res.data);
-        setFolder(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.folder, props.hasUpper, reRender]);
 
   const handleNewFolderFail = (event, reason) => {
     if (reason === "clickaway") {
@@ -154,7 +155,7 @@ const FolderPage = (props) => {
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
-  const ignoreHandleFolderChange = (e) => {};
+  const ignoreHandleFolderChange = (e) => { };
 
   const handleAddFolder = () => {
     setFolderAdding(true);

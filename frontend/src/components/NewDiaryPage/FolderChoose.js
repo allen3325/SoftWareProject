@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import axios from "../axios/axios";
+import CookieParser from "../CookieParser/CookieParser";
 
 const FolderChoose = (props) => {
+    let isLogin = false;
     const [folder, setFolder] = React.useState('');
     const [folders, setFolders] = React.useState([]);
+    const cookieParser = new CookieParser(document.cookie);
 
     const fetchFolder = () => {
         axios.get(`/user/${props.email}/folder`)
@@ -16,18 +19,29 @@ const FolderChoose = (props) => {
 
     useEffect(() => {
         // console.log('porps.email', props.email);
-        if(props.email)
+        if (
+            cookieParser.getCookieByName("token") == "undefined" ||
+            cookieParser.getCookieByName("token") == null ||
+            cookieParser.getCookieByName("email") == "undefined" ||
+            cookieParser.getCookieByName("email") == null
+        ) {
+            isLogin = false;
+        } else {
+            isLogin = true;
+        }
+        if (props.email && isLogin) {
             fetchFolder();
+        }
     }, [props.email]);
-    useEffect(() => {console.log('porps.upper', props.upper);}, [props.upper]);
-    useEffect(() => { 
+    // useEffect(() => { console.log('porps.upper', props.upper); }, [props.upper]);
+    useEffect(() => {
         // console.log("props.folder:"+props.folder);
         if (props.folder) {
             setFolder(props.folder);
             // console.log("in Folderchoose " + props.folder);
         }
         else setFolder("");
-    },[props.folder]);
+    }, [props.folder]);
 
 
     const handleFolderChange = (event) => {
@@ -35,35 +49,35 @@ const FolderChoose = (props) => {
         // setFolder(event.target.value);
     };
     return (
-        folder || props.upper==="NewDiaryPage" ?
-        <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
-            <Select
-            // displayEmpty
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Folder"
-            defaultValue={folder??""}
-            onChange={handleFolderChange}
-        >
-            <MenuItem key={0} value={""} ></MenuItem>
-            {folders.map((fold) => <MenuItem key={fold._id} value={String(fold.folderName)} >{fold.folderName}</MenuItem>)}
+        folder || props.upper === "NewDiaryPage" ?
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Choose Folder</InputLabel>
+                <Select
+                    // displayEmpty
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Folder"
+                    defaultValue={folder ?? ""}
+                    onChange={handleFolderChange}
+                >
+                    <MenuItem key={0} value={""} ></MenuItem>
+                    {folders.map((fold) => <MenuItem key={fold._id} value={String(fold.folderName)} >{fold.folderName}</MenuItem>)}
                 </Select>
-                </FormControl>
-            : 
-                <FormControl fullWidth>
-                    <Select
-            displayEmpty
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Folder"
-            defaultValue="Loading..."
-            >
-            <MenuItem value={"Loading..."} selected={true}>Loading...</MenuItem>
-            </Select>
             </FormControl>
-            
-        
+            :
+            <FormControl fullWidth>
+                <Select
+                    displayEmpty
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Folder"
+                    defaultValue="Loading..."
+                >
+                    <MenuItem value={"Loading..."} selected={true}>Loading...</MenuItem>
+                </Select>
+            </FormControl>
+
+
     )
 }
 

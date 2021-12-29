@@ -18,26 +18,25 @@ function HomePage(props) {
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
     if (cookieParser.getCookieByName('token') == "undefined" || cookieParser.getCookieByName('token') == null) {
-            console.log("fail");
-            setRedirect(true);
-        }
-        else {
-            if (cookieParser.getCookieByName('email') == "undefined" || cookieParser.getCookieByName('email') == null) {
-                console.log("fail");
-                setRedirect(true);
-
-            }else{
+      console.log("fail");
+      setRedirect(true);
+    }
+    else {
+      if (cookieParser.getCookieByName('email') == "undefined" || cookieParser.getCookieByName('email') == null) {
+        console.log("fail");
+        setRedirect(true);
+      } else {
         console.log("success");
-        
+
         axios
-        .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
-        .then((res) => {
-          // console.log(res.data);
-          setFolder(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-      });
+          .get("/user/" + cookieParser.getCookieByName('email') + "/folder")
+          .then((res) => {
+            // console.log(res.data);
+            setFolder(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
   }, []);  ///get folder list in the beginning
@@ -54,7 +53,7 @@ function HomePage(props) {
 
   return (
     <div>
-      {redirect ?  <Navigate to ={"/login"} /> : ""}
+      {redirect ? <Navigate to={"/login"} /> : ""}
       <Container>
         <Grid
           container
