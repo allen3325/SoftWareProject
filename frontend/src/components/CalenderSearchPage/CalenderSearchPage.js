@@ -23,12 +23,12 @@ const CalenderSearchPage = () => {
     let tmp = [];
     const cookieParser = new CookieParser(document.cookie);
     useEffect(() => {
-        if (cookieParser.getCookieByName('token') == "undefined") {
+        if (cookieParser.getCookieByName('token') == "undefined" || cookieParser.getCookieByName('token') == null) {
             console.log("fail");
             setRedirect(true);
         }
         else {
-            if (cookieParser.getCookieByName('email') == "undefined") {
+            if (cookieParser.getCookieByName('email') == "undefined" || cookieParser.getCookieByName('email') == null) {
                 console.log("fail");
                 setRedirect(true);
 
