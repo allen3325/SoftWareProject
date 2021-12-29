@@ -10,7 +10,7 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 
 function HomePage(props) {
-  const email = "allen3325940072@gmail.com";
+  // const email = "allen3325940072@gmail.com";
 
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);

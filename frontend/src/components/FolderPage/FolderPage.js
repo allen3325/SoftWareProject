@@ -20,7 +20,7 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 
 const FolderPage = (props) => {
-  let isLogin = false;
+  const [isLogin, setIsLogin] = useState(false);
   const email = "allen3325940072@gmail.com";
   const [folder, setFolder] = useState([]);
   const [hasUpper, setHasUpper] = useState(0);
@@ -41,11 +41,13 @@ const FolderPage = (props) => {
       cookieParser.getCookieByName("email") == null
     ) {
       console.log("fail");
-      isLogin = false;
+      // isLogin = false;
+      setIsLogin(false);
       setRedirect(true);
     } else {
       console.log("success");
-      isLogin = true;
+      // isLogin = true;
+      setIsLogin(true);
     }
   }, []);
 
@@ -76,24 +78,28 @@ const FolderPage = (props) => {
   const [delFolderSuccess, setDelFolderSuccess] = useState(false);
 
   function postAddFolder() {
+    // console.log(newFolderName);
+    console.log("postAddFolder");
     if (
       newFolderName === "" ||
       newFolderName === undefined ||
       newFolderName === null ||
-      newFolderName.trim() === " " ||
+      newFolderName.trim() === "" ||
       isLogin === false
     ) {
+      console.log("fail");
       setFolderAdding(false);
       return;
     } else {
+      console.log("aaxxxiioosss");
       axios
         .post("/user/" + cookieParser.getCookieByName("email") + "/folder", {
           folderName: newFolderName,
         })
         .then((res) => {
-          // console.log(res.data);
+          console.log(res.data);
           setFolder(res.data.log.folder);
-          // console.log(res.data.log.folder);
+          console.log(res.data.log.folder);
           setFolderAdding(false);
           setReRender(true);
           setNewFolderSuccess(true);
@@ -162,6 +168,7 @@ const FolderPage = (props) => {
   };
   const handleNewFolderName = (e) => {
     setNewFolderName(e.target.value);
+    // console.log(e.target.value);
   };
 
   const handleRender = () => {

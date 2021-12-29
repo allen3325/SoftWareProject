@@ -15,7 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 const CalenderSearchPage = () => {
-    let isLogin = false;
+    const [isLogin, setIsLogin] = React.useState(false);
     const [value, setValue] = React.useState(new Date());
     const [diarys, setDiarys] = React.useState([]);
     const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
@@ -30,17 +30,17 @@ const CalenderSearchPage = () => {
             cookieParser.getCookieByName('email') == null
         ) {
             console.log("fail");
-            isLogin = false;
+            setIsLogin(false);
             setRedirect(true);
         }
         else {
-            isLogin = true;
+            setIsLogin(true);
             console.log("success");
-        }
-        if (isLogin) {
-            setFetchDiaryAlready(false);
-            console.log("ready to featch.");
-            fetchDiary();
+            // if (isLogin) {
+                setFetchDiaryAlready(false);
+                console.log("ready to featch.");
+                fetchDiary();
+            // }
         }
     }, [value])
     
@@ -71,12 +71,12 @@ const CalenderSearchPage = () => {
                 } else {
                     // console.log(response.data.folderArray)
                     response.data.folderArray.map((folder) => {
-                        folder.diary.map(diarys => {
+                        folder.diary.forEach(diarys => {
                             // this is use Cards to render Card
                             // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
 
                             // this is directly render Card
-                            diarys.map(diary => {
+                            diarys.forEach(diary => {
                                 tmp.push(<Card key={diary._id} selectedFolder={folder.folderName} items={diary} />)
                             })
                         })

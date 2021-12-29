@@ -18,14 +18,16 @@ function LoginPage() {
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
-  let email = "";
-  let password = "";
+  // let email = "";
+  const [email, setEmail] = React.useState("");
+  // let password = "";
+  const [password, setPassword] = React.useState("");
   const handleEmailChange = (event) => {
-    email = (event.target.value);
+    setEmail(event.target.value);
     console.log(email);
   }
   const handlePasswordChange = (event) => {
-    password = (event.target.value);
+    setPassword(event.target.value);
     console.log(password);
   }
 

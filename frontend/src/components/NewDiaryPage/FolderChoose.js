@@ -4,7 +4,8 @@ import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 
 const FolderChoose = (props) => {
-    let isLogin = false;
+    // let isLogin = false;
+    const [isLogin, setIsLogin] = React.useState(false);
     const [folder, setFolder] = React.useState('');
     const [folders, setFolders] = React.useState([]);
     const cookieParser = new CookieParser(document.cookie);
@@ -25,9 +26,11 @@ const FolderChoose = (props) => {
             cookieParser.getCookieByName("email") == "undefined" ||
             cookieParser.getCookieByName("email") == null
         ) {
-            isLogin = false;
+            // isLogin = false;
+            setIsLogin(false);
         } else {
-            isLogin = true;
+            // isLogin = true;
+            setIsLogin(true);
         }
         if (props.email && isLogin) {
             fetchFolder();
