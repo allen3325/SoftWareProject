@@ -115,9 +115,7 @@ const NewDiaryPage = () => {
   };
   return shouldRedirect ? (
     <Navigate
-      to={`/editDiary/${cookieParser.getCookieByName(
-        "email"
-      )}/${folder}/${title}`}
+      to={`/editDiary/${folder}/${title}`}
     />
   ) : (
     <Container maxWidth={"lg"}>

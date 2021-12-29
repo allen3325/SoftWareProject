@@ -141,7 +141,7 @@ const EditDiaryPage = () => {
 
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${cookieParser.getCookieByName('email')}/${folder}/${title}`} />
+    <Navigate to={`/editDiary/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
      {redirect ?  <Navigate to ={"/login"} /> : ""}
