@@ -98,7 +98,8 @@ const FolderPage = (props) => {
         })
         .then((res) => {
           console.log(res.data);
-          setFolder(res.data.log.folder);
+          setFolder([...res.data.log.folder, {folderName:newFolderName}]);
+          // setFolder(...folder,{folderName:newFolderName});
           console.log(res.data.log.folder);
           setFolderAdding(false);
           setReRender(true);
