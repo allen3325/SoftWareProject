@@ -54,69 +54,81 @@ const ShareDiaryPage = () => {
     return (
         <Container>
             <div className="content">
-                <Grid
+            <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start"
-                    style={{ padding: "0px 0px 20px 0px" }}
+                    style={{ padding: "20px 0px 0px 0px" }}
                 >
-                    <Grid item xs={2}>
-                        <p>Title: </p>
+                    <Grid item xs={12}>
+                        <p>Title: {title}</p>
+                        {/* <p>{title}</p> */}
                     </Grid>
-                    <Grid item xs={10}>
+                    {/* <Grid item xs={10}>
                         <p>{title}</p>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
                 <Divider sx={{
                     bgcolor: 'primary.main',
+                    // margin: "2px"
                 }} />
+
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start"
-                    style={{ padding: "0px 0px 20px 0px" }}
+                    style={{ padding: "20px 0px 0px 0px" }}
                 >
-                    <Grid item xs={2}>
-                        <p>Date: </p>
+                    <Grid item xs={6}>
+                        <p>Folder: {folder}</p>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
+                        <p>Date: {date.toISOString().substring(0,10)}</p>
+                    </Grid>
+                    {/* <Grid item xs={4}>
                         <p>{date.toDateString()}</p>
-                    </Grid>
-                    <Grid item xs={4}>
+                    </Grid> */}
+                    {/* <Grid item xs={4}>
                         <p>{folder}</p>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
-                <Divider sx={{
+                {/* <Divider sx={{
                     bgcolor: 'primary.main',
-                }} />
-                <Grid><p>Content:</p><br /></Grid>
-                <Grid xs={12}>
+                    // margin: "2px"
+                }} /> */}
+                {/* <Grid><p>Content:</p><br /></Grid> */}
+                <Grid className="BrowseContent" >
                     {/* {markdown} */}
-                    <div dangerouslySetInnerHTML={{ __html: markdown }} />
+                    <div style={{ padding:"10px" }} dangerouslySetInnerHTML={{ __html: markdown }} />
+                </Grid>
+                {/* <Divider sx={{
+                    bgcolor: 'primary.main',
+                    // margin: "2px"
+                }} /> */}
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="flex-start"
+                    style={{ padding: "20px 0px 0px 0px" }}
+                >
+                    <Grid item xs={12}><p>HashTags: {tagsString}</p></Grid>
+                    {/* <Grid item xs={7}>
+                        <p>{tagsString}</p>
+                    </Grid> */}
                 </Grid>
                 <Divider sx={{
                     bgcolor: 'primary.main',
+                    // margin: "2px"
                 }} />
                 <Grid
                     container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="flex-start"
-                    style={{ padding: "0px 0px 20px 0px" }}
-                >
-                    <Grid item xs={1}><p>HashTags:</p></Grid>
-                    <Grid item xs={7}>
-                        <p>{tagsString}</p>
-                    </Grid>
-                </Grid>
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="flex-start"
-                    style={{ padding: "0px 0px 20px 0px" }}
+                    style={{ padding: "20px 0px 0px 0px" }}
                 >
                     {/* <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>files:</p></Grid>
                     <Grid item xs={7}>

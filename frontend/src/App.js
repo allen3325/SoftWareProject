@@ -54,7 +54,8 @@ function App() {
   // lightMode theme's parameter
   if (darkMode === false) {
     let root = document.documentElement;
-    root.style.setProperty('--background-color', '#FAEBD7')
+    root.style.setProperty('--background-color', '#FAEBD7');
+    root.style.setProperty('--primary-color', '#db9ca7');
     theme = (createTheme({
       palette: {
         mode: "light",
@@ -78,7 +79,8 @@ function App() {
     }))
   } else {
     let root = document.documentElement;
-    root.style.setProperty('--background-color', '#0c1929')
+    root.style.setProperty('--background-color', '#0c1929');
+    root.style.setProperty('--primary-color', '#1B92D1');
   }
 
   useEffect(() => {
