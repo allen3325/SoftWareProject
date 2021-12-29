@@ -106,11 +106,12 @@ const FolderPage = (props) => {
     }
   }
   function onDelFolder(folderName) {
+    // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
     axios
       .delete(
-        "/user/" + cookieParser.getCookieByName("email") + "/${folderName}",
+        "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
         {
-          folderName: newFolderName,
+          folderName: folderName,
         }
       )
       .then((res) => {
