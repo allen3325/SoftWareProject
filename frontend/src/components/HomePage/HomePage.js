@@ -65,7 +65,7 @@ function HomePage(props) {
             <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            {selectedFolder<folder.length?folder.length > 0 && selectedFolder !== -1? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p>No Selected folder</p> : <p>No Diary</p>}
+            {selectedFolder < folder.length ? folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p style={{ padding: 30 }} >No Selected folder</p> : <p style={{ padding: 30 }} >No Diary</p>}
           </Grid>
           <Grid item xs={0} sm={0} md={2}></Grid>
         </Grid>
