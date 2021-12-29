@@ -80,11 +80,11 @@ const FolderPage = (props) => {
   function postAddFolder() {
     // console.log(newFolderName);
     console.log("postAddFolder");
-    if (
+    if ((
       newFolderName === "" ||
       newFolderName === undefined ||
       newFolderName === null ||
-      newFolderName.trim() === "" ||
+      newFolderName.trim() === "" )||
       isLogin === false
     ) {
       console.log("fail");
