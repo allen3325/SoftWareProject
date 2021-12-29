@@ -37,13 +37,13 @@ const CalenderSearchPage = () => {
             setIsLogin(true);
             console.log("success");
             // if (isLogin) {
-                setFetchDiaryAlready(false);
-                console.log("ready to featch.");
-                fetchDiary();
+            setFetchDiaryAlready(false);
+            console.log("ready to featch.");
+            fetchDiary();
             // }
         }
     }, [value])
-    
+
     // useEffect(() => {
     //     if (isLogin) {
     //         setFetchDiaryAlready(false);
@@ -55,12 +55,18 @@ const CalenderSearchPage = () => {
     const fetchDiary = () => {
         console.log("featch diary.");
         let day = "";
+        let month = "";
         if (value.getDate() < 10) {
             day = "0" + value.getDate().toString();
         } else {
             day = value.getDate().toString();
         }
-        let date = value.getFullYear().toString() + (value.getMonth() + 1).toString() + day;
+        if ((value.getMonth() + 1) < 10) {
+            month = "0" + (value.getMonth() + 1).toString();
+        } else {
+            month = (value.getMonth() + 1).toString();
+        }
+        let date = value.getFullYear().toString() + month + day;
         axios.get("/date/" + cookieParser.getCookieByName('email') + "?date=" + date)
             .then(response => {
                 setFetchDiaryAlready(true)
@@ -98,7 +104,7 @@ const CalenderSearchPage = () => {
                 justifyContent="space-around"
                 alignItems="flex-start">
                 <Grid item xs={12} md={5}>
-                    <p style={{padding:30}}>choose one day</p>
+                    <p style={{ padding: 30 }}>choose one day</p>
                     <LocalizationProvider id='calender' dateAdapter={AdapterDateFns}>
                         <StaticDatePicker
                             // orientation="landscape"
@@ -117,7 +123,7 @@ const CalenderSearchPage = () => {
                 </Grid>
                 <Grid sx={{ padding: "1rem" }} item xs={12} md={7}>
                     {/* <div id='content'></div> */}
-                    {fetchDiaryAlready ? (diarys==="No Diary"? <p style={{padding:30}}>No Diary</p>:diarys ): <CircularProgress color="success" />}
+                    {fetchDiaryAlready ? (diarys === "No Diary" ? <p style={{ padding: 30 }}>No Diary</p> : diarys) : <CircularProgress color="success" />}
                 </Grid>
             </Grid>
         </Paper>

@@ -108,7 +108,7 @@ const EditDiaryPage = () => {
                         <p>Folder: {folder}</p>
                     </Grid>
                     <Grid item xs={6}>
-                        <p>Date: {date.toISOString().substring(0,10)}</p>
+                        <p>Date: {date.toDateString()}</p>
                     </Grid>
                     {/* <Grid item xs={4}>
                         <p>{date.toDateString()}</p>
