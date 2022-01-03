@@ -18,7 +18,7 @@ const SmallHeader = () => {
             <ButtonGroup className="ButtonGroup" variant="text">
                 <MyThemeComponent href="/newDiary"><p className="smallButton">new diary</p></MyThemeComponent>
                 <MyThemeComponent href="/calenderSearch"><p className="smallButton">calender</p></MyThemeComponent>
-                <MyThemeComponent href="/folderPage"><p className="smallButton">folder</p></MyThemeComponent>
+                {/* <MyThemeComponent href="/folderPage"><p className="smallButton">folder</p></MyThemeComponent> */}
                 {/* <MyThemeComponent href="/test"><p className="smallButton">test</p></MyThemeComponent> */}
                 {/* <MyThemeComponent href="/">outline page</MyThemeComponent> */}
             </ButtonGroup>

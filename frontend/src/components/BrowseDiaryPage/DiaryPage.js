@@ -124,7 +124,7 @@ const EditDiaryPage = () => {
                 {/* <Grid><p>Content:</p><br /></Grid> */}
                 <Grid className="BrowseContent" >
                     {/* {markdown} */}
-                    <div style={{ padding:"10px" }} dangerouslySetInnerHTML={{ __html: markdown }} />
+                    <div className="diaryContent" style={{ padding:"10px" }} dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
                 {/* <Divider sx={{
                     bgcolor: 'primary.main',

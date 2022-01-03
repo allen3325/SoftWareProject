@@ -15,6 +15,8 @@ function HomePage(props) {
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);
   const [redirect, setRedirect] = React.useState(false);
+  const [redirectArticle, setRedirectArticle] = React.useState(false);
+  const [enterLink, setEnterLink] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
     if (cookieParser.getCookieByName('token') == "undefined" || cookieParser.getCookieByName('token') == null) {
@@ -51,9 +53,15 @@ function HomePage(props) {
     setSelectedFolder(e);
   };
 
+  const passArticleLink = (enteredLink) => {
+    setEnterLink(enteredLink);
+    setRedirectArticle(true);
+  }
+
   return (
     <div>
       {redirect ? <Navigate to={"/login"} /> : ""}
+      {redirectArticle ? <Navigate to={enterLink} /> : ""}
       <Container>
         <Grid
           container
@@ -65,7 +73,7 @@ function HomePage(props) {
             <FolderPage folder={folder} hasUpper={true} onChangeFolder={handleFolderChange} />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            {selectedFolder < folder.length ? folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} /> : <p style={{ padding: 30 }} >No Selected folder</p> : <p style={{ padding: 30 }} >No Diary</p>}
+            {selectedFolder < folder.length ? folder.length > 0 && selectedFolder !== -1 ? <Cards items={folder[selectedFolder].diary} selectedFolder={folder[selectedFolder].folderName} onPassArticleLink={passArticleLink} /> : <p className="noDiary" >No Selected folder</p> : <p className="noDiary" >No Diary</p>}
           </Grid>
           <Grid item xs={0} sm={0} md={2}></Grid>
         </Grid>

@@ -54,13 +54,18 @@ export default function BasicCard(props) {
             })
     }
 
+    const enterArticle = () => {
+        console.log("enter article");
+        props.onPassArticleLink(`/DiaryPage/${props.selectedFolder}/${props.items.title}`);
+    }
+
     return (
         <Card variant="outlined" >
             <CardContent>
-                <Typography variant="h5" component="div" >
+                <Typography sx={{cursor:"pointer"}} onClick={enterArticle} variant="h5" component="div" >
                     {props.items.title}
                 </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary" component={"div"}>
+                <Typography onClick={enterArticle} sx={{ mb: 1.5,cursor:"pointer" }} color="text.secondary" component={"div"}>
                     {new Date(props.items.date).toDateString()}
                 </Typography>
                 {props.items.picURL.length === 0 ? "" : <CardMedia
@@ -68,9 +73,11 @@ export default function BasicCard(props) {
                     height="300"
                     image={url}
                     alt={props.items.title + "'s picture is dead."}
+                    onClick={enterArticle}
+                    sx={{cursor:"pointer"}}
                 />
                 }
-                <div dangerouslySetInnerHTML={{ __html: props.items.markdown.substring(0, 20) }}></div>
+                <div style={{cursor:"pointer"}} onClick={enterArticle} dangerouslySetInnerHTML={{ __html: props.items.markdown.substring(0, 20) }}></div>
             </CardContent>
             <CardActions disableSpacing>
                 {/* <IconButton aria-label="add to favorites">
@@ -79,9 +86,9 @@ export default function BasicCard(props) {
                 <IconButton onClick={generateLink} aria-label="share">
                     <ShareIcon />
                 </IconButton>
-                <Button size="small">
+                {/* <Button size="small">
                     <Link to={`/DiaryPage/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>See More</p></Link>
-                </Button>
+                </Button> */}
                 <Button size="small">
                     <Link to={`/editDiary/${props.selectedFolder}/${props.items.title}`}><p style={{ fontSize: "1rem" }}>Edit Diary</p></Link>
                 </Button>

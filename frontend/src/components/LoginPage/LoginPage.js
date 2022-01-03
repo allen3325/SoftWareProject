@@ -18,6 +18,7 @@ function LoginPage() {
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [redirectActivate, setRedirectActivate] = React.useState(false);
   const [render, setRender] = React.useState(false);
   // let email = "";
   const [email, setEmail] = React.useState("");
@@ -59,8 +60,11 @@ function LoginPage() {
         setRedirect(true);
       })
       .catch((error) => {
-        console.log(error)
-        setOpenFail(true)
+        console.log(error.response.status)
+        if(error.response.status === 403){
+          setRedirectActivate(true);
+        }
+        setOpenFail(true);
       })
   }
   const handleCloseFail = (event, reason) => {
@@ -91,6 +95,7 @@ function LoginPage() {
   return (
     <Container maxWidth={"sm"}>
       <Paper elevation={0} style={{ height: "100vh" }} className="login_page">
+        {redirectActivate ? <Navigate to={"/activate"} /> : ""}
         {redirect ? <Navigate to={"/"} /> : ""}
         {/* <p> MyDiary </p> */}
         <Box

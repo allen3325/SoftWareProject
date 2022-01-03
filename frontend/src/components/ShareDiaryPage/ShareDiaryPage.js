@@ -81,9 +81,9 @@ const ShareDiaryPage = () => {
                     alignItems="flex-start"
                     style={{ padding: "20px 0px 0px 0px" }}
                 >
-                    <Grid item xs={6}>
+                    {/* <Grid item xs={6}>
                         <p>Folder: {folder}</p>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={6}>
                         <p>Date: {date.toISOString().substring(0,10)}</p>
                     </Grid>
@@ -101,7 +101,7 @@ const ShareDiaryPage = () => {
                 {/* <Grid><p>Content:</p><br /></Grid> */}
                 <Grid className="BrowseContent" >
                     {/* {markdown} */}
-                    <div style={{ padding:"10px" }} dangerouslySetInnerHTML={{ __html: markdown }} />
+                    <div className="diaryContent" style={{ padding:"10px" }} dangerouslySetInnerHTML={{ __html: markdown }} />
                 </Grid>
                 {/* <Divider sx={{
                     bgcolor: 'primary.main',
