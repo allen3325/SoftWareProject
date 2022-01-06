@@ -9,9 +9,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
 import { useEffect,useState } from "react";
 import axios from "../axios/axios";
+import CookieParser from "../CookieParser/CookieParser";
 const SearchCard = (props) => {
+    let cookieParser = new CookieParser(document.cookie);
     const [url, setURL] = useState("");
-    const email = "allen3325940072@gmail.com";
+    // const email = "allen3325940072@gmail.com";
+    const email = cookieParser.getCookieByName("email");
+    
     let tmp = "a/";
     let a="";
     useEffect(() => {
@@ -27,8 +31,14 @@ const SearchCard = (props) => {
         let title = props.items.title;
         console.log("folder is " + folder + ". title is " + title);
         // localhost/shareLink/:email/:folderName/:title
-        axios.get(`shareLink/${email}/${folder}/${title}`)
+        axios.get(`shareLink/${email}/${folder}/${title}`,
+        {
+          headers: {
+            'Authorization': cookieParser.getCookieByName("token"),
+          },
+        })
             .then((res) => {
+                document.cookie = "token=" + res.data.token;
                 let path = "localhost:3000";
                 path += "/ShareDiaryPage/" + res.data.encryptedPath;
                 console.log(path);

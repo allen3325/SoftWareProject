@@ -1,18 +1,19 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { Container, Paper } from '@mui/material'; 
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Container, Paper } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import axios from "../axios/axios";
-import { Alert } from '@mui/material';
-import { Snackbar } from '@mui/material';
-import CookieParser from '../CookieParser/CookieParser';
+import { Alert } from "@mui/material";
+import { Snackbar } from "@mui/material";
+import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
 
 export default function ActivatePage() {
   const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [resendSuccess, setResendSuccess] = React.useState(false);
   const [openFail, setOpenFail] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
   let code = "";
@@ -26,67 +27,89 @@ export default function ActivatePage() {
   //   });
   // };
   const handleCodeChange = (event) => {
-    code = (event.target.value);
+    code = event.target.value;
     console.log(code);
-  }
+  };
   const axverify = () => {
-    
-    if((cookieParser.getCookieByName('token')==="undefined")|(cookieParser.getCookieByName('token')===null)){
+    if (
+      (cookieParser.getCookieByName("token") === "undefined") |
+      (cookieParser.getCookieByName("token") === null)
+    ) {
       console.log("fail");
-    }
-    else{
-      if(cookieParser.getCookieByName('email')==="undefined"|(cookieParser.getCookieByName('email')===null)){
-          console.log("fail");
-          
-      }else{
+    } else {
+      if (
+        (cookieParser.getCookieByName("email") === "undefined") |
+        (cookieParser.getCookieByName("email") === null)
+      ) {
+        console.log("fail");
+      } else {
         console.log("success");
       }
     }
     console.log(code);
-    axios.post("/verify", {
-      "email": cookieParser.getCookieByName('email'),
-      "code": code
-    })
+    axios
+      .post("/verify", {
+        email: cookieParser.getCookieByName("email"),
+        code: code,
+      })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setOpenSuccess(true);
         setRedirect(true);
       })
       .catch((error) => {
-        console.log(error)
-        setOpenFail(true)
-      })
-  }
+        console.log(error);
+        setOpenFail(true);
+      });
+  };
   const resend = () => {
-      axios.post("/resendCode", { "email": cookieParser.getCookieByName('email') })
-        .then((response) => {
-          console.log(response);
-        }).catch(error => console.log(error.response.status))
-  }
+    axios
+      .post(
+        "/resendCode",
+        { email: cookieParser.getCookieByName("email") },
+        {
+          headers: {
+            Authorization: cookieParser.getCookieByName("token"),
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        setResendSuccess(true);
+      })
+      .catch((error) => console.log(error.response.status));
+  };
   const handleCloseFail = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpenFail(false);
   };
 
   const handleCloseSuccess = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpenSuccess(false);
   };
+
+  const handleCloseResend = (event, reason) => {
+    if (reason === "clickway") {
+      return;
+    }
+    setResendSuccess(false);
+  };
   return (
     <Container maxWidth={"sm"}>
-      <Paper elevation={0} style={{ height: "100vh" }} >
+      <Paper elevation={0} style={{ height: "100vh" }}>
         {redirect ? <Navigate to={"/login"} /> : ""}
         {/* <p> MyDiary </p> */}
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
@@ -128,18 +151,46 @@ export default function ActivatePage() {
           >
             resend
           </Button>
-          <Grid container justifyContent="flex-end">
-          </Grid>
+          <Grid container justifyContent="flex-end"></Grid>
         </Box>
         {/* </Box> */}
-        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
-          <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
-            error email or error code!!
+        <Snackbar
+          open={openFail}
+          autoHideDuration={2000}
+          onClose={handleCloseFail}
+        >
+          <Alert
+            onClose={handleCloseFail}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            error code!!
           </Alert>
         </Snackbar>
-        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
-          <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+        <Snackbar
+          open={openSuccess}
+          autoHideDuration={2000}
+          onClose={handleCloseSuccess}
+        >
+          <Alert
+            onClose={handleCloseSuccess}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
             successful verify!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={resendSuccess}
+          autoHideDuration={2000}
+          onClose={handleCloseResend}
+        >
+          <Alert
+            onClose={handleCloseSuccess}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Already resend activate code!
           </Alert>
         </Snackbar>
       </Paper>

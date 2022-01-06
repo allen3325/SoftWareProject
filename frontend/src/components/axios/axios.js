@@ -7,9 +7,6 @@ const axios = (baseURL) => {
     const instance = _axios.create({
         baseURL: baseURL || 'http://127.0.0.1:3001', //JSON-Server端口位置
         // baseURL: baseURL || 'http://192.168.0.7:3001', //JSON-Server端口位置
-        headers:{
-            Authorization: cookieParser.getCookieByName("token")
-        } 
     });
 
     return instance;
