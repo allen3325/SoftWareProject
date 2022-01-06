@@ -33,7 +33,7 @@ function HomePage(props) {
         console.log("fail");
         setRedirect(true);
       } else {
-        console.log("success");
+        console.log("in get folder in HomePage.");
 
         axios
           .get("/user/" + cookieParser.getCookieByName("email") + "/folder", {
@@ -43,10 +43,11 @@ function HomePage(props) {
           })
 
           .then((res) => {
+            console.log("fetch ready.");
             // console.log(res.data);
             document.cookie = "token=" + res.data.token;
-            console.log(res);
-            setFolder(res.data);
+            // console.log(res);
+            setFolder(res.data.folder);
           })
           .catch((err) => {
             console.log(err);
@@ -89,7 +90,7 @@ function HomePage(props) {
             />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            {selectedFolder < folder.length ? (
+            { selectedFolder < folder.length ? (
               folder.length > 0 && selectedFolder !== -1 ? (
                 <Cards
                   items={folder[selectedFolder].diary}

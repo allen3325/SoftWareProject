@@ -20,8 +20,8 @@ const FolderChoose = (props) => {
       })
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        console.log(response);
-        setFolders(response.data);
+        // console.log(response.data.folder);
+        setFolders(response.data.folder);
       })
       .catch((error) => console.log(error));
   };

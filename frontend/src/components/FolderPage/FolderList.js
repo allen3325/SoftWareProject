@@ -69,11 +69,12 @@ export default function FolderList(props) {
         },
         {
           headers: {
-            Authorization: cookieParser.getCookieByName("token"),
+            "Authorization": cookieParser.getCookieByName("token"),
           },
         }
       )
       .then((res) => {
+        console.log("in folderList' edit folder");
         document.cookie = "token=" + res.data.token;
         console.log(editingFolderName);
         console.log(res.data);

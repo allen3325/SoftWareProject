@@ -63,12 +63,13 @@ const FolderPage = (props) => {
       axios
         .get("/user/" + cookieParser.getCookieByName("email") + "/folder", {
           headers: {
-            Authorization: cookieParser.getCookieByName("token"),
+            "Authorization": cookieParser.getCookieByName("token"),
           },
         })
         .then((res) => {
+          console.log("in fetch folder in FolderPage");
           document.cookie = "token=" + res.data.token;
-          console.log(res.data);
+          // console.log(res.data);
           setFolder(res.data.folder);
         })
         .catch((err) => {
