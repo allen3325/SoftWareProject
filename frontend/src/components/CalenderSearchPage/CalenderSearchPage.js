@@ -77,25 +77,22 @@ const CalenderSearchPage = () => {
         setFetchDiaryAlready(true);
         // console.log(response.data.folderArray.length);
 
-        if (response.data.folderArray.length === 0) {
+        if (response.data.diaryArray.length === 0) {
           setDiarys("No Diary");
         } else {
           // console.log(response.data.folderArray)
-          response.data.folderArray.map((folder) => {
-            folder.diary.forEach((diarys) => {
+          response.data.diaryArray.map((folder) => {
+            folder.forEach((diarys) => {
               // this is use Cards to render Card
               // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
-
               // this is directly render Card
-              diarys.forEach((diary) => {
                 tmp.push(
                   <Card
-                    key={diary._id}
-                    selectedFolder={folder.folderName}
-                    items={diary}
+                    key={diarys._id}
+                    selectedFolder={diarys.parentFolder}
+                    items={diarys}
                   />
                 );
-              });
             });
           });
           setDiarys(tmp);

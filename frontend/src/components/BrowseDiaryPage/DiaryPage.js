@@ -35,7 +35,7 @@ const EditDiaryPage = () => {
         console.log("fail");
         setRedirect(true);
       } else {
-        console.log("success");
+        console.log("DiaryPage success");
       }
     }
   }, []);

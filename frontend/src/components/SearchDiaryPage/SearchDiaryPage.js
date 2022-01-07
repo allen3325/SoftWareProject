@@ -33,16 +33,19 @@ const SearchDiaryPage = () => {
       .then((res) => {
         document.cookie = "token=" + res.data.token;
         console.log(res.data);
-        if (res.data.folderArray.length > 0) {
-          res.data.folderArray.forEach((element) => {
+        if (res.data.diaryArray.length > 0) {
+          res.data.diaryArray.forEach((element) => {
             console.log(element);
             if (element.length !== 0) {
-              element.diary[0].forEach((diary) => {
-                // console.log(diary);
+              element.forEach((diary) => {
+                 console.log(diary);
+                 console.log(diary._id);
+                 console.log(diary.parentFolder);
+              
                 tmp.push(
                   <SearchCard
                     key={diary._id}
-                    inFolder={element.folderName}
+                    inFolder={diary.parentFolder}
                     items={diary}
                   />
                 );
