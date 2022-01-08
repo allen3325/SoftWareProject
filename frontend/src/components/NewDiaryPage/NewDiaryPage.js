@@ -76,9 +76,13 @@ const NewDiaryPage = () => {
     data.append("myfile", enteredFile);
     axios
       .post("/fileupload", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: cookieParser.getCookieByName("token"),
+        },
       })
       .then((response) => {
+        document.cookie = "token=" + response.data.token;
         console.log(response.data.url);
         picURL.push(response.data.url);
       })
@@ -98,17 +102,26 @@ const NewDiaryPage = () => {
     // console.log("tags is " + tags[0]);
     // console.log(picUrl);
     axios
-      .post(`/user/${cookieParser.getCookieByName("email")}/${folder}`, {
-        title: title,
-        content: content,
-        date: date.toISOString(),
-        tag: retag,
-        filesURL: filesURL,
-        picURL: picURL,
-        videoURL: videoURL,
-        isFavored: isFavored,
-      })
+      .post(
+        `/user/${cookieParser.getCookieByName("email")}/${folder}`,
+        {
+          title: title,
+          content: content,
+          date: date.toISOString(),
+          tag: retag,
+          filesURL: filesURL,
+          picURL: picURL,
+          videoURL: videoURL,
+          isFavored: isFavored,
+        },
+        {
+          headers: {
+            Authorization: cookieParser.getCookieByName("token"),
+          },
+        }
+      )
       .then((response) => {
+        document.cookie = "token=" + response.data.token;
         console.log("sucess");
         console.log(response);
         setShouldRedirect(true);
@@ -116,9 +129,7 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   return shouldRedirect ? (
-    <Navigate
-      to={`/editDiary/${folder}/${title}`}
-    />
+    <Navigate to={`/editDiary/${folder}/${title}`} />
   ) : (
     <Container maxWidth={"lg"}>
       {redirect ? <Navigate to={"/login"} /> : ""}

@@ -33,12 +33,17 @@ const EditDiaryPage = () => {
   let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
-    if ((cookieParser.getCookieByName('token') === "undefined") || (cookieParser.getCookieByName('token') === null)) {
+    if (
+      cookieParser.getCookieByName("token") === "undefined" ||
+      cookieParser.getCookieByName("token") === null
+    ) {
       console.log("fail");
       setRedirect(true);
-    }
-    else {
-      if (cookieParser.getCookieByName('email') === "undefined" || (cookieParser.getCookieByName('email') === null)) {
+    } else {
+      if (
+        cookieParser.getCookieByName("email") === "undefined" ||
+        cookieParser.getCookieByName("email") === null
+      ) {
         console.log("fail");
         setRedirect(true);
       } else {
@@ -48,15 +53,30 @@ const EditDiaryPage = () => {
         setPreviousDiaryName(diaryName);
         setShouldRedirect(false);
         axios
-          .get(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
+          .get(
+            `/user/${cookieParser.getCookieByName(
+              "email"
+            )}/${inFolder}/${diaryName}`,
+            {
+              headers: {
+                Authorization: cookieParser.getCookieByName("token"),
+              },
+            }
+          )
           .then((res) => {
-            console.log(`/user/${cookieParser.getCookieByName('email')}/${inFolder}/${diaryName}`)
+            console.log(
+              `/user/${cookieParser.getCookieByName(
+                "email"
+              )}/${inFolder}/${diaryName}`
+            );
             res = res.data.diary;
             res.title ? setTitle(res.title) : setTitle("");
             res.date ? setDate(new Date(res.date)) : setDate(new Date());
             setContent(res.content);
             res.tag ? setTag(res.tag) : setTag([]);
-            res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
+            res.tag
+              ? setTagsString("#" + res.tag.join(" #"))
+              : setTagsString("");
             res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
             res.picURL ? setPicURL(res.picURL) : setPicURL([]);
             res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
@@ -96,7 +116,10 @@ const EditDiaryPage = () => {
     // data.append("myfile", enteredFile);
     axios
       .post("/fileupload", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: cookieParser.getCookieByName("token"),
+        },
       })
       .then((response) => {
         // console.log(response.data.url);
@@ -105,8 +128,8 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
-    console.log("in edit diary page folder")
-    console.log(folder)
+    console.log("in edit diary page folder");
+    console.log(folder);
     e.preventDefault();
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
@@ -124,25 +147,39 @@ const EditDiaryPage = () => {
     // console.log(picURL);
 
     axios
-      .put(`/user/${cookieParser.getCookieByName('email')}/${folder}/${previousDiaryName}`, {
-        title: title,
-        content: content,
-        date: date.toISOString(),
-        tag: retag,
-        filesURL: filesURL,
-        picURL: picURL,
-        videoURL: videoURL,
-        isFavored: isFavored,
-      })
+      .put(
+        `/user/${cookieParser.getCookieByName(
+          "email"
+        )}/${folder}/${previousDiaryName}`,
+        {
+          title: title,
+          content: content,
+          date: date.toISOString(),
+          tag: retag,
+          filesURL: filesURL,
+          picURL: picURL,
+          videoURL: videoURL,
+          isFavored: isFavored,
+        },
+        {
+          headers: {
+            'Authorization': cookieParser.getCookieByName("token"),
+          },
+        }
+      )
       .then((response) => {
+        document.cookie = "token=" + response.data.token;
         console.log("after stored");
-        console.log(`/user/${cookieParser.getCookieByName('email')}/${folder}/${previousDiaryName}`)
+        console.log(
+          `/user/${cookieParser.getCookieByName(
+            "email"
+          )}/${folder}/${previousDiaryName}`
+        );
         console.log(response);
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
       .catch((error) => console.log(error));
-
   };
   return shouldRedirect ? (
     <Navigate to={`/editDiary/${folder}/${title}`} />
@@ -180,7 +217,7 @@ const EditDiaryPage = () => {
               upper={"EditDiaryPage"}
               folder={folder}
               onChangeFolder={handleFolderChange}
-              email={cookieParser.getCookieByName('email')}
+              email={cookieParser.getCookieByName("email")}
             />
           </Grid>
         </Grid>

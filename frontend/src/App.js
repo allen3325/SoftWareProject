@@ -138,7 +138,7 @@ function App() {
           <Route path="editDiary/:inFolder/:diaryName" element={<EditDiaryPage />} />
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} /> {/* 注意此頁不用登入 */}
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
-          <Route path="test" element={<EnhancedTable />} />
+          <Route path="user" element={<EnhancedTable />} />
         </Routes>
         {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}
         {/* {window.location.pathname === '/newDiary' ? "" : <Fab color="primary" sx={{

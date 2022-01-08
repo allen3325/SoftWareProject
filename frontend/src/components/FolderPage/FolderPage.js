@@ -29,7 +29,8 @@ const FolderPage = (props) => {
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
-  const cookieParser = new CookieParser(document.cookie);
+
+  let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
     setFolderAdding(false);
@@ -61,16 +62,22 @@ const FolderPage = (props) => {
     }
     if (isLogin) {
       axios
-        .get("/user/" + cookieParser.getCookieByName("email") + "/folder")
+        .get("/user/" + cookieParser.getCookieByName("email") + "/folder", {
+          headers: {
+            "Authorization": cookieParser.getCookieByName("token"),
+          },
+        })
         .then((res) => {
-          console.log(res.data);
-          setFolder(res.data);
+          console.log("in fetch folder in FolderPage");
+          document.cookie = "token=" + res.data.token;
+          // console.log(res.data);
+          setFolder(res.data.folder);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [props.folder, props.hasUpper, reRender,isLogin]);
+  }, [props.folder, props.hasUpper, reRender, isLogin]);
 
   const [newFolderFail, setNewFolderFail] = useState(false);
   const [newFolderSuccess, setNewFolderSuccess] = useState(false);
@@ -80,11 +87,11 @@ const FolderPage = (props) => {
   function postAddFolder() {
     // console.log(newFolderName);
     console.log("postAddFolder");
-    if ((
+    if (
       newFolderName === "" ||
       newFolderName === undefined ||
       newFolderName === null ||
-      newFolderName.trim() === "" )||
+      newFolderName.trim() === "" ||
       isLogin === false
     ) {
       console.log("fail");
@@ -93,10 +100,19 @@ const FolderPage = (props) => {
     } else {
       console.log("aaxxxiioosss");
       axios
-        .post("/user/" + cookieParser.getCookieByName("email") + "/folder", {
-          folderName: newFolderName,
-        })
+        .post(
+          "/user/" + cookieParser.getCookieByName("email") + "/folder",
+          {
+            folderName: newFolderName,
+          },
+          {
+            headers: {
+              Authorization: cookieParser.getCookieByName("token"),
+            },
+          }
+        )
         .then((res) => {
+          document.cookie = "token=" + res.data.token;
           console.log(res.data);
           setFolder([...folder, { folderName: newFolderName, diary: [] }]);
           console.log([...folder, { folderName: newFolderName, diary: [] }]);
@@ -113,14 +129,17 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
-    axios
-      .delete(
-        "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
-        {
-          folderName: folderName,
-        }
-      )
+    console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
+    axios.delete(
+      "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
+      {
+        headers: {
+          'Authorization': cookieParser.getCookieByName("token"),
+        },
+      }
+    )
       .then((res) => {
+        document.cookie = "token=" + res.data.token;
         // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);

@@ -78,23 +78,23 @@ const Header = (props) => {
               justifyContent="space-around"
               alignItems="center"
             >
-              <Grid item xs={2} sm={2} md={2}>
+              <Grid sx={{textAlign:"left"}} item xs={2} sm={2} md={2}>
                 <MDlogo></MDlogo>
               </Grid>
-              <Grid item xs={2} sm={2} md={3}>
+              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={3}>
                 <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
                 {/* <SearchForm ></SearchForm> */}
               </Grid>
-              <Grid item xs={2} sm={2} md={4}><SmallHeader /></Grid>
+              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={4}><SmallHeader /></Grid>
 
-              <Grid sx={{ position: "relative", left: "10%" }} item xs={6} sm={6} md={3}>
+              <Grid sx={{ textAlign:"right"}} item xs={6} sm={6} md={3}>
                 {email === "allen3325940072@gmail.com"
                   ? <IconButton
                     onClick={() => {
                       console.log("Profile");
                     }}
                     sx={{ margin: "10px" }}
-                    href={"/test"}
+                    href={"/user"}
                   >
                     <AccountCircleSharp fontSize="large"></AccountCircleSharp>
                   </IconButton>
