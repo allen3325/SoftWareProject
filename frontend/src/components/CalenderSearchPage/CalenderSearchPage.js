@@ -12,6 +12,7 @@ import Card from "../Cards/Card";
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import Cards from "../Cards/Cards";
 
 const CalenderSearchPage = () => {
   const [isLogin, setIsLogin] = React.useState(false);
@@ -19,6 +20,9 @@ const CalenderSearchPage = () => {
   const [diarys, setDiarys] = React.useState([]);
   const [fetchDiaryAlready, setFetchDiaryAlready] = React.useState(true);
   const [redirect, setRedirect] = React.useState(false);
+  const [redirectArticle, setRedirectArticle] = React.useState(false);
+  const [enterLink, setEnterLink] = React.useState(false);
+
 
   let tmp = [];
   const cookieParser = new CookieParser(document.cookie);
@@ -42,6 +46,11 @@ const CalenderSearchPage = () => {
       // }
     }
   }, [value]);
+
+  const passArticleLink = (enteredLink) => {
+    setEnterLink(enteredLink);
+    setRedirectArticle(true);
+  };
 
   // useEffect(() => {
   //     if (isLogin) {
@@ -75,22 +84,25 @@ const CalenderSearchPage = () => {
       .then((response) => {
         document.cookie = "token=" + response.data.token;
         setFetchDiaryAlready(true);
-        // console.log(response.data.folderArray.length);
+        // console.log(response.data.diaryArray.length);
 
         if (response.data.diaryArray.length === 0) {
           setDiarys("No Diary");
         } else {
-          // console.log(response.data.folderArray)
+          // console.log(response.data.diaryArray)
           response.data.diaryArray.map((folder) => {
-            folder.forEach((diarys) => {
+            folder.forEach((diary) => {
               // this is use Cards to render Card
               // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
               // this is directly render Card
+              console.log("in Calender Page's diary is ")
+              console.log(diary)
                 tmp.push(
                   <Card
-                    key={diarys._id}
-                    selectedFolder={diarys.parentFolder}
-                    items={diarys}
+                    key={diary._id}
+                    selectedFolder={diary.parentFolder}
+                    items={diary}
+                    onPassArticleLink={passArticleLink}
                   />
                 );
             });
@@ -104,6 +116,7 @@ const CalenderSearchPage = () => {
   return (
     <Paper>
       {redirect ? <Navigate to={"/login"} /> : ""}
+      {redirectArticle ? <Navigate to={enterLink} /> : ""}
       <Grid
         container
         direction="row"

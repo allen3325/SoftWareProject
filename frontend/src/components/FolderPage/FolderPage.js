@@ -29,7 +29,8 @@ const FolderPage = (props) => {
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
-  const cookieParser = new CookieParser(document.cookie);
+
+  let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
     setFolderAdding(false);
@@ -128,18 +129,15 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
-    axios
-      .delete(
-        "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
-        {
-          folderName: folderName,
+    console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
+    axios.delete(
+      "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
+      {
+        headers: {
+          'Authorization': cookieParser.getCookieByName("token"),
         },
-        {
-          headers: {
-            'Authorization': cookieParser.getCookieByName("token"),
-          },
-        }
-      )
+      }
+    )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
         // console.log(res.data);
@@ -183,7 +181,7 @@ const FolderPage = (props) => {
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
   };
-  const ignoreHandleFolderChange = (e) => {};
+  const ignoreHandleFolderChange = (e) => { };
 
   const handleAddFolder = () => {
     setFolderAdding(true);
