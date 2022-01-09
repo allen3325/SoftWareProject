@@ -83,7 +83,7 @@ const NewDiaryPage = () => {
       })
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        console.log(response.data.url);
+        console.log(response);
         picURL.push(response.data.url);
       })
       .catch((error) => console.log(error));

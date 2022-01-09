@@ -11,6 +11,7 @@ import { useEffect,useState } from "react";
 import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 const SearchCard = (props) => {
+    // remove this Card
     let cookieParser = new CookieParser(document.cookie);
     const [url, setURL] = useState("");
     // const email = "allen3325940072@gmail.com";
